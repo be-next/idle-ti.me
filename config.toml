@@ -1,0 +1,73 @@
+base_url = "https://idle-ti.me"
+theme = "tabi"
+
+title = "idle time"
+description = "Óscar is data scientist and clinical psychologist aiming to leverage his positive impact in the world."
+author = "Jérôme Ramette"
+
+generate_feed = true
+compile_sass = true
+minify_html = false
+
+taxonomies = [{ name = "tags", feed = true }]
+
+build_search_index = true
+default_language = "en"
+
+[search]
+include_title = true
+include_description = true
+include_path = true
+include_content = true
+# At which character to truncate the content to. Useful if you have a lot of pages and the index would
+# become too big to load on the site. Defaults to not being set.
+# truncate_content_length = 100
+# Wether to produce the search index as a javascript file or as a JSON file.
+# Accepted value "elasticlunr_javascript" or "elasticlunr_json".
+index_format = "elasticlunr_json"
+
+
+# [languages.fr]
+# title = "idle time"
+# description = "Óscar es un científico de datos y psicólogo clínico intentando potenciar su impacto positivo en el mundo."
+# generate_feed = true
+# compile_sass = true
+# minify_html = true
+# build_search_index = true
+
+# taxonomies = [{ name = "tags", feed = true }]
+
+[markdown]
+highlight_code = true
+highlight_theme = "dracula"
+smart_punctuation = true
+render_emoji = true
+
+
+[extra]
+# Enable JavaScript theme toggler to allow users to switch between dark/light mode.
+# If disabled, your site will only use the theme specified in the `default_theme` variable.
+theme_switcher = true
+
+# This setting determines the default theme on load ("light" or "dark").
+# To default to the user's OS-level theme, leave it empty or unset.
+default_theme = ""
+
+# Choose the colourscheme (skin) for the theme. Default is "teal".
+# Skin available: blue, lavender, mint, red, sakura, teal, monochrome, lowcontrast_orange, lowcontrast_peach, lowcontrast_pink, indigo_ingot, evangelion
+# See them live and learn how to create your own: https://welpo.github.io/tabi/blog/customise-tabi/#skins
+# WARNING! "lowcontrast" skins, while aesthetically pleasing, may not provide optimal
+# contrast (in light theme) for readability and might not be suitable for all users.
+# Furthermore, low contrasting elements will affect your Google Lighthouse rating.
+# All other skins have optimal contrast.
+skin = "sakura"
+
+remote_repository_url = "https://github.com/be-next/idle-ti.me"
+
+# The icons available can be found in "social_icons" in the "static" folder
+socials = [
+    { name = "github", url = "https://github.com/be-next/", icon = "github" },
+    { name = "linkedin", url = "https://www.linkedin.com/in/jramette/", icon = "linkedin" },
+    { name = "instagram", url = "https://www.instagram.com/baron_von_humboldt/", icon = "instagram" },
+    { name = "email", url = "to:jerome.ramette@gmail.com", icon = "email" },
+]
