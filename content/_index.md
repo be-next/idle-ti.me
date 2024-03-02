@@ -6,7 +6,7 @@ paginate_by = 5 # Set the number of posts per page
 template = "section.html"
 
 [extra]
-header = {title = "Halló! I'm Óscar~", img = "/img/main.webp"}
+header = {title = "Bonjour !", img = "/img/landing-page.png"}
 +++
 
 In the hustle and bustle of modern life, 
@@ -16,4 +16,4 @@ beyond our job titles and social roles. Here, we celebrate the quirky,
 the quaint, and the quietly joyous moments of doing what we love, 
 at our own pace.
 
-We are going to talk about IT, travels, misic and so on...
+We are going to talk about IT, travels, music and so on...
