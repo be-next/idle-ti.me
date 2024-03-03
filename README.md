@@ -7,7 +7,7 @@
 ## How to set up AWS
 Recipe for serving a static website via the Amazon CloudFront distribution: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started-cloudfront-overview.html
 
-Following this procedure, trying to obtain a missing ressource will return a 403 http error code and will diaplay a xml error message (the last produced by CloudFront). To avoid this behavior and display the ``404.html`` page instead, configure CloudFront as follows:
+Following this procedure, trying to obtain a missing ressource will return a 403 http error code and will display a xml error message (the last produced by CloudFront). To avoid this behavior and display the ``404.html`` page instead, configure CloudFront as follows:
   - In console AWS, navigate to the CloudFront service, then select the distribution.
   - Go to the "Error Pages" tab.
   - Click on the "Create Custom Error Response" button.
