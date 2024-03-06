@@ -2,11 +2,13 @@
 path = "/"
 title = "Latest posts"
 sort_by = "date"
-paginate_by = 5 # Set the number of posts per page
+#paginate_by = 5 # Set the number of posts per page
 template = "section.html"
 
 [extra]
 header = {title = "Bonjour !", img = "/img/landing-page.png"}
+section_path = "blog/_index.md"
+max_posts = 4
 +++
 
 In the hustle and bustle of modern life, 
