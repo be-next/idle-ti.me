@@ -61,7 +61,7 @@ default_theme = "light"
 # contrast (in light theme) for readability and might not be suitable for all users.
 # Furthermore, low contrasting elements will affect your Google Lighthouse rating.
 # All other skins have optimal contrast.
-skin = "monochrome"
+skin = "lowcontrast_orange"
 
 # Remote repository for your Zola site.
 # Used for `show_remote_changes` and `show_remote_source` (see below).
