@@ -93,6 +93,7 @@ menu = [
     { name = "blog", url = "blog/" },
     { name = "archive", url = "archive/" },
     { name = "projects", url = "projects/" },
+    { name = "tags", url = "tags/" },
     { name = "about", url = "about" },
 ]
 
