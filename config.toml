@@ -63,6 +63,9 @@ default_theme = "light"
 # All other skins have optimal contrast.
 skin = "lowcontrast_orange"
 
+# Full path after the base URL required. So if you were to place it in "static" it would be "/favicon.png"
+favicon = "favicon/hourglass-empty.png"
+
 # Remote repository for your Zola site.
 # Used for `show_remote_changes` and `show_remote_source` (see below).
 # Supports GitHub, GitLab, Gitea, and Codeberg.
