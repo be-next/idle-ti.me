@@ -2,7 +2,7 @@ base_url = "https://idle-ti.me"
 theme = "tabi"
 
 title = "idle-ti.me"
-description = "Jérôme Ramette's personal web site."
+description = "Jérôme Ramette's personal website."
 author = "Jérôme Ramette"
 
 generate_feed = true
