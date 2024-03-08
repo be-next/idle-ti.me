@@ -100,11 +100,15 @@ menu = [
     { name = "about", url = "about" },
 ]
 
+
+copyright = "© $CURRENT_YEAR $AUTHOR $SEPARATOR Unless otherwise noted, the content in this website is available under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license."
+
+
 # Extra menu to show on the footer, below socials section.
-footer_menu = [
-    { url = "about", name = "about", trailing_slash = true },
-    { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
-]
+# footer_menu = [
+#     { url = "about", name = "about", trailing_slash = true },
+#     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
+# ]
 
 # Email address for footer's social section.
 # Protect against spambots:
