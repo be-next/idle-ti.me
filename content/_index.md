@@ -11,11 +11,4 @@ section_path = "blog/_index.md"
 max_posts = 4
 +++
 
-In the hustle and bustle of modern life, 
-being idle is almost a revolutionary act. It's a time to recharge, 
-to dream, and to indulge in the activities that make us who we are, 
-beyond our job titles and social roles. Here, we celebrate the quirky, 
-the quaint, and the quietly joyous moments of doing what we love, 
-at our own pace.
-
-We are going to talk about IT, travels, music and so on...
+Welcome to my personal website. Herein, I delve into discussions encompassing my experiences, reflections, and individual endeavors. The content I present is a reflection of my professional and personal journey, with a particular emphasis on the realms of computer science, travel, and music. Through this platform, I aim to share insights drawn from my engagements in these areas, offering a perspective that intertwines my professional expertise with my personal passions and interests.
