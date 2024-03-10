@@ -66,6 +66,11 @@ skin = "lowcontrast_orange"
 # Full path after the base URL required. So if you were to place it in "static" it would be "/favicon.png"
 favicon = "favicon/hourglass-empty.png"
 
+quick_navigation_buttons = true
+show_previous_next_article_links = true
+footnote_backlinks = true
+katex = true
+
 # Remote repository for your Zola site.
 # Used for `show_remote_changes` and `show_remote_source` (see below).
 # Supports GitHub, GitLab, Gitea, and Codeberg.
@@ -101,14 +106,14 @@ menu = [
 ]
 
 
-copyright = "© $CURRENT_YEAR $AUTHOR $SEPARATOR Unless otherwise noted, the content in this website is available under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license."
+#copyright = "© $CURRENT_YEAR $TITLE $SEPARATOR Unless otherwise noted, the content in this website is available under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license."
 
 
 # Extra menu to show on the footer, below socials section.
-# footer_menu = [
-#     { url = "about", name = "about", trailing_slash = true },
-#     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
-# ]
+footer_menu = [
+    { url = "copyright", name = "©2024 idle-ti.me", trailing_slash = true },
+    { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
+]
 
 # Email address for footer's social section.
 # Protect against spambots:
