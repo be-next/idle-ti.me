@@ -14,4 +14,4 @@ Following this procedure, trying to obtain a missing ressource will return a 403
   - Click on the "Create Custom Error Response" button.
   - Select the HTTP 404 and 403 errors.
   - Specify that we want to customize the error response.
-  - Enter ``404.html`` in the "Response Page Path" field and set the "HTTP Response Code" to "404" for the 404 error and "403" for the 403 error.
+  - Enter ``404.html`` in the "Response Page Path" field and set the "HTTP Response Code" to "404" for the 403 and 404 errors.
