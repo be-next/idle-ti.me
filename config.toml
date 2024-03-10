@@ -129,3 +129,7 @@ socials = [
     { name = "linkedin", url = "https://www.linkedin.com/in/jramette/", icon = "linkedin" },
     { name = "instagram", url = "https://www.instagram.com/baron_von_humboldt/", icon = "instagram" },
 ]
+
+[extra.analytics]
+service = "umami"
+id = "fe7b0256-d82b-4a12-ab06-abc588986a15"
