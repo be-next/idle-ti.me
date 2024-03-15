@@ -12,6 +12,6 @@ Following this procedure, trying to obtain a missing ressource will return a 403
   - In console AWS, navigate to the CloudFront service, then select the distribution.
   - Go to the "Error Pages" tab.
   - Click on the "Create Custom Error Response" button.
-  - Select the HTTP 404 and 403 errors.
+  - Select the HTTP 403 error.
   - Specify that we want to customize the error response.
-  - Enter ``404.html`` in the "Response Page Path" field and set the "HTTP Response Code" to "404" for the 403 and 404 errors.
+  - Enter ``404.html`` in the "Response Page Path" field and set the "HTTP Response Code" to "404" for the 403 error.
