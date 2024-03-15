@@ -8,7 +8,7 @@ updated = 2024-03-05
 template = "info-page.html"
 +++
 
-Hi! My name is **Jérôme Ramette** and I live in a small village near Paris in France 🇫🇷.
+Hi! My name is **Jérôme Ramette**. I live in a small village near Paris in France 🇫🇷
 
 Since a long long while, I have nurtured a profound passion for information technology, a field in which I have continuously engaged, particularly through software development and free software support.
 
@@ -18,7 +18,7 @@ I'm currently in charge of an IT performance team for a French railway company, 
 
 This versatility and my ability to navigate the different aspects of the IT sector is my greatest pleasure.
 
-To tell you a bit more about me, here's my IT history so far...
+To tell you a bit more about me, here's a peaces of my IT history so far...
 
 ## My first times
 ### The first computers ##
