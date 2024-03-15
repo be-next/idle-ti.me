@@ -8,6 +8,7 @@ description = "Recognizing the limitations of generative artificial intelligence
 tags = ["AI", "bias", "Responsible AI", "AI Sovereignty"]
 
 [extra]
+giscus = true
 copy_button = true
 footnote_backlinks = true
 +++
