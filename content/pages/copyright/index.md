@@ -5,8 +5,6 @@ title = "Copyright"
 template = "page.html"
 +++
 
-Nothing fancy here.
-
 Unless otherwise noted, the content in this website is available under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
 ## CC BY-SA 4.0 in a nutshell ##
