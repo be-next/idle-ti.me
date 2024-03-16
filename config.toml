@@ -1,10 +1,8 @@
 base_url = "https://idle-ti.me"
-theme = "tabi"
-
 title = "idle-ti.me"
 description = "Jérôme Ramette's personal website."
 author = "Jérôme Ramette"
-
+theme = "tabi"
 generate_feed = true
 compile_sass = true
 minify_html = false
@@ -52,7 +50,7 @@ theme_switcher = true
 
 # This setting determines the default theme on load ("light" or "dark").
 # To default to the user's OS-level theme, leave it empty or unset.
-default_theme = "light"
+default_theme = ""
 
 # Choose the colourscheme (skin) for the theme. Default is "teal".
 # Skin available: blue, lavender, mint, red, sakura, teal, monochrome, lowcontrast_orange, lowcontrast_peach, lowcontrast_pink, indigo_ingot, evangelion
@@ -130,6 +128,49 @@ socials = [
     { name = "linkedin", url = "https://www.linkedin.com/in/jramette/", icon = "linkedin" },
     { name = "instagram", url = "https://www.instagram.com/baron_von_humboldt/", icon = "instagram" },
 ]
+
+# Custom security headers. What urls should your website be able to connect to?
+# You need to specify the CSP and the URLs associated with the directive.
+# Useful if you want to load remote content safely (embed YouTube videos, which needs frame-src, for example).
+# Default directive is self.
+# Default config, allows for https remote images and embedding YouTube and Vimeo content.
+# This configuration (along with the right webserver settings) gets an A+ in Mozilla's Observatory: https://observatory.mozilla.org
+allowed_domains = [
+    { directive = "font-src", domains = [
+        "'self'",
+        "data:",
+    ] },
+    { directive = "img-src", domains = [
+        "'self'",
+        "https://*",
+        "data:",
+    ] },
+    { directive = "media-src", domains = [
+        "'self'",
+        "https://cdn.jsdelivr.net/",
+    ] },
+    { directive = "script-src", domains = [
+        "'self'",
+    ] },
+    { directive = "style-src", domains = [
+        "'self'",
+    ] },
+    { directive = "frame-src", domains = [
+        "player.vimeo.com",
+        "https://www.youtube-nocookie.com",
+    ] },
+]
+
+# Enable the CSP directives configured (or default).
+# Can be set at page or section levels, following the hierarchy: page > section > config. See: https://welpo.github.io/tabi/blog/mastering-tabi-settings/#settings-hierarchy
+enable_csp = true
+
+# Custom subset of characters for the header.
+# If set to true, the `static/custom_subset.css` file will be loaded first.
+# This avoids a flashing text issue in Firefox.
+# Please see https://welpo.github.io/tabi/blog/custom-font-subset/ to learn how to create this file.
+custom_subset = true
+
 
 [extra.analytics]
 service = "umami"
