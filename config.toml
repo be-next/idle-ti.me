@@ -3,7 +3,7 @@ title = "idle-ti.me"
 description = "Jérôme Ramette's personal website."
 author = "Jérôme Ramette"
 theme = "tabi"
-generate_feed = true
+
 compile_sass = true
 minify_html = false
 
@@ -11,6 +11,14 @@ taxonomies = [{ name = "tags", feed = true }]
 
 build_search_index = true
 default_language = "en"
+
+# When set to "true", a feed is automatically generated.
+generate_feed = true
+
+# The filename to use for the feed. Used as the template filename, too.
+# Defaults to "atom.xml", which has a built-in template that renders an Atom 1.0 feed.
+# There is also a built-in template "rss.xml" that renders an RSS 2.0 feed.
+feed_filename = "atom.xml"
 
 [search]
 include_title = true
@@ -67,7 +75,7 @@ favicon = "favicon/hourglass-empty.png"
 quick_navigation_buttons = true
 show_previous_next_article_links = true
 footnote_backlinks = true
-katex = true
+katex = false
 
 # Remote repository for your Zola site.
 # Used for `show_remote_changes` and `show_remote_source` (see below).
@@ -147,23 +155,22 @@ allowed_domains = [
     ] },
     { directive = "media-src", domains = [
         "'self'",
-        "https://cdn.jsdelivr.net/",
     ] },
     { directive = "script-src", domains = [
         "'self'",
     ] },
     { directive = "style-src", domains = [
         "'self'",
+        "https://giscus.app/default.css",
     ] },
     { directive = "frame-src", domains = [
-        "player.vimeo.com",
         "https://www.youtube-nocookie.com",
     ] },
 ]
 
 # Enable the CSP directives configured (or default).
 # Can be set at page or section levels, following the hierarchy: page > section > config. See: https://welpo.github.io/tabi/blog/mastering-tabi-settings/#settings-hierarchy
-enable_csp = true
+enable_csp = false
 
 # Custom subset of characters for the header.
 # If set to true, the `static/custom_subset.css` file will be loaded first.
