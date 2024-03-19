@@ -13,7 +13,13 @@ copy_button = true
 footnote_backlinks = true
 +++
 
-I recently gave an introductory AI course to a Bachelor's degree class at the University of Cergy (France), where the topic of discussion was how AI could influence human decision-making capabilities and free will. The comparison of how we use Waze, and navigation apps in general, is telling: today, we blindly trust these applications! They are efficient most of the time, so we stop thinking and never fail to turn them on for even the shortest journeys. But perhaps they lead us on paths that serve interests other than just getting us efficiently from point A to point B. Maybe they have us miss certain gas stations or other points of interest that could be beneficial or more economical for us. This reliance raises questions about whether we are ceding too much control to these algorithms, potentially overlooking alternative routes or experiences that could offer more than just efficiency. Such scenarios underscore the importance of maintaining a balance between leveraging technological conveniences and retaining our ability to make independent and informed decisions.
+
+<div style="overflow: auto;">
+    <img src="/blog/waze-syndrome/img/waze.png" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
+    <div style="display: block;">
+        <p>I recently gave an introductory AI course to a Bachelor's degree class at the University of Cergy (France), where the topic of discussion was how AI could influence human decision-making capabilities and free will. The comparison of how we use Waze, and navigation apps in general, is telling: today, we blindly trust these applications! They are efficient most of the time, so we stop thinking and never fail to turn them on for even the shortest journeys. But perhaps they lead us on paths that serve interests other than just getting us efficiently from point A to point B. Maybe they have us miss certain gas stations or other points of interest that could be beneficial or more economical for us. This reliance raises questions about whether we are ceding too much control to these algorithms, potentially overlooking alternative routes or experiences that could offer more than just efficiency. Such scenarios underscore the importance of maintaining a balance between leveraging technological conveniences and retaining our ability to make independent and informed decisions.</p>
+    </div>
+</div>
 
 The 'WAZE Syndrome' is a metaphor describing our tendency to blindly follow technologies, especially those claiming to simplify our decision-making processes, like the WAZE navigation app. This syndrome may extend to our interactions with generative artificial intelligences (such as GPT-4, DALL-E, etc.), which are trained on vast data sets and produce content that appears persuasive.
 
