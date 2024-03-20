@@ -153,7 +153,7 @@ There is no need to configure the 404 error page in this way, as the 404 error w
 
 ## CloudFront cache management
 
-By default, CloudFront caches the resources it serves for 24 hours. This means that when you update a file in the S3 bucket, the changes are not immediately visible on the website. To solve this problem, you can invalidate the CloudFront cache when the website is updated. And you can also add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
+By default, CloudFront caches the resources it serves for 24 hours[^1]. This means that when you update a file in the S3 bucket, the changes are not immediately visible on the website. To solve this problem, you can invalidate the CloudFront cache when the website is updated. And you can also add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
 
 ### Cache invalidation
 
@@ -220,3 +220,5 @@ To add a query string to the URL of the resource in the CloudFront distribution,
 
 I hope this article has helped you to deploy your Zola website using S3 Bucket and CloudFront. If you have any questions or suggestions, plaese feel free to leave a comment below. I will be happy to help you and improve this article.
 
+---
+[^1]: [Why is CloudFront serving outdated content from Amazon S3?](https://repost.aws/knowledge-center/cloudfront-serving-outdated-content-s3)
