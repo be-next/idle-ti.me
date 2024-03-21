@@ -4,6 +4,8 @@ description = "Jérôme Ramette's personal website."
 author = "Jérôme Ramette"
 theme = "tabi"
 
+# When set to "true", a feed is automatically generated.
+generate_feed = true
 compile_sass = true
 minify_html = false
 
@@ -12,8 +14,6 @@ taxonomies = [{ name = "tags", feed = true }]
 build_search_index = true
 default_language = "en"
 
-# When set to "true", a feed is automatically generated.
-generate_feed = true
 
 # The filename to use for the feed. Used as the template filename, too.
 # Defaults to "atom.xml", which has a built-in template that renders an Atom 1.0 feed.
@@ -104,10 +104,10 @@ show_reading_time = true
 feed_icon = true
 
 menu = [
-    { name = "blog", url = "blog/" },
-    { name = "archive", url = "archive/" },
-    { name = "projects", url = "projects/" },
-    { name = "tags", url = "tags/" },
+    { name = "blog", url = "blog" },
+    { name = "archive", url = "archive" },
+    { name = "projects", url = "projects" },
+    { name = "tags", url = "tags" },
     # { name = "about", url = "about" },
 ]
 
@@ -118,8 +118,8 @@ menu = [
 # Extra menu to show on the footer, below socials section.
 footer_menu = [
     { url = "copyright", name = "©2024 idle-ti.me", trailing_slash = true },
-    { url = "sitemap.xml", name = "sitemap", trailing_slash = true },
-    { url = "about", name = "about me", trailing_slash = false },
+    { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
+    { url = "about", name = "about me", trailing_slash = true },
 ]
 
 # Email address for footer's social section.
@@ -147,6 +147,7 @@ allowed_domains = [
     { directive = "font-src", domains = [
         "'self'",
         "data:",
+        "https://*",
     ] },
     { directive = "img-src", domains = [
         "'self'",
