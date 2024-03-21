@@ -21,7 +21,7 @@ As we all do, the first thing I have done to deploy my Zola website using S3 Buc
 
 I was faced with the following problems:
 
-  - When I try to access a sub-page, the website does not redirect to the `index.html` file. To solve this problem, I had to create a CloudFront function (it could have been a Lambda@Edge) to point directly to the `index.html` file (accessing sitemap.xml presents the same type of problem).
+  - When I try to access a sub-page, the website does not redirect to the `index.html` file. To solve this problem, I had to create a CloudFront function (it could have been a Lambda@Edge) to point directly to the `index.html` file.
   - The `404.html` error file is not working as expected. When I try to access a non-existent page, the `404.html` file is not displayed but I get a 403 error instead. To solve this problem, I had to configure the **error pages** in the CloudFront distribution.
   - The ressources are not updated when I update files in the S3 bucket. This is because the ressources are cached by CloudFront. To solve this problem, it's needed to invalidate the CloudFront cache when the website is updated (the deployement GitHub action given in Zola documentation provides a way to invalidate le cache CloudFront lors du deployment). And, it could be usefull to add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
 
@@ -33,7 +33,7 @@ In this article, I share the method I used to solve these problems. Let me know 
 
 When we access a sub-page of the website, it is not redirected to the `index.html` file. And if you've configured the `404.html` error file as described below, you'll get a 404 error instead of the expected page.
 CloudFront provides a root object parameter by default, but as its name suggests, it only works for the root of the website! Fortunately, CloudFront also provides a mechanism called CloudFront Functions that allows URLs to be automatically rewritten.
-To create a CloudFront function that correctly redirects to `index.html` files, you can follow the example provided by AWS :
+To create a CloudFront function that correctly redirects to `index.html` files, you can follow the example provided by AWS:
 
   - [Add index.html to request URLs that don’t include a file name](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-function-add-index.html)
   - [GithHub repository](https://github.com/aws-samples/amazon-cloudfront-functions/tree/main/url-rewrite-single-page-apps)
@@ -59,22 +59,6 @@ function handler(event) {
 Once you created and deployed this function, you have to associate this function (which I've called `Rewrite_URL` in this example) with the default `Default (*)` behaviour of the CloudFront distribution:
 [![CloudFront function](/blog/zola-aws/img/function_associations.png)](/blog/zola-aws/img/function_associations.png)
 
-### `sitemap.xml` redirection
-
-When we access the `sitemap.xml` file, the link built by Zola is not working. The link is built like this: `https://example.com/sitemap.xml/` but only `https://example.com/sitemap.xml` works in this deployment configuration. To solve this problem, we need to create another CloudFront function to redirect to the `/sitemap.xml` file when we access `https://example.com/sitemap.xml/`.
-
-This function is even simpler than the previous one. Here is the code:
-
-```javascript, linenos
-function handler(event) {
-    var request = event.request;
-
-    request.uri = '/sitemap.xml';
-    
-    return request;
-}
-```
-Once you created and deployed this function, all you have to do is associate this function with a new behaviour that captures the /sitemap.xml/ path model and that's it.
 
 ### i18n redirection
 
