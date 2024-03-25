@@ -23,7 +23,7 @@ I was faced with the following problems:
 
   - When I try to access a sub-page, the website does not redirect to the `index.html` file. To solve this problem, I had to create a CloudFront function (it could have been a Lambda@Edge) to point directly to the `index.html` file.
   - The `404.html` error file is not working as expected. When I try to access a non-existent page, the `404.html` file is not displayed but I get a 403 error instead. To solve this problem, I had to configure the **error pages** in the CloudFront distribution.
-  - The ressources are not updated when I update files in the S3 bucket. This is because the ressources are cached by CloudFront. To solve this problem, it's needed to invalidate the CloudFront cache when the website is updated (the deployement GitHub action given in Zola documentation provides a way to invalidate le cache CloudFront lors du deployment). And, it could be usefull to add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
+  - The ressources are not updated when I update files in the S3 bucket. This is because the ressources are cached by CloudFront. To solve this problem, it's needed to invalidate the CloudFront cache when the website is updated (the deployement GitHub action given in Zola documentation provides a way to invalidate the CloudFront cache during deployment). And, it could be usefull to add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
 
 In this article, I share the method I used to solve these problems. Let me know if there are simpler or more effective methods!
 
