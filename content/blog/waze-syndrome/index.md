@@ -1,7 +1,7 @@
 +++
 title = "WAZE Syndrome and Bias Sensitivity"
 date = 2024-03-06
-updated = 2024-03-24
+updated = 2024-03-29
 description = "Recognizing the limitations of generative artificial intelligences is a first step towards an enlightened and critical use of these technologies. Indeed, the apparent efficiency and convenience offered by these systems must not overshadow the imperative need for constant vigilance. Users must arm themselves with critical thinking and an increased awareness of the ethical ramifications of AI usage."
 
 [taxonomies]
@@ -40,8 +40,8 @@ This synergy between human and artificial intelligence must be fostered with dis
 
 
 ## AI sovereignty and societal model
-In February 2024, in an even more demonstrative way, Google's Gemini AI displayed representation biases that we would describe as "very demonstrative" (to the point where they become caricatures). For exemple, I invite you to read this article from Financial Times: [Google pauses IA image generation of peaple after diversity backlash](https://www.ft.com/content/979fe974-2902-4d78-8243-a0cff68e630a). 
-This radical orientation of the results of AI demonstrates, if proof were needed, the extent to which mastery of algorithms is a determining factor in the representation of the world conveyed by the companies that create them. This is where the importance of AI sovereignty comes into its own[^2]!
+In February 2024, in an even more demonstrative way, Google's Gemini AI displayed representation biases that we would describe as "very demonstrative" (to the point where they become caricatures)[^2].
+This radical orientation of the results of AI demonstrates, if proof were needed, the extent to which mastery of algorithms is a determining factor in the representation of the world conveyed by the companies that create them. This is where the importance of AI sovereignty comes into its own[^3]!
 
 The quest for an ethical, representative and neutral AI illustrates a societal ideal which, while admirable, comes up against the intrinsic diversity of human perspectives, which are sometimes irreconcilable. This diversity, rich in history and culture, colours our societies and guides our perception of the world, our ideas and our ethical constructs. Attempting to capture the essence of this diversity with the aim of absolute neutrality may prove to be an illusion, potentially sacrificing relevance, realism, subtlety and creativity on the altar of a precarious consensus.
 
@@ -55,12 +55,15 @@ In facing the intricate dilemma of bias in artificial intelligence, we find ours
 
 On the other hand, striving for an ethically neutral AI represents an idealistic pursuit, one that seeks to elevate technology beyond the parochial and into a realm of universal values and principles. However, this endeavor itself harbors a paradox, as the very act of defining neutrality is influenced by specific ethical viewpoints, thus introducing a new form of bias. The quest for neutrality, in its essence, might inadvertently distance AI from the multifaceted realities of human societies.
 
-In the next article, we will try to develop these notions, looking in more detail at the implications of each position and examining their impact on the future of artificial intelligence and its role in our society.
+In the next post, we will try to develop these notions, looking in more detail at the implications of each position and examining their impact on the future of artificial intelligence and its role in our society.
 
 ---
-[^1]: This article was inspired by a discussion with my students during a course on AI the University of Cergy (France), december 2023. The term "WAZE Syndrome" was coined during this discussion.
+[^1]: This article was inspired by a discussion with my students in december 2023. The term "WAZE Syndrome" was coined during this discussion.
  
-[^2]: And once again this is an opportunity to broaden the question of the trust we place in this type of company: here the error is gross, certainly due to the fact that the AI algorithms, ethical behaviour filters and default prompts are new and not properly mastered. But what about in areas that are better mastered, where we have let our guard down:
+[^2]: Google explains the matter in this blog post: [Gemini image generation got it wrong. We'll do better.](https://blog.google/products/gemini/gemini-image-generation-issue/) Here is a Gimini illustration of 1943 German soldiers, witch do not represent the reality of the time and which has, in part, provoked criticism:
+[![Google Gemini](/blog/waze-syndrome/img/german_soldiers.avif)](/blog/waze-syndrome/img/german_soldiers.avif)
+
+[^3]: And once again this is an opportunity to broaden the question of the trust we place in this type of company: here the error is gross, certainly due to the fact that the AI algorithms, ethical behaviour filters and default prompts are new and not properly mastered. But what about in areas that are better mastered, where we have let our guard down:
   - filtering and ordering search results
   - managing and classifying our e-mails
   - personalized advertising and content recommendations
