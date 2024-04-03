@@ -11,6 +11,6 @@ section_path = "blog/_index.md"
 max_posts = 4
 +++
 
-Welcome to my personal website. On this platform, I share my thoughts and insights, drawing from personal experiences and projects. The core subjects I delve into are primarily computer science, travel, and music, although I occasionally explore other topics as well.
+Welcome to [my](/about) personal website. On this platform, I share my thoughts and insights, drawing from personal experiences and projects. The core subjects I delve into are primarily computer science, travel, and music, although I occasionally explore other topics as well.
 
-In my idle time, I like to think that my CPU isn't entirely asleep 😉
+**idle time**: where everything happens...
