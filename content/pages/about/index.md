@@ -8,15 +8,13 @@ updated = 2024-03-29
 template = "info-page.html"
 +++
 
-Hi! My name is **Jérôme Ramette**. I live in a small village near Paris in France 🇫🇷
+Hi! My name is **Jérôme Ramette**. I live in a [small village](https://en.wikipedia.org/wiki/Follainville-Dennemont) near [Paris](https://en.wikipedia.org/wiki/Paris) in [France](https://en.wikipedia.org/wiki/France) 🇫🇷
 
 Since a long long while, I have nurtured a profound passion for information technology, a field in which I have continuously engaged, particularly through software development and free software support.
 
 My interest in artificial intelligence, dating back to the 1990s, was solidified by earning a postgraduate degree (DEA) in this specialized area. I'm glad I've lived long enough to see these technologies come to fruition.
 
-I'm currently in charge of an IT performance team for a French railway company, but my role goes beyond that. I also work as a consultant on a number of assignments, contributing my expertise in consultancy, securing information system transformation trajectories and remediation.
-
-This versatility and my ability to navigate the different aspects of the IT sector is my greatest pleasure.
+I'm currently in charge of an IT performance team for a French railway company. I also work as a consultant on a number of assignments, contributing my expertise in consultancy, securing information system transformation trajectories and remediation.
 
 To tell you a bit more about me, here's an overview of my IT career so far... It's a chance to share a few anecdotes and make a bit of history 😉
 
