@@ -12,7 +12,7 @@ Hi! My name is **Jérôme Ramette**. I live in a [small village](https://en.wiki
 
 Since a long long while, I have nurtured a profound passion for information technology, a field in which I have continuously engaged, particularly through software development and free software support.
 
-My interest in artificial intelligence, dating back to the 1990s, was solidified by earning a postgraduate degree (DEA) in this specialized area. I'm glad I've lived long enough to see these technologies come to fruition.
+My interest in artificial intelligence, dating back to the 1990s (just in the second IA winter), was solidified by earning a postgraduate degree (DEA) in this specialized area. I'm glad I've lived long enough to see these technologies come to fruition.
 
 I'm currently in charge of an IT performance team for a French railway company. I also work as a consultant on a number of assignments, contributing my expertise in consultancy, securing information system transformation trajectories and remediation.
 
@@ -33,11 +33,16 @@ I spent about 2 months making my computer totally compatible with this distribut
 I had my first Internet connection in 1994. It was a [dial-up Internet access](https://en.wikipedia.org/wiki/Dial-up_Internet_access) with a 56k modem [US Robotics "Sportster Flash"](https://www.reddit.com/r/vintagecomputing/comments/mwooo3/us_robotics_modem_56k_sportster_flash_from_circa/) (strange as it may seem, this type of modem is still on sale). We had a server at our university that was connected to the Internet ([RENATER](https://en.wikipedia.org/wiki/Renater), the French university network). The game consisted of reaching this server and ask it to engage a connection back to our personal computer. In this way, we could connect to the Internet for as long as we wanted for a single telephone unit! What a luxury!
 
 ### The first job (and first fail)
-My first IT job was in january 1998. I was hired as a software developer in a kind of start up. We had developed a computer in free access in a public place. The computer was connected to the Internet (via 2 RNIS connections, that cost a leg!) and we had developed a software that allowed the user to surf the web with telephone card. The business model was based on telephone card selling. The user had to buy a telephone card to be able to surf the web, the phone card was charged according to the time spent. We imagined that all people would use this system to surf the web. We were wrong. The company went bankrup few months later.
+My first IT job was in january 1998. I was hired as a software developer in a kind of start up. We had developed a computer in free access in a public place. The computer was connected to the Internet (via 2 [ISDN](https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network) connections, that cost a leg[^1]!) and we had developed a software that allowed the user to surf the web with telephone card. The business model was based on telephone card selling. The user had to buy a telephone card to be able to surf the web, the phone card was charged according to the time spent. We imagined that all people would use this system to surf the web. We were wrong. The company went bankrup few months later.
 
 ### The first IA job
-In 2001, I developed a natural language SMS interface to cross-reference the content of CityVox (a sort of TripAdivor, before TripAdvisor and only in France), PagesJaunes (a business directory) and the geolocation platform of Orange (France's leading mobile operator). This work was carried out for Dejima on the basis of its natural language recognition technology (Dejima was acquired by Sybase in 2004). This system was capable of answering questions such as "Find me a good Italian in the area" or "What is the telephone number of the nearest pharmacy? It was very cool and very useful!
-This service was used for several years by Orange.
+In 2001, I developed a natural language SMS interface to cross-reference the content of CityVox[^2], PagesJaunes (a business directory) and the geolocation platform of France Telecom (France's leading mobile , called Orange nowaday). This work was carried out for [Dejima](https://discovery-patsnap-com.libproxy1.nus.edu.sg/company/dejima/) on the basis of its natural language recognition technology ([Dejima was acquired by Sybase in 2004](https://www.rcrwireless.com/20040421/archived-articles/sybase-adds-dejima-assets-to-wireless-enterprise-subsidiary)). This system was capable of answering questions such as "Find me a good Italian in the area" or "What is the telephone number of the nearest pharmacy?" It was very cool and very useful!
+This service was used for several years by _France Telecom_.
+
+---
+[^1]: In 1997 in France, the ISND offer was called "Numéris" and was sold by France Telecom. This [FAQ](https://support.usr.com/support/sportster/sportster-files/faqisdn-frnc.pdf) (in french) provides technical inputs and cost estimates. The cost of 2 ISDN 128k/s lines was about 74$ per month.
+
+[^2]: CityVox was a French website that provided information on restaurants, hotels, and other services in France. It was acquired by [Yelp](https://en.wikipedia.org/wiki/Yelp) in 2014.
 
 ---
 Feel free to get in contact via [mail](mailto:jerome.ramette@gmail.com) or [LinkedIn](https://www.linkedin.com/in/jramette/). I'm always up for a chat!
