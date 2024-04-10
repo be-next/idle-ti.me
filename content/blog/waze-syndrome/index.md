@@ -1,5 +1,5 @@
 +++
-title = "WAZE Syndrome and Bias Sensitivity"
+title = "AI: WAZE Syndrome and Bias Sensitivity"
 date = 2024-03-06
 updated = 2024-03-29
 description = "Recognizing the limitations of generative artificial intelligences is a first step towards an enlightened and critical use of these technologies. Indeed, the apparent efficiency and convenience offered by these systems must not overshadow the imperative need for constant vigilance. Users must arm themselves with critical thinking and an increased awareness of the ethical ramifications of AI usage."

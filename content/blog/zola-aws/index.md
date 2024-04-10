@@ -1,5 +1,5 @@
 +++
-title = "How to deploy a Zola website using S3 Bucket and CloudFront"
+title = "Zola: How to deploy a website using S3 Bucket and CloudFront"
 date = 2024-03-11
 updated = 2024-03-18
 draft = false
