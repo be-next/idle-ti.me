@@ -202,7 +202,7 @@ To add a query string to the URL of the resource in the CloudFront distribution,
 
 ## Last words
 
-I hope this article has helped you to deploy your Zola website using S3 Bucket and CloudFront. If you have any questions or suggestions, plaese feel free to leave a comment below. I will be happy to help you and improve this article.
+I hope this article has helped you to deploy your Zola website using S3 Bucket and CloudFront. If you have any questions or suggestions, please feel free to leave a comment below. I will be happy to help you and improve this article.
 
 ---
 [^1]: [Why is CloudFront serving outdated content from Amazon S3?](https://repost.aws/knowledge-center/cloudfront-serving-outdated-content-s3)
