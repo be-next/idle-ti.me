@@ -5,7 +5,7 @@ updated = 2024-03-18
 draft = false
 toc = true
 
-description = "Everyone who deploys a Zola website using S3 Bucket and CloudFront finds that it doesn't work as well as expected. And they end up writing this kind of article to share their feedback. This article is no exception... I hope I've put together some useful information on how to make this type of site fully functional using this deployment method." 
+description = "Deploying a Zola website on an S3 bucket via CloudFront can present some challenges, often due to misunderstandings about how CloudFront functions.  In this article, I share the configurations and strategies I used to make the Zola website fully functional with a CloutFront deployment." 
 
 [taxonomies]
 tags = ["Zola", "AWS", "S3 bucket", "CloudFront"]
