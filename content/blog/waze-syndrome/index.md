@@ -2,7 +2,7 @@
 title = "AI: WAZE Syndrome and Bias Sensitivity"
 date = 2024-03-06
 updated = 2024-03-29
-description = "Recognizing the limitations of generative artificial intelligences is a first step towards an enlightened and critical use of these technologies. Indeed, the apparent efficiency and convenience offered by these systems must not overshadow the imperative need for constant vigilance. Users must arm themselves with critical thinking and an increased awareness of the ethical ramifications of AI usage."
+description = "If we were to use generative AI in the same way we use Waze, we would end up accepting the ideas provided by the AI without thinking and allowing ourselves to be influenced by the biases, more or less deliberate, of those who design them. The 'Waze syndrome’ is a metaphor that  illustrates our propensity to depend on AI without questioning the underlying datasets or the motivations of its creators."
 
 [taxonomies]
 tags = ["AI", "bias", "Responsible AI", "AI Sovereignty"]
@@ -12,7 +12,7 @@ giscus = true
 copy_button = true
 footnote_backlinks = true
 +++
-
+Se
 
 <div style="overflow: auto;">
     <img src="/blog/waze-syndrome/img/waze.png" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
