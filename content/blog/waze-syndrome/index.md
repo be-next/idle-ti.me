@@ -12,7 +12,6 @@ giscus = true
 copy_button = true
 footnote_backlinks = true
 +++
-Se
 
 <div style="overflow: auto;">
     <img src="/blog/waze-syndrome/img/waze.png" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
