@@ -11,4 +11,6 @@ updates:
       interval: "daily"
       time: "16:45"
       timezone: "Europe/Paris"
+    commit-message:
+      prefix: "⬆️ deps:"
     open-pull-requests-limit: 10
