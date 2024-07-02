@@ -5,9 +5,10 @@ author = "Jérôme Ramette"
 theme = "tabi"
 
 # When set to "true", a feed is automatically generated.
-generate_feed = true
+generate_feeds = true
 compile_sass = true
 minify_html = false
+feed_filenames = ["atom.xml"]
 
 taxonomies = [{ name = "tags", feed = true }]
 
@@ -18,7 +19,7 @@ default_language = "en"
 # The filename to use for the feed. Used as the template filename, too.
 # Defaults to "atom.xml", which has a built-in template that renders an Atom 1.0 feed.
 # There is also a built-in template "rss.xml" that renders an RSS 2.0 feed.
-feed_filename = "atom.xml"
+# feed_filename = "atom.xml"
 
 [search]
 include_title = true
@@ -104,10 +105,10 @@ show_reading_time = true
 feed_icon = true
 
 menu = [
-    { name = "blog", url = "blog" },
-    { name = "archive", url = "archive" },
-    { name = "projects", url = "projects" },
-    { name = "tags", url = "tags" },
+    { name = "blog", url = "blog/" },
+    { name = "archive", url = "archive/" },
+    { name = "projects", url = "projects/" },
+    { name = "tags", url = "tags/" },
     # { name = "about", url = "about" },
 ]
 
