@@ -1,11 +1,11 @@
 +++
 title = "Zola: How to deploy a website using S3 Bucket and CloudFront"
 date = 2024-03-11
-updated = 2024-03-18
+updated = 2024-07-03
 draft = false
 toc = true
 
-description = "Deploying a Zola website on an S3 bucket via CloudFront can present some challenges, often due to misunderstandings about how CloudFront functions.  In this article, I share the configurations and strategies I used to make the Zola website fully functional with a CloutFront deployment." 
+description = "Deploying a Zola website on an S3 bucket via CloudFront can present some challenges, often due to misunderstandings about how CloudFront works. In this article, I share the configurations and strategies I used to make the Zola website fully functional with a CloutFront deployment." 
 
 [taxonomies]
 tags = ["Zola", "AWS", "S3 bucket", "CloudFront"]
