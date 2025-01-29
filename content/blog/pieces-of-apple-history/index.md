@@ -8,7 +8,7 @@ toc = true
 description = "A collection of documentaries and interviews that provide insights into the history of Apple Inc., its co-founder Steve Jobs, and the iconic products that revolutionized the tech industry."
 
 [taxonomies]
-tags = ["Apple", "Steve Jobs", "Macintosh", "Newton"]
+tags = ["Apple", "Steve Jobs", "Macintosh", "Newton", "Computer History"]
 
 [extra]
 giscus = true
@@ -16,12 +16,24 @@ copy_button = true
 footnote_backlinks = true
 +++
 
-Born in earlier 70s, I discovered the Apple universe during my childhood through computer magazines (the rare French computer magazines!), at a time when personal computers were still a novelty. While my experience was personal, it reflects that of many technology enthusiasts who grew up during this pivotal era, each discovering these machines through magazines, computer stores, or school computers.
+## Introduction: Seeds of a Digital Journey
+
+<div style="overflow: auto;">
+    <img src="/blog/pieces-of-apple-history/img/nostalgic_photo.webp" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
+    <div style="display: block;">
+        <p>
+        Born in earlier 70s, I discovered the Apple universe during my childhood through computer magazines (the rare French computer magazines!), at a time when personal computers were still a novelty. While my experience was personal, it reflects that of many technology enthusiasts who grew up during this pivotal era, each discovering these machines through magazines, computer stores, or school computers.
+        </p>
+    </div>
+</div>
+
 In this post, I have gathered documentaries that tell the story of this era through the lens of Apple. Each one captures a different aspect of this transformation: the broader revolution of personal computing, the unique relationship between users and their machines, the vision that drove these changes, and the lasting impact on those who embraced these technologies.
 While reading those magazines as a child, I was part of a larger story unfolding - one where enthusiasts, developers, and users were gradually discovering the potential of personal computing. This story isn't just about technology; it's about how people connected with these tools, often before their peers understood their significance.
 Through these films, we can understand how our personal histories connect to the larger narrative of personal computing's evolution. They provide a glimpse into the passion, innovation, and vision that drove this transformation.
 
-## Triumph of the Nerds (1996)
+## Pieces of Apple History
+
+### Triumph of the Nerds (1996)
 
 "Triumph of the Nerds" is a three-part documentary series made in 1996 by [Robert X. Cringely](https://en.wikipedia.org/wiki/Robert_X._Cringely) for [Channel 4](https://en.wikipedia.org/wiki/Channel_4) and [PBS](https://en.wikipedia.org/wiki/PBS). This series chronicles the history of the personal computer revolution and the emergence of the microcomputer industry.
 
@@ -49,7 +61,7 @@ Cringely maintains his signature approachable and often humorous narrative style
 The title "Nerds 2.0.1" cleverly combines its status as a sequel with software version numbering conventions, reflecting both its connection to the original series and its focus on the next chapter of the digital revolution: the rise of the Internet and World Wide Web.
 The series stands as an important historical document, having captured the excitement and optimism of the early Internet era while providing insight into the technological and cultural changes that would shape the modern digital world.
 
-## Welcom to Macintosh (2008)
+### Welcom to Macintosh (2008)
 
 "Welcome to Macintosh" (2008) is an independent documentary directed by Robert Baca and Josh Rizzo that explores the history of Apple Computer and the cultural impact of the Macintosh. The film offers an in-depth look at Apple's history, philosophy, and lasting influence.
 The documentary features interviews with several important figures in Apple's history and the computer industry, including:
@@ -72,7 +84,7 @@ The title references the iconic welcome message that appeared on the first Macin
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TklWMC5o_Os?si=w4OAadhG8grb-2GX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Steve Jobs: The Lost Interview (2012)
+### Steve Jobs: The Lost Interview (2012)
 
 "Steve Jobs: The Lost Interview" is a documentary film released in 2012 that consists of a 70-minute interview with Steve Jobs conducted by [Robert X. Cringely](https://en.wikipedia.org/wiki/Robert_X._Cringely) in 1995, during Jobs' time at NeXT Computer, before his return to Apple.
 The interview was originally recorded for the PBS documentary series "Triumph of the Nerds" (1996), but only a small portion was used in the final series. The full interview footage was thought to be lost until a VHS copy was discovered in the director's garage after Jobs' death in 2011.
@@ -81,7 +93,7 @@ The interview is particularly significant because it captures Jobs at a unique m
 - His early days at Apple and the creation of the Macintosh
 - His perspective on the technology industry and its future
 - His bitter departure from Apple in 1985
-- His thoughts on Microsoft and Bill Gates
+- His thoughts on Microsoft and [Bill Gates](https://en.wikipedia.org/wiki/Bill_Gates)
 - His vision for digital technology and personal computing
 - His management philosophy and approach to product development
 
@@ -91,7 +103,7 @@ What makes this interview particularly interesting is that it shows Jobs during 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rDqQcmVqAm4?si=NsPRClE8pdBKCeH1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Love Notes to Newton (2018)
+### Love Notes to Newton (2018)
 
 "Love Notes to Newton" (2018) is a documentary film directed by [Noah Leon](https://www.linkedin.com/in/moosefuel/) that explores the history and lasting legacy of Apple's Newton MessagePad, one of the first Personal Digital Assistants (PDAs). The film was funded through a Kickstarter campaign and features contributions from Newton enthusiasts and developers worldwide.
 
@@ -118,7 +130,7 @@ The film offers valuable insights into why some users develop deep emotional con
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5kxRi34PqWo?si=2BYyc4CfLFkbb4Tm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Conclusion
+## By way of conclusion
 
 Through these elements of Apple's history, we can trace the evolution of personal computing from a niche interest to a transformative force in society. These films, each offering a unique perspective on Apple's journey, help us to understand not only the technical achievements, but also the human connections that made this revolution possible.
 The story they tell is both intimate and universal - from the early enthusiasts browsing computer magazines, to the developers creating new possibilities, to the visionaries who saw the potential of personal computing. It's a story that continues to resonate because it's not just about technology - it's about how that technology has changed our relationship with computing and, by extension, the world around us.
