@@ -1,7 +1,7 @@
 +++
 title = "Zola: How to deploy a website using S3 Bucket and CloudFront"
 date = 2024-03-11
-updated = 2024-07-03
+updated = 2025-01-31
 draft = false
 toc = true
 
