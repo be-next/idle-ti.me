@@ -5,10 +5,10 @@ updated = 2024-07-03
 draft = false
 toc = true
 
-description = "Deploying a Zola website on an S3 bucket via CloudFront can present some challenges, often due to misunderstandings about how CloudFront works. In this article, I share the configurations and strategies I used to make the Zola website fully functional with a CloutFront deployment." 
+description = "Deploying a Zola website on an S3 bucket via CloudFront can present some challenges, often due to misunderstandings about how CloudFront works. In this article, I share the configurations and strategies I used to make the Zola website fully functional with a CloutFront deployment."
 
 [taxonomies]
-tags = ["Zola", "AWS", "S3 bucket", "CloudFront"]
+tags = ["Zola", "AWS", "S3 bucket", "CloudFront", "static website"]
 
 [extra]
 giscus = true
@@ -16,18 +16,19 @@ copy_button = true
 footnote_backlinks = true
 +++
 
+## When RTFM isn't Enough 😉
 
 As we all do, the first thing I have done to deploy my Zola website using S3 Bucket and CloudFront is to follow the [Zola documentation](https://www.getzola.org/documentation/deployment/aws-s3/). And... once deployed, I find that the site doesn't work as well as expected.
 
 I was faced with the following problems:
 
-  - When I try to access a sub-page, the website does not redirect to the `index.html` file. To solve this problem, I had to create a CloudFront function (it could have been a Lambda@Edge) to point directly to the `index.html` file.
-  - The `404.html` error file is not working as expected. When I try to access a non-existent page, the `404.html` file is not displayed but I get a 403 error instead. To solve this problem, I had to configure the **error pages** in the CloudFront distribution.
-  - The ressources are not updated when I update files in the S3 bucket. This is because the ressources are cached by CloudFront. To solve this problem, it's needed to invalidate the CloudFront cache when the website is updated (the deployement GitHub action given in Zola documentation provides a way to invalidate the CloudFront cache during deployment). And, it could be usefull to add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
+1. When I try to access a sub-page, the website does not redirect to the `index.html` file. To solve this problem, I had to create a CloudFront function (it could have been a Lambda@Edge) to point directly to the `index.html` file.
+2. The `404.html` error file is not working as expected. When I try to access a non-existent page, the `404.html` file is not displayed but I get a 403 error instead. To solve this problem, I had to configure the **error pages** in the CloudFront distribution.
+3. The ressources are not updated when I update files in the S3 bucket. This is because the ressources are cached by CloudFront. To solve this problem, it's needed to invalidate the CloudFront cache when the website is updated (the deployement GitHub action given in Zola documentation provides a way to invalidate the CloudFront cache during deployment). And, it could be usefull to add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
 
 In this article, I share the method I used to solve these problems. Let me know if there are simpler or more effective methods!
 
-## Redirecting to the file: CloudFront Function
+## 1. Redirecting to the file: CloudFront Function
 
 ### `index.html` redirection
 
@@ -35,8 +36,8 @@ When we access a sub-page of the website, it is not redirected to the `index.htm
 CloudFront provides a root object parameter by default, but as its name suggests, it only works for the root of the website! Fortunately, CloudFront also provides a mechanism called CloudFront Functions that allows URLs to be automatically rewritten.
 To create a CloudFront function that correctly redirects to `index.html` files, you can follow the example provided by AWS:
 
-  - [Add index.html to request URLs that don’t include a file name](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-function-add-index.html)
-  - [GithHub repository](https://github.com/aws-samples/amazon-cloudfront-functions/tree/main/url-rewrite-single-page-apps)
+- [Add index.html to request URLs that don’t include a file name](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-function-add-index.html)
+- [GithHub repository](https://github.com/aws-samples/amazon-cloudfront-functions/tree/main/url-rewrite-single-page-apps)
 
 This exemple provides the following code to create a CloudFront function:
 
@@ -56,9 +57,9 @@ function handler(event) {
     return request;
 }
 ```
+
 Once you created and deployed this function, you have to associate this function (which I've called `Rewrite_URL` in this example) with the default `Default (*)` behaviour of the CloudFront distribution:
 [![CloudFront function](/blog/zola-aws/img/function_associations.png)](/blog/zola-aws/img/function_associations.png)
-
 
 ### i18n redirection
 
@@ -78,11 +79,12 @@ function handler(event) {
     return request;
 }
 ```
+
 And the behaviour should capture the `/fr/*` path model.
 
 To be continued...
 
-## 404 Not Found error handling
+## 2. The Case of the Misleading Errors: 404 vs 403
 
 ### Problem statement
 
@@ -117,6 +119,7 @@ This policy should look like this:
     ]
 }
 ```
+
 Where you have to replace `YOUR_OAI_ID` with the OAI ID you created and `yourbucketname` with the name of your bucket.
 
 #### Configure custom Error Pages in CloudFront
@@ -135,13 +138,14 @@ To handle 404 errors correctly, we need to configure custom error pages in Cloud
 
 There is no need to configure the 404 error page in this way, as the 404 error will never be triggered. In fact, as we have seen, a non-existent resource triggers a 403 error, which is now tracked by the CloudFront distribution to return a 404 error.
 
-## CloudFront cache management
+## 3. The cache headache: managing content updates
 
 By default, CloudFront caches the resources it serves for 24 hours[^1]. This means that when you update a file in the S3 bucket, the changes are not immediately visible on the website. To solve this problem, you can invalidate the CloudFront cache when the website is updated. And you can also add a versionning to the ressources (that allows to update and serve ressources in S3 bucket without invalidate all cache).
 
 ### Cache invalidation
 
 #### GitHub Action
+
 If you use GitHub Action to deploy your website, the Zola documentation provides a way to invalidate the CloudFront cache when the website is updated. Here the deployment GitHub Action I use to deploy my website to S3 and invalidate the CloudFront cache:
 
 ```yaml, linenos
@@ -178,6 +182,7 @@ jobs:
 ```
 
 #### Command line
+
 You can install the `aws` command line tool using the `taiki-e/install-action` action and then use the `aws cloudfront create-invalidation` command to invalidate the CloudFront cache. The `invalidation: /*` parameter is used to invalidate the entire CloudFront cache.
 
 ```bash
@@ -200,9 +205,13 @@ To add a query string to the URL of the resource in the CloudFront distribution,
 
 [![CloudFront behaviour](/blog/zola-aws/img/cf_query_string.png)](/blog/zola-aws/img/cf_query_string.png)
 
-## Last words
+## Overkill? Certainly, but worth the journey
 
-I hope this article has helped you to deploy your Zola website using S3 Bucket and CloudFront. If you have any questions or suggestions, please feel free to leave a comment below. I will be happy to help you and improve this article.
+Let's be honest - deploying a simple blog using CloudFront is probably like using a sledgehammer to crack a nut. The dozen or so readers of my blog (hi sweety!) would have been perfectly happy with a simple static hosting solution. But hey, who am I to deny myself the pleasure of diving into AWS services under the pretense of "proper infrastructure"?
+
+In all seriousness, while this setup might be oversized for my current needs, exploring CloudFront's capabilities beyond basic configuration has been an enlightening journey.
+
+If you've found yourself on a similar over-engineered adventure, or if you have any questions or suggestions, feel free to share your experiences in the comments below.
 
 ---
 [^1]: [Why is CloudFront serving outdated content from Amazon S3?](https://repost.aws/knowledge-center/cloudfront-serving-outdated-content-s3)
