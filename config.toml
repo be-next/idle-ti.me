@@ -118,7 +118,7 @@ menu = [
 
 # Extra menu to show on the footer, below socials section.
 footer_menu = [
-    { url = "copyright", name = "©2024 idle-ti.me", trailing_slash = true },
+    { url = "copyright", name = "©2025 idle-ti.me", trailing_slash = true },
     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
     { url = "about", name = "about me", trailing_slash = true },
 ]
