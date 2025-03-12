@@ -1,7 +1,7 @@
 +++
 title = "Computer history: Through Pieces of Apple History"
 date = 2025-01-27
-updated = "2025-01-27"
+updated = "2025-03-12"
 draft = false
 toc = true
 
@@ -22,14 +22,14 @@ footnote_backlinks = true
     <img src="/blog/pieces-of-apple-history/img/nostalgic_photo.webp" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
     <div style="display: block;">
         <p>
-        Born in earlier 70s, I discovered the Apple universe during my childhood through computer magazines (the rare French computer magazines!), at a time when personal computers were still a novelty. While my experience was personal, it reflects that of many technology enthusiasts who grew up during this pivotal era, each discovering these machines through magazines, computer stores, or school computers.
+In the early 1970s, personal computers were still a distant curiosity, glimpsed through rare computer magazines or seen briefly in specialized shops. For many enthusiasts growing up during that pivotal era, these machines represented an entirely new world—an intriguing promise of possibilities waiting to be explored.
         </p>
     </div>
 </div>
 
-In this post, I have gathered documentaries that tell the story of this era through the lens of Apple. Each one captures a different aspect of this transformation: the broader revolution of personal computing, the unique relationship between users and their machines, the vision that drove these changes, and the lasting impact on those who embraced these technologies.
-While reading those magazines as a child, I was part of a larger story unfolding - one where enthusiasts, developers, and users were gradually discovering the potential of personal computing. This story isn't just about technology; it's about how people connected with these tools, often before their peers understood their significance.
-Through these films, we can understand how our personal histories connect to the larger narrative of personal computing's evolution. They provide a glimpse into the passion, innovation, and vision that drove this transformation.
+This post brings together documentaries that trace the remarkable journey of Apple, from its visionary founder Steve Jobs to the iconic products that defined an era. Each documentary highlights a unique aspect of this computing revolution: the birth of personal computing, the intimate relationship users developed with their machines, the visionaries behind these innovations, and the lasting impact they had on everyday lives.
+
+These films capture more than technological evolution; they reveal how early adopters, enthusiasts, and dreamers sensed the profound potential of personal computers, often long before the mainstream fully grasped their significance. They allow us to see how individual stories are part of a much broader narrative—a story of passion, creativity, and vision that continues to shape our relationship with technology today.
 
 ## Pieces of Apple History
 
