@@ -10,6 +10,6 @@ section_path = "blog/_index.md"
 max_posts = 4
 +++
 
-Welcome to this personal website where [I](/about) document and share my work in computer science, travel experiences, and musical explorations. You'll find technical write-ups, project insights, and occasional thoughts on other topics that catch my interest.
+Passionate about technology, curious about exploring the world, and deeply moved by music, this website captures what inspires [me](/about). You’ll discover detailed insights into my computer science projects, narratives of travel experiences, and moments of musical emotion I enjoy sharing.
 
 **idle time**: coffee breaks in the void...
