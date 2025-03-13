@@ -8,15 +8,15 @@ updated = 2025-01-25
 template = "info-page.html"
 +++
 
-Hi! My name is **Jérôme Ramette**. I live in a [small village](https://en.wikipedia.org/wiki/Follainville-Dennemont) near [Paris](https://en.wikipedia.org/wiki/Paris) in [France](https://en.wikipedia.org/wiki/France) 🇫🇷
+Bonjour! I am **Jérôme Ramette**, residing in a [charming village](https://en.wikipedia.org/wiki/Follainville-Dennemont) in the vicinity of [Paris](https://en.wikipedia.org/wiki/Paris), [France](https://en.wikipedia.org/wiki/France) 🇫🇷.
 
-Since a long long while, I have nurtured a profound passion for information technology, a field in which I have continuously engaged, particularly through software development and free software support.
+Presently, I lead an IT performance team for a French railway company. Additionally, I serve as a consultant on various assignments, offering my expertise in advisory roles, securing information system transformation trajectories, and implementing remediation strategies.
 
-I dove into artificial intelligence during the second AI winter of the 1990s – a time of quiet perseverance in the field. While pursuing my postgraduate degree in AI, I remember the raised eyebrows and skeptical looks. Those who questioned AI's future back then would hardly recognize today's landscape. It's a rare privilege to have witnessed this field transform from an academic curiosity into a force reshaping our world.
+Before that, for as long as I can remember, I have cultivated a profound passion for information technology—a domain where I have consistently immersed myself, particularly through software development and my unwavering support for open-source initiatives.
 
-I'm currently in charge of an IT performance team for a French railway company. I also work as a consultant on a number of assignments, contributing my expertise in consultancy, securing information system transformation trajectories and remediation.
+My journey into artificial intelligence began during the second AI winter of the 1990s—an era characterized by quiet determination in the field. While pursuing my advanced studies in AI, I often encountered raised eyebrows and skeptical glances. Those who questioned the future of AI at that time would scarcely recognize the landscape that unfolds before us today. It is indeed a singular privilege to have witnessed this field's metamorphosis from a mere academic curiosity into a formidable force reshaping our world.
 
-To tell you a bit more about me, here's an overview of my IT career so far... It's a chance to share a few anecdotes and make a bit of history 😉
+To provide further insight into my background, allow me to present an overview of my IT career thus far... This offers an opportunity to share a few anecdotes and to make a modest contribution to history 😉
 
 ## My first times
 
