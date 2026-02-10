@@ -1,0 +1,60 @@
+name: Sync Awesome Lists
+
+on:
+  repository_dispatch:
+    types: [awesome-lists-updated]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual sync"
+        required: false
+        default: "Manual trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync and transform awesome lists
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout idle-ti.me
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Log trigger info
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Dispatch payload: ${{ toJSON(github.event.client_payload) }}"
+
+      - name: Run transformation script
+        run: bash scripts/sync-awesome-lists.sh
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet content/awesome-performance-engineering/ && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Set updated date on changed files
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          for file in content/awesome-performance-engineering/observability-tools/index.md content/awesome-performance-engineering/performance-testing-tools/index.md; do
+            if git diff --quiet "$file" 2>/dev/null; then
+              continue
+            fi
+            sed -i "s/^updated = .*/updated = ${TODAY}/" "$file"
+          done
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/awesome-performance-engineering/
+          git commit -m "sync: update awesome performance engineering lists
+
+          Source: be-next/awesome-performance-engineering@${{ github.event.client_payload.ref || 'manual' }}"
+          git push
