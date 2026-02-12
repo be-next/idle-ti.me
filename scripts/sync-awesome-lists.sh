@@ -10,6 +10,7 @@ BASE_URL="https://raw.githubusercontent.com/${REPO}/${BRANCH}"
 GITHUB_REPO_URL="https://github.com/${REPO}"
 
 CONTENT_DIR="content/awesome-performance-engineering"
+TODAY=$(date -u +%Y-%m-%d)
 
 download() {
   curl -sSfL "${BASE_URL}/$1"
@@ -62,13 +63,13 @@ content=$(echo "$content" | sed '/./,$!d')
 # Transform CONTRIBUTING.md link
 content=$(echo "$content" | sed "s|(CONTRIBUTING\.md)|(${GITHUB_REPO_URL}/blob/main/CONTRIBUTING.md)|g")
 
-cat > "${CONTENT_DIR}/observability-tools/index.md" << 'FRONTMATTER'
+cat > "${CONTENT_DIR}/observability-tools/index.md" << FRONTMATTER
 +++
 title = "Awesome Observability Tools"
 description = "A curated, opinionated list of tools and resources dedicated to Observability as an engineering capability — from kernel-level tracing to full-stack platforms."
 weight = 10
 date = 2026-02-10
-updated = 2026-02-10
+updated = ${TODAY}
 toc = true
 
 [taxonomies]
@@ -105,13 +106,13 @@ content=$(echo "$content" | sed 's|#commercial--saas-platforms|#commercial-saas-
 # Emoji in headings: GitHub keeps a leading -, Zola strips it
 content=$(echo "$content" | sed 's|_index.md#-performance|_index.md#performance|g')
 
-cat > "${CONTENT_DIR}/performance-testing-tools/index.md" << 'FRONTMATTER'
+cat > "${CONTENT_DIR}/performance-testing-tools/index.md" << FRONTMATTER
 +++
 title = "Awesome Performance Testing Tools"
 description = "A curated, opinionated list of tools and resources dedicated to Performance Testing as a continuous engineering practice — from workload design to results analysis."
 weight = 20
 date = 2026-02-10
-updated = 2026-02-10
+updated = ${TODAY}
 toc = true
 
 [taxonomies]

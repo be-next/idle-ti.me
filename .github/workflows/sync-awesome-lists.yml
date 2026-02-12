@@ -38,17 +38,6 @@ jobs:
         run: |
           git diff --quiet content/awesome-performance-engineering/ && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Set updated date on changed files
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          TODAY=$(date -u +%Y-%m-%d)
-          for file in content/awesome-performance-engineering/observability-tools/index.md content/awesome-performance-engineering/performance-testing-tools/index.md; do
-            if git diff --quiet "$file" 2>/dev/null; then
-              continue
-            fi
-            sed -i "s/^updated = .*/updated = ${TODAY}/" "$file"
-          done
-
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
         run: |
