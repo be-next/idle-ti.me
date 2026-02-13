@@ -3,7 +3,7 @@ title = "Awesome Observability Tools"
 description = "A curated, opinionated list of tools and resources dedicated to Observability as an engineering capability — from kernel-level tracing to full-stack platforms."
 weight = 10
 date = 2026-02-10
-updated = 2026-02-10
+updated = 2026-02-13
 toc = true
 
 [taxonomies]
