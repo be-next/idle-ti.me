@@ -1,3 +1,6 @@
 public
 
 .DS_Store
+
+# Zola auto-generates these on build (style = "class"); we use syntax-dual.css instead
+static/giallo-*.css

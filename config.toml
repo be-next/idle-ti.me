@@ -50,11 +50,15 @@ smart_punctuation = true
 render_emoji = true
 
 [markdown.highlighting]
-theme = "dracula"
-style = "inline"
+light_theme = "github-light"
+dark_theme = "catppuccin-frappe"
+style = "class"
 
 
 [extra]
+# Dual syntax highlighting CSS (github-light / catppuccin-frappe).
+stylesheets = ["syntax-dual.css"]
+
 # Enable JavaScript theme toggler to allow users to switch between dark/light mode.
 # If disabled, your site will only use the theme specified in the `default_theme` variable.
 theme_switcher = true
