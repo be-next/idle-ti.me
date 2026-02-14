@@ -7,7 +7,7 @@ theme = "tabi"
 # When set to "true", a feed is automatically generated.
 generate_feeds = true
 compile_sass = true
-minify_html = false
+minify_html = true
 feed_filenames = ["atom.xml"]
 
 taxonomies = [{ name = "tags", feed = true }]
@@ -28,7 +28,7 @@ include_path = true
 include_content = true
 # At which character to truncate the content to. Useful if you have a lot of pages and the index would
 # become too big to load on the site. Defaults to not being set.
-# truncate_content_length = 100
+truncate_content_length = 300
 # Wether to produce the search index as a javascript file or as a JSON file.
 # Accepted value "elasticlunr_javascript" or "elasticlunr_json".
 index_format = "elasticlunr_json"
@@ -116,12 +116,11 @@ menu = [
 ]
 
 
-#copyright = "© $CURRENT_YEAR $TITLE $SEPARATOR Unless otherwise noted, the content in this website is available under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license."
-
+copyright = "© $CURRENT_YEAR $TITLE"
 
 # Extra menu to show on the footer, below socials section.
 footer_menu = [
-    { url = "copyright", name = "©2025 idle-ti.me", trailing_slash = true },
+    { url = "copyright", name = "license", trailing_slash = true },
     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
     { url = "about", name = "about me", trailing_slash = true },
 ]
@@ -166,9 +165,11 @@ allowed_domains = [
     ] },
     { directive = "style-src", domains = [
         "'self'",
+        "'unsafe-inline'",
         "https://giscus.app/default.css",
     ] },
     { directive = "frame-src", domains = [
+        "https://www.youtube.com",
         "https://www.youtube-nocookie.com",
     ] },
 ]
@@ -189,7 +190,7 @@ service = "umami"
 id = "fe7b0256-d82b-4a12-ab06-abc588986a15"
 
 [extra.giscus]
-enabled_for_all_posts = false
+enabled_for_all_posts = true
 automatic_loading = true
 repo = "be-next/idle-ti.me-comments"
 repo_id = "R_kgDOLg-A7A"
