@@ -1,6 +1,6 @@
 base_url = "https://idle-ti.me"
 title = "idle-ti.me"
-description = "Jérôme Ramette's personal website."
+description = "Performance engineering & observability — articles, curated tools, and projects by Jérôme Ramette."
 author = "Jérôme Ramette"
 theme = "tabi"
 
@@ -46,10 +46,12 @@ index_format = "elasticlunr_json"
 
 
 [markdown]
-highlight_code = true
-highlight_theme = "dracula"
 smart_punctuation = true
 render_emoji = true
+
+[markdown.highlighting]
+theme = "dracula"
+style = "inline"
 
 
 [extra]

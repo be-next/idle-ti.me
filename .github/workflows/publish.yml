@@ -13,7 +13,7 @@ jobs:
           submodules: recursive
       - uses: taiki-e/install-action@v2
         with:
-          tool: zola@0.20.0
+          tool: zola@0.22.1
       - name: Build
         run: zola build
       - uses: reggionick/s3-deploy@v4

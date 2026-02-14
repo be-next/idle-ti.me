@@ -10,6 +10,8 @@ section_path = "blog/_index.md"
 max_posts = 4
 +++
 
-Passionate about technology, curious about exploring the world, and deeply moved by music, this website captures what inspires [me](/about). You’ll discover detailed insights into my computer science projects, narratives of travel experiences, and moments of musical emotion I enjoy sharing.
+Performance engineer and observability practitioner, I share here what I learn, build, and explore around **software performance**, **distributed systems observability**, and the tools that make them possible. You'll find curated resources, hands-on projects, and articles drawn from years of experience making systems faster and more reliable.
 
-**idle time**: coffee breaks in the void...
+Beyond tech, this site also reflects what inspires [me](/about) — travel, music, and the occasional coffee break in the void.
+
+**idle time**: _when the system is waiting, the engineer is thinking..._
