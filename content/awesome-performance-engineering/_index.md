@@ -14,6 +14,14 @@ A curated, opinionated collection of tools and resources dedicated to **Performa
 
 This repository covers two complementary and increasingly convergent domains: **Observability** and **Performance Testing**.
 
+## Contents
+
+* [🎯 Why This Repository Exists](#-why-this-repository-exists)
+* [📋 Curated Lists](#-curated-lists)
+* [🧭 Performance Engineering Perspective](#-performance-engineering-perspective)
+* [🤖 Performance Engineering in the Age of AI](#-performance-engineering-in-the-age-of-ai)
+* [🔗 Related Awesome Lists](#-related-awesome-lists)
+
 ---
 
 ## 🎯 Why This Repository Exists
@@ -155,7 +163,7 @@ This repository complements existing awesome lists while maintaining a distinct 
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome and encouraged.
 
@@ -180,7 +188,9 @@ The objective is to keep the lists **useful, credible, and sustainable over time
 
 ---
 
-## 🔍 Quality & Maintenance
+## Footnotes
+
+### Quality & Maintenance
 
 This repository relies on automated quality checks:
 
@@ -190,9 +200,7 @@ This repository relies on automated quality checks:
 
 Automation helps, but **curation remains a human responsibility**.
 
----
-
-## 📚 Learning Resources
+### Learning Resources
 
 Both lists include references to:
 
@@ -203,16 +211,6 @@ Both lists include references to:
 
 The intent is to support **learning and skill progression**, not just tool selection.
 
----
-
-## 📄 License
-
-This work is released under the **CC0 1.0 Universal** license.
-
-You are free to use, share, and adapt it without restriction.
-
----
-
-## 🙏 Acknowledgments
+### Acknowledgments
 
 Thanks to all contributors and reviewers who help keep these lists accurate, relevant, and valuable to the performance engineering community.
