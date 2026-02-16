@@ -1,0 +1,9 @@
+// Site-specific CSS overrides (compiled by Zola into custom.css).
+
+// Badges: linked images inside paragraphs should display inline,
+// overriding tabi's default img { display: block }.
+p > a > img {
+    display: inline;
+    margin: 0;
+    vertical-align: middle;
+}
