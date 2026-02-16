@@ -1,5 +1,6 @@
 +++
 title = "Latest posts"
+description = "Articles, resources, and projects on software performance engineering and distributed systems observability — by Jérôme Ramette."
 sort_by = "date"
 #paginate_by = 5 # Set the number of posts per page
 template = "section.html"

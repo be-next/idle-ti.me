@@ -1,6 +1,7 @@
 +++
 path = "about"
 title = "About me"
+description = "Jérôme Ramette — performance engineer and observability practitioner. From ZX81 to AI, a journey through decades of hands-on IT experience."
 
 date = 2024-03-05
 updated = 2025-01-25

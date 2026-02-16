@@ -1,6 +1,7 @@
 +++
 path = "copyright"
 title = "Copyright"
+description = "Content licensing for idle-ti.me — available under the Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0) license."
 
 template = "page.html"
 +++
