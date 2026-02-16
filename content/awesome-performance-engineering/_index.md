@@ -10,10 +10,22 @@ show_reading_time = false
 copy_button = true
 +++
 
+[![Lint Markdown](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml)
+[![Check Links](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml)
+
 A curated, opinionated collection of tools and resources dedicated to **Performance Engineering** — the discipline that ensures systems deliver fast, reliable, and cost-efficient experiences at any scale.
 
 This repository covers two complementary and increasingly convergent domains: **Observability** and **Performance Testing**.
 
+## Contents
+
+* [🎯 Why This Repository Exists](#dart-why-this-repository-exists)
+* [📋 Curated Lists](#clipboard-curated-lists)
+* [🧭 Performance Engineering Perspective](#compass-performance-engineering-perspective)
+* [🤖 Performance Engineering in the Age of AI](#robot-performance-engineering-in-the-age-of-ai)
+* [🔗 Related Awesome Lists](#link-related-awesome-lists)
+
+---
 
 ## 🎯 Why This Repository Exists
 
