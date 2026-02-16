@@ -25,9 +25,8 @@ content=$(download "README.md")
 
 # Remove H1 with awesome badge
 content=$(echo "$content" | sed '/^# .*\[!\[Awesome\]/d')
-# Remove CI badges
-content=$(echo "$content" | sed '/^\[!\[Lint Markdown\]/d')
-content=$(echo "$content" | sed '/^\[!\[Check Links\]/d')
+# Remove Contents/TOC section (GitHub-style anchors don't work in Zola)
+content=$(echo "$content" | sed '/^## Contents$/,/^---$/d')
 # Remove leading blank lines
 content=$(echo "$content" | sed '/./,$!d')
 
