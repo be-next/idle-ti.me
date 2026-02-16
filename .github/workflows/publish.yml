@@ -42,15 +42,10 @@ jobs:
             --include "*.json" --include "*.txt" \
             --cache-control "public, max-age=0, must-revalidate"
 
-      # Targeted CloudFront invalidation (content pages only)
+      # Invalidate all CloudFront edges so new content + headers take effect.
+      # "/*" counts as a single invalidation path for billing (first 1000/month free).
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths \
-              "/" "/index.html" "/404.html" \
-              "/sitemap.xml" "/atom.xml" "/robots.txt" \
-              "/search_index.en.json" \
-              "/blog/*" "/awesome-performance-engineering/*" \
-              "/tags/*" "/archive/*" "/projects/*" \
-              "/about/*" "/copyright/*"
+            --paths "/*"
