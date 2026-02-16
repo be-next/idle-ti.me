@@ -7,6 +7,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
         with:
@@ -16,15 +20,38 @@ jobs:
           tool: zola@0.22.1
       - name: Build
         run: zola build
-      - uses: reggionick/s3-deploy@v4
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        with:
-          folder: public
-          bucket: ${{ secrets.S3_BUCKET }}
-          private: true
-          bucket-region: us-east-1
-          # Use the next two only if you have created a CloudFront distribution
-          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          invalidation: /*
+
+      # Static assets: long cache (1 year) — CSS, JS, fonts, images
+      - name: Deploy static assets
+        run: |
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ \
+            --exclude "*" \
+            --include "*.css" --include "*.js" \
+            --include "*.woff" --include "*.woff2" --include "*.ttf" --include "*.eot" \
+            --include "*.png" --include "*.jpg" --include "*.jpeg" \
+            --include "*.webp" --include "*.avif" --include "*.svg" \
+            --include "*.gif" --include "*.ico" \
+            --cache-control "public, max-age=31536000" \
+            --size-only
+
+      # Content pages: no cache — HTML, XML, JSON, TXT
+      - name: Deploy content
+        run: |
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ \
+            --exclude "*" \
+            --include "*.html" --include "*.xml" --include "*.xsl" \
+            --include "*.json" --include "*.txt" \
+            --cache-control "public, max-age=0, must-revalidate"
+
+      # Targeted CloudFront invalidation (content pages only)
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths \
+              "/" "/index.html" "/404.html" \
+              "/sitemap.xml" "/atom.xml" "/robots.txt" \
+              "/search_index.en.json" \
+              "/blog/*" "/awesome-performance-engineering/*" \
+              "/tags/*" "/archive/*" "/projects/*" \
+              "/about/*" "/copyright/*"
