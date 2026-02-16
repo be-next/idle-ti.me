@@ -14,15 +14,6 @@ A curated, opinionated collection of tools and resources dedicated to **Performa
 
 This repository covers two complementary and increasingly convergent domains: **Observability** and **Performance Testing**.
 
-## Contents
-
-* [🎯 Why This Repository Exists](#-why-this-repository-exists)
-* [📋 Curated Lists](#-curated-lists)
-* [🧭 Performance Engineering Perspective](#-performance-engineering-perspective)
-* [🤖 Performance Engineering in the Age of AI](#-performance-engineering-in-the-age-of-ai)
-* [🔗 Related Awesome Lists](#-related-awesome-lists)
-
----
 
 ## 🎯 Why This Repository Exists
 
