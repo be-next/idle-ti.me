@@ -25,15 +25,24 @@ content=$(download "README.md")
 
 # Remove H1 with awesome badge
 content=$(echo "$content" | sed '/^# .*\[!\[Awesome\]/d')
-# Remove Contents/TOC section (GitHub-style anchors don't work in Zola)
-content=$(echo "$content" | sed '/^## Contents$/,/^---$/d')
 # Remove leading blank lines
 content=$(echo "$content" | sed '/./,$!d')
+
+# Fix TOC anchors: Zola transliterates emoji Unicode to ASCII names
+content=$(echo "$content" | sed 's|(#-why-this-repository-exists)|(#dart-why-this-repository-exists)|g')
+content=$(echo "$content" | sed 's|(#-curated-lists)|(#clipboard-curated-lists)|g')
+content=$(echo "$content" | sed 's|(#-performance-engineering-perspective)|(#compass-performance-engineering-perspective)|g')
+content=$(echo "$content" | sed 's|(#-performance-engineering-in-the-age-of-ai)|(#robot-performance-engineering-in-the-age-of-ai)|g')
+content=$(echo "$content" | sed 's|(#-related-awesome-lists)|(#link-related-awesome-lists)|g')
 
 # Transform internal links
 content=$(echo "$content" | sed 's|(awesome-observability-tools\.md)|(@/awesome-performance-engineering/observability-tools/index.md)|g')
 content=$(echo "$content" | sed 's|(awesome-performance-testing-tools\.md)|(@/awesome-performance-engineering/performance-testing-tools/index.md)|g')
 content=$(echo "$content" | sed "s|(CONTRIBUTING\.md)|(${GITHUB_REPO_URL}/blob/main/CONTRIBUTING.md)|g")
+
+# Insert badges and GitHub link before content
+BADGES="[![Lint Markdown](${GITHUB_REPO_URL}/actions/workflows/lint.yml/badge.svg)](${GITHUB_REPO_URL}/actions/workflows/lint.yml) [![Check Links](${GITHUB_REPO_URL}/actions/workflows/links.yml/badge.svg)](${GITHUB_REPO_URL}/actions/workflows/links.yml)"
+GITHUB_LINK="[![GitHub repository](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](${GITHUB_REPO_URL}) [![GitHub stars](https://img.shields.io/github/stars/${REPO}?style=social)](${GITHUB_REPO_URL}/stargazers)"
 
 cat > "${CONTENT_DIR}/_index.md" << 'FRONTMATTER'
 +++
@@ -49,7 +58,14 @@ copy_button = true
 +++
 
 FRONTMATTER
-echo "$content" >> "${CONTENT_DIR}/_index.md"
+
+# Inject badges at the top, then GitHub link before ## Contents
+{
+  echo "${BADGES}"
+  echo ""
+  # Insert GitHub link before the Contents heading
+  echo "$content" | awk -v link="${GITHUB_LINK}" '/^## Contents$/ { print link; print "" } { print }'
+} >> "${CONTENT_DIR}/_index.md"
 
 # --- awesome-observability-tools.md -> observability-tools/index.md ---
 echo "Transforming awesome-observability-tools.md..."
