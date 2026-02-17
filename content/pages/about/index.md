@@ -11,11 +11,23 @@ template = "info-page.html"
 
 Bonjour! I am **Jérôme Ramette**, residing in a [charming village](https://en.wikipedia.org/wiki/Follainville-Dennemont) in the vicinity of [Paris](https://en.wikipedia.org/wiki/Paris), [France](https://en.wikipedia.org/wiki/France) 🇫🇷.
 
-Presently, I lead an IT performance team for a French railway company. Additionally, I serve as a consultant on various assignments, offering my expertise in advisory roles, securing information system transformation trajectories, and implementing remediation strategies.
+## What I do
 
-Before that, for as long as I can remember, I have cultivated a profound passion for information technology—a domain where I have consistently immersed myself, particularly through software development and my unwavering support for open-source initiatives.
+I specialize in making systems **faster**, **more reliable**, and **observable**.
 
-My journey into artificial intelligence began during the second AI winter of the 1990s—an era characterized by quiet determination in the field. While pursuing my advanced studies in AI, I often encountered raised eyebrows and skeptical glances. Those who questioned the future of AI at that time would scarcely recognize the landscape that unfolds before us today. It is indeed a singular privilege to have witnessed this field's metamorphosis from a mere academic curiosity into a formidable force reshaping our world.
+As a performance engineering lead for a major French railway company, I design load testing strategies, build observability platforms, and help teams shift performance left — treating it as a continuous engineering practice rather than a late-stage gate.
+
+I also work as an independent consultant, advising organizations on:
+
+- **Performance engineering** — capacity planning, workload modeling, bottleneck analysis, and optimization of distributed systems
+- **Observability** — instrumentation strategies, tracing, metrics pipelines, and building a culture of data-driven operations
+- **Transformation assurance** — securing the performance trajectory of large-scale IT transformations and cloud migrations
+
+## My journey into tech
+
+For as long as I can remember, I have cultivated a profound passion for information technology — a domain where I have consistently immersed myself, particularly through software development and my unwavering support for open-source initiatives.
+
+My journey into artificial intelligence began during the second AI winter of the 1990s — an era characterized by quiet determination in the field. While pursuing my advanced studies in AI, I often encountered raised eyebrows and skeptical glances. Those who questioned the future of AI at that time would scarcely recognize the landscape that unfolds before us today. It is indeed a singular privilege to have witnessed this field's metamorphosis from a mere academic curiosity into a formidable force reshaping our world.
 
 To provide further insight into my background, allow me to present an overview of my IT career thus far... This offers an opportunity to share a few anecdotes and to make a modest contribution to history 😉
 
