@@ -10,8 +10,6 @@ show_reading_time = false
 copy_button = true
 +++
 
-[![Lint Markdown](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml) [![Check Links](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml)
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/be-next/awesome-performance-engineering/main/media/logo.svg" alt="Awesome Performance Engineering" width="400">
 </p>
@@ -19,6 +17,8 @@ copy_button = true
 A curated, opinionated collection of tools and resources dedicated to **Performance Engineering** — the discipline that ensures systems deliver fast, reliable, and cost-efficient experiences at any scale.
 
 This repository covers two complementary and increasingly convergent domains: **Observability** and **Performance Testing**.
+
+[![Lint Markdown](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/lint.yml) [![Check Links](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml/badge.svg)](https://github.com/be-next/awesome-performance-engineering/actions/workflows/links.yml)
 
 [![GitHub repository](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/be-next/awesome-performance-engineering) [![GitHub stars](https://img.shields.io/github/stars/be-next/awesome-performance-engineering?style=social)](https://github.com/be-next/awesome-performance-engineering/stargazers)
 

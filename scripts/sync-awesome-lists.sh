@@ -62,13 +62,10 @@ copy_button = true
 
 FRONTMATTER
 
-# Inject badges at the top, then GitHub link before ## Contents
-{
-  echo "${BADGES}"
-  echo ""
-  # Insert GitHub link before the Contents heading
-  echo "$content" | awk -v link="${GITHUB_LINK}" '/^## Contents$/ { print link; print "" } { print }'
-} >> "${CONTENT_DIR}/_index.md"
+# Inject badges and GitHub link together, just before ## Contents
+echo "$content" | awk -v badges="${BADGES}" -v ghlink="${GITHUB_LINK}" \
+  '/^## Contents$/ { print badges; print ""; print ghlink; print "" } { print }' \
+  >> "${CONTENT_DIR}/_index.md"
 
 # --- awesome-observability-tools.md -> observability-tools/index.md ---
 echo "Transforming awesome-observability-tools.md..."
