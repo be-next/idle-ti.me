@@ -15,4 +15,4 @@ Performance engineer and observability practitioner, I share here what I learn, 
 
 Beyond tech, this site also reflects what inspires [me](/about) — travel, music, and the occasional coffee break in the void.
 
-**idle time**: _when the system is waiting, the engineer is thinking..._
+**idle time**: _idle cycles, active minds._
