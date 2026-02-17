@@ -40,6 +40,9 @@ content=$(echo "$content" | sed 's|(awesome-observability-tools\.md)|(@/awesome-
 content=$(echo "$content" | sed 's|(awesome-performance-testing-tools\.md)|(@/awesome-performance-engineering/performance-testing-tools/index.md)|g')
 content=$(echo "$content" | sed "s|(CONTRIBUTING\.md)|(${GITHUB_REPO_URL}/blob/main/CONTRIBUTING.md)|g")
 
+# Transform relative image paths to absolute GitHub raw URLs
+content=$(echo "$content" | sed "s|src=\"media/|src=\"${BASE_URL}/media/|g")
+
 # Insert badges and GitHub link before content
 BADGES="[![Lint Markdown](${GITHUB_REPO_URL}/actions/workflows/lint.yml/badge.svg)](${GITHUB_REPO_URL}/actions/workflows/lint.yml) [![Check Links](${GITHUB_REPO_URL}/actions/workflows/links.yml/badge.svg)](${GITHUB_REPO_URL}/actions/workflows/links.yml)"
 GITHUB_LINK="[![GitHub repository](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](${GITHUB_REPO_URL}) [![GitHub stars](https://img.shields.io/github/stars/${REPO}?style=social)](${GITHUB_REPO_URL}/stargazers)"
