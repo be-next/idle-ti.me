@@ -3,7 +3,7 @@ title = "Awesome Performance Testing Tools"
 description = "A curated, opinionated list of tools and resources dedicated to Performance Testing as a continuous engineering practice — from workload design to results analysis."
 weight = 20
 date = 2026-02-10
-updated = 2026-02-17
+updated = 2026-02-19
 toc = true
 
 [taxonomies]
