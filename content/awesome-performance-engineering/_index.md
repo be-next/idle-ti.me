@@ -54,7 +54,7 @@ copy_button = true
   - [System & Infrastructure Benchmarking](#system-infrastructure-benchmarking)
   - [Chaos Engineering & Fault Injection](#chaos-engineering-fault-injection)
   - [Network Simulation & Traffic Shaping](#network-simulation-traffic-shaping)
-  - [CI/CD Integration & Performance Gates](#cicd-integration-performance-gates)
+  - [CI/CD Integration & Performance Gates](#ci-cd-integration-performance-gates)
   - [Results Analysis & Reporting](#results-analysis-reporting)
   - [Cloud Provider Services](#cloud-provider-services)
   - [Developer-Centric Platforms](#developer-centric-platforms)
