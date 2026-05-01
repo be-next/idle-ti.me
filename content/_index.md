@@ -9,10 +9,14 @@ template = "section.html"
 header = {title = "Bonjour !", img = "/img/landing-page.webp"}
 section_path = "blog/_index.md"
 max_posts = 4
+projects_path = "projects/_index.md"
+max_projects = 3
 +++
 
-Performance engineer and observability practitioner, I share here what I learn, build, and explore around **software performance**, **distributed systems observability**, and the tools that make them possible. You'll find curated resources, hands-on projects, and articles drawn from years of experience making systems faster and more reliable.
+Performance engineer and observability practitioner. I curate, build, and write about the tools and ideas that make systems faster and more reliable.
 
-Beyond tech, this site also reflects what inspires [me](/about) — travel, music, and the occasional coffee break in the void.
+Two permanent references anchor this site: a [catalogue of tools](/awesome-performance-engineering/) for performance engineering, and a [library of foundational works](/library/) — books, talks, and papers worth coming back to. The [blog](/blog/) adds case studies and field notes.
+
+Beyond the technical core, the site occasionally reflects what else inspires [me](/about) — but mostly it's about idle cycles and the active minds that follow them.
 
 **idle time**: _idle cycles, active minds._

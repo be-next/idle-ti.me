@@ -14,6 +14,7 @@ tags = ["Zola", "AWS", "S3 bucket", "CloudFront", "static website"]
 giscus = true
 copy_button = true
 footnote_backlinks = true
+pinned = true
 +++
 
 ## When RTFM isn't Enough 😉
