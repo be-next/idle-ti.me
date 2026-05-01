@@ -112,11 +112,9 @@ feed_icon = true
 
 menu = [
     { name = "blog", url = "blog/" },
-    { name = "archive", url = "archive/" },
-    { name = "perf tools", url = "awesome-performance-engineering/" },
+    { name = "tools", url = "awesome-performance-engineering/" },
+    { name = "library", url = "library/" },
     { name = "projects", url = "projects/" },
-    { name = "tags", url = "tags/" },
-    # { name = "about", url = "about" },
 ]
 
 
@@ -124,6 +122,8 @@ copyright = "© $CURRENT_YEAR $TITLE"
 
 # Extra menu to show on the footer, below socials section.
 footer_menu = [
+    { url = "archive", name = "archive", trailing_slash = true },
+    { url = "tags", name = "tags", trailing_slash = true },
     { url = "copyright", name = "license", trailing_slash = true },
     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
     { url = "about", name = "about me", trailing_slash = true },
