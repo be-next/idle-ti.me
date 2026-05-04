@@ -7,3 +7,222 @@ p > a > img {
     margin: 0;
     vertical-align: middle;
 }
+
+// Number cards grid — used on the about page to surface key career figures.
+// Paired with the {% number_grid %} / {{ number_card }} shortcodes.
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-block: 2rem;
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 500px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.number-card {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 1.2rem 0.8rem;
+    text-align: center;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .number-value {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        line-height: 1.15;
+    }
+
+    .number-label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-color);
+        margin-top: 0.4rem;
+    }
+
+    .number-context {
+        font-size: 0.8rem;
+        color: var(--meta-color);
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+}
+
+// Capability cards grid — used on the about page for the "What I bring" section.
+// Paired with the {% capability_grid %} / {% capability_card %} shortcodes.
+.capability-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-block: 2rem;
+
+    @media (max-width: 800px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.capability-card {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    background: transparent;
+
+    .capability-title {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        line-height: 1.3;
+    }
+
+    .capability-body {
+        font-size: 0.92rem;
+        line-height: 1.55;
+        color: var(--text-color);
+
+        p {
+            margin: 0;
+        }
+
+        p + p {
+            margin-top: 0.6rem;
+        }
+    }
+}
+
+// Career timeline — used on the about page for the "Sectors and craft" section.
+// Paired with the {% timeline %} / {{ timeline_item }} shortcodes.
+// Three phase colors are independent of theme so they remain consistent across
+// light/dark mode and across skins.
+$phase-foundations: hsl(200, 35%, 55%);
+$phase-performance: hsl(25, 70%, 55%);
+$phase-reliability: hsl(345, 50%, 50%);
+
+.career-timeline {
+    margin-block: 2.5rem;
+}
+
+.timeline-list {
+    list-style: none;
+    margin: 1rem 0 1.8rem 0;
+    padding: 1rem 0 0 0;
+    display: flex;
+    position: relative;
+    border-top: 2px dashed var(--primary-color);
+}
+
+.timeline-item {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 0.4rem;
+    text-align: center;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 3px solid var(--background-color);
+    box-sizing: border-box;
+}
+
+.timeline-item.phase-foundations::before { background-color: $phase-foundations; }
+.timeline-item.phase-performance::before { background-color: $phase-performance; }
+.timeline-item.phase-reliability::before { background-color: $phase-reliability; }
+
+.timeline-year {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.4rem;
+}
+
+.timeline-content {
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.timeline-title {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.2rem;
+}
+
+.timeline-desc {
+    color: var(--meta-color);
+}
+
+.timeline-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    font-size: 0.85rem;
+    justify-content: center;
+    color: var(--meta-color);
+}
+
+.timeline-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.timeline-legend-item::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.timeline-legend-item.phase-foundations::before { background: $phase-foundations; }
+.timeline-legend-item.phase-performance::before { background: $phase-performance; }
+.timeline-legend-item.phase-reliability::before { background: $phase-reliability; }
+
+// Mobile: the horizontal timeline becomes vertical
+@media (max-width: 900px) {
+    .timeline-list {
+        flex-direction: column;
+        border-top: none;
+        border-left: 2px dashed var(--primary-color);
+        padding: 0 0 0 1.8rem;
+        margin: 1rem 0 1.8rem 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .timeline-item {
+        flex: none;
+        text-align: left;
+        padding: 0.5rem 0;
+    }
+
+    .timeline-item::before {
+        top: 0.9rem;
+        left: -1.85rem;
+        transform: none;
+    }
+
+    .timeline-content {
+        font-size: 0.88rem;
+    }
+
+    .timeline-year {
+        margin-bottom: 0.2rem;
+    }
+}
