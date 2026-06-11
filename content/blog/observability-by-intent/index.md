@@ -16,7 +16,7 @@ footnote_backlinks = true
 
 > *Checkout p99 doubled at 12:14. The metrics dashboard says so. The trace explorer can show you any single request, but the slow ones are interleaved with the fast across thirty services. The log search returns a million lines. Forty minutes in, the on-call team — whether three engineers across three tools or one engineer across the six widgets of a unified platform — still cannot say what changed. The instrumentation works correctly. The way it was reached for does not.*
 
-This article is the first half of a diptych. It reframes the observability stack around six intents that map to most production debugging work. A forthcoming companion piece — *Reading Performance Testing by Use Case* — will apply the same exercise to the testing side. The two are intended to be read together; this side stands on its own in the meantime.
+This article is the first half of a diptych. It reframes the observability stack around six intents that map to most production debugging work. A companion piece — [*Reading Performance Testing by Use Case*](/blog/performance-testing-by-use-case/) — applies the same exercise to the testing side. The two are intended to be read together; this side stands on its own in the meantime.
 
 ## The taxonomy problem
 
@@ -204,9 +204,9 @@ Three things, in increasing order of disruption:
 
 If you take one thing from this reframing: when next paged, ask "what intent is this?" before opening any tool. The first move is free; the cost of mis-routing — measured in minutes added to time-to-resolution — is the highest cost paid during the entire incident.
 
-## Companion piece (forthcoming)
+## Companion piece
 
-A second article in this diptych — *Reading Performance Testing by Use Case* — will apply the same exercise to the testing side. Together, the two will attempt to bridge a gap that most performance engineering practice still treats as separate: *observability* and *testing* are taught as different domains, owned by different teams, using different toolchains. They are, in fact, two views of the same problem — *understanding how a system behaves*. The first via the production system itself; the second via controlled probes against it.
+A second article in this diptych — [*Reading Performance Testing by Use Case*](/blog/performance-testing-by-use-case/) — applies the same exercise to the testing side. Together, the two attempt to bridge a gap that most performance engineering practice still treats as separate: *observability* and *testing* are taught as different domains, owned by different teams, using different toolchains. They are, in fact, two views of the same problem — *understanding how a system behaves*. The first via the production system itself; the second via controlled probes against it.
 
 The full curated catalogue of the tools cited above is on the [Awesome Performance Engineering](/awesome-performance-engineering/) page maintained alongside this blog.
 
