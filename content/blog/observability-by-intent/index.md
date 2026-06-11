@@ -1,6 +1,7 @@
 +++
 title = "Reading Observability by Intent"
 date = 2026-05-05
+updated = "2026-06-11"
 toc = true
 
 description = "Tool taxonomies organise observability by metrics, traces, logs, and profiles. Practitioners organise it by intent: what am I trying to understand, debug, or prove? This article reframes the observability stack around six common intents — Golden Signals, latency propagation, high-cardinality debugging, low-overhead profiling, black-box, and cost-efficient at scale — with the workflows, the right tool combinations, the anti-patterns to avoid, and a dedicated treatment of how unified APM platforms (Datadog, New Relic, Dynatrace) fit in the intent-routing framing."
@@ -24,7 +25,7 @@ Open any observability vendor's marketing site and the structure is immediately 
 
 Practitioners do not arrive at observability with a request to "buy metrics." They arrive with a question: *why did the p99 of the cart service triple at 14:30 yesterday?*, *why does this batch take twelve hours when last week it took six?*, *why is the new microservice slower than the monolith it replaced?* These questions are intent-shaped. None of them maps to a single building block. Most of them require a *combination* of building blocks, used in a specific order, with specific failure modes when the combination is wrong.
 
-Reading observability by intent flips the entry point back to the practitioner's question. The operational consequence is measurable: in incidents like the one above, the time-to-first-useful-signal collapses from tens of minutes to a few — not because anyone bought a faster tool, but because the on-call reaches for the right tool first. The savings live entirely in the routing decision.
+Reading observability by intent flips the entry point back to the practitioner's question. The operational consequence, observed across incidents like the one above, is that the time-to-first-useful-signal collapses from tens of minutes to a few — not because anyone bought a faster tool, but because the on-call reaches for the right tool first. The savings live entirely in the routing decision.
 
 ## Six intents that cover most observability work
 
@@ -43,11 +44,13 @@ The six intents do not partition the space — most real production work touches
 
 The intent here is the simplest and the most universal: *is this service healthy, and if not, where in its operating envelope is it failing?*
 
-The workflow is by now classical. Pick the level of analysis: per-service (RED — Rate, Errors, Duration) or per-resource (USE — Utilisation, Saturation, Errors). Instrument the relevant counters and gauges. Attach an alerting rule to the threshold that matters. Watch a dashboard for context.
+The workflow is by now classical. Pick the level of analysis: per-service (the Four Golden Signals — latency, traffic, errors, saturation — or their RED restatement: Rate, Errors, Duration) or per-resource (USE — Utilisation, Saturation, Errors). Instrument the relevant counters and gauges. Attach an alerting rule to the threshold that matters. Watch a dashboard for context.
 
 The right tool combination is what most cloud-native shops already have on the wall: a metrics back-end (Prometheus, VictoriaMetrics, Mimir for scale), a visualisation layer (Grafana, Perses), and an alert manager. The OpenTelemetry metrics SDK is the converging instrumentation surface; the back-end becomes a question of scale, retention, and cost.
 
 The anti-pattern to avoid is reaching for *logs* to compute service-level signals. Aggregating five minutes of access logs to compute a request rate or a 99th-percentile latency works once, breaks at scale, becomes expensive at large scale, and silently deceives at very large scale (sampled logs lose the tail, and the tail is what you wanted to see). Metrics are the right substrate for this intent. Logs serve a different intent — see Intent 3.
+
+A second anti-pattern: alerting on causes instead of symptoms. A rule per metric — CPU above 80 %, queue depth above N, disk at 90 % — pages on conditions users may never notice, and trains the on-call to ignore the pager. Alert on the symptoms (the golden signals at the service boundary); keep the causes for the dashboard the alert links to.
 
 ## Intent 2 — Latency propagation & dependency analysis
 
@@ -77,7 +80,7 @@ A second anti-pattern: assuming structured logs alone are sufficient. They are *
 
 The intent: *the metrics tell me a service is slow, the trace tells me which service is slow, but neither tells me which lines of code are slow inside that service.*
 
-This is the home territory of the **continuous profiling** family. Sampling-based profilers (Parca, Pyroscope, async-profiler in low-frequency mode) attach to a running process, collect stack samples at a low rate, and produce flame graphs that show *where time is being spent in the code*. eBPF-based variants (Grafana Beyla, Pixie, bpftrace) extend the same approach to the kernel and to processes that cannot be modified.
+This is the home territory of the **continuous profiling** family. Sampling-based profilers (Parca, Pyroscope, async-profiler in low-frequency mode) attach to a running process, collect stack samples at a low rate, and produce flame graphs that show *where time is being spent in the code*. eBPF-based variants (the Parca agent, Pyroscope's eBPF mode, the OpenTelemetry eBPF profiler) extend the same approach to the kernel and to processes that cannot be modified.
 
 The right entry point is "after the trace, before the local profiler." A trace identifies the service; a continuous profile identifies the code path *within* the service that is responsible for the cost. The two are complementary — neither replaces the other.
 
@@ -107,7 +110,7 @@ The right tool combination centres on the OpenTelemetry Collector (the convergin
 
 The anti-pattern to avoid is *cardinality bombs*. A single misconfigured label — `user_id` on a high-traffic metric, an unbounded HTTP path, a request ID — can multiply metric series by orders of magnitude and dominate the cost. Catching cardinality bombs at the pipeline layer (before they hit the TSDB) is usually cheaper and faster than catching them at ingestion (where they can take down the back-end first).
 
-A second anti-pattern: cost-cutting by aggregation that destroys the question one wanted to ask. Sampling 1 % uniformly is mathematically simple and operationally lossy — the rare events are exactly the events you keep observability for. Tail-based and head-based sampling configured with intent (keep errors, keep p99 outliers, keep slow traces) preserves the signal while reducing volume.
+A second anti-pattern: cost-cutting by aggregation that destroys the question one wanted to ask. Sampling 1 % uniformly is mathematically simple and operationally lossy — the rare events are exactly the events you keep observability for. Sampling configured with intent preserves the signal while reducing volume — tail-based for outcome-dependent rules (keep errors, keep p99 outliers, keep slow traces), head-based only for what is known upfront (per-route or per-tenant rates).
 
 ## Where unified APM platforms fit in this picture
 
@@ -118,8 +121,8 @@ The article so far has assumed a stack of specialised tools — Prometheus, Jaeg
 | Intent | Datadog | New Relic | Dynatrace | Where specialists still pull ahead |
 |--------|---------|-----------|-----------|-----------------------------------|
 | 1. Golden Signals | ✅ native | ✅ native | ✅ native | Prometheus + Grafana at marginal zero cost when already deployed |
-| 2. Latency propagation | ✅ mature APM | ✅ mature APM | ✅ **PurePath** — deepest tracing tech on the market | Jaeger / Tempo for extreme-scale storage |
-| 3. High-cardinality | 🟡 progressing | 🟡 NRDB closest of the three | 🟡 Davis correlates, does not group-by-anything | **Honeycomb** — no other tool truly competes here |
+| 2. Latency propagation | ✅ mature APM | ✅ mature APM | ✅ **PurePath** — code-level, end-to-end transaction tracing; arguably the deepest available | Jaeger / Tempo for extreme-scale storage |
+| 3. High-cardinality | 🟡 progressing | 🟡 NRDB closest of the three | 🟡 Grail/DQL queries raw data ad hoc; Davis correlates | **Honeycomb** — no other tool truly competes here |
 | 4. Continuous profiling | ✅ wide-language profiler | 🟡 Pixie-derived, partial | ✅ code-level via PurePath | Pyroscope at much lower marginal cost |
 | 5. Black-box / legacy | ✅ broad integration catalogue | ✅ idem | ✅ idem | No major specialist advantage |
 | 6. Cost-efficient at scale | ❌ the platform *is* the cost problem | ❌ idem (per-user pricing slightly more predictable) | ❌ idem | OTel Collector + Vector + Fluent Bit exist *to manage* the platform bills |
@@ -140,13 +143,13 @@ That property has limits. Context propagation works inside the platform's data m
 
 ### Where specialists still keep a structural edge
 
-Two intents withstand the unified-platform argument. The first is **Intent 3 (high-cardinality)**, where Honeycomb's design — ingest rich events, never pre-aggregate — produces a substantively different debugging experience. The big platforms have progressed (New Relic's NRDB is closest), but none of them can group-by-anything at scale-stable pricing the way an event store designed for it can.
+Two intents withstand the unified-platform argument. The first is **Intent 3 (high-cardinality)**, where Honeycomb's design — ingest rich events, never pre-aggregate — produces a substantively different debugging experience. The big platforms have progressed (New Relic's NRDB and Dynatrace's Grail are closest), but none of them can group-by-anything at scale-stable pricing the way an event store designed for it can.
 
 The second is **Intent 6 (cost)**, and it deserves its own treatment.
 
 ### The Intent 6 paradox, in lived form
 
-The recognisable trajectory of a Datadog (or New Relic, or Dynatrace) adoption:
+A composite — no single team said exactly this — but the trajectory of a Datadog (or New Relic, or Dynatrace) adoption is recognisable in the field:
 
 > **Year 1** — *"We have everything in one platform. Time-to-resolution is down, on-call quality of life is up, this is transformative."*
 >
@@ -202,7 +205,7 @@ Three things, in increasing order of disruption:
 2. **It exposes under-investment.** Most real observability gaps are not in the metrics/traces/logs trio. They are in Intent 6 (the pipeline layer is afterthought-quality) and in Intent 3 (high-cardinality is the slowest to mature). Reading by intent makes the asymmetry visible.
 3. **It forces tool combinations rather than tool stacks.** Intents 2 and 4 reinforce each other when wired together: a trace narrows the suspect to a service, a continuous profile narrows it within the service, and the combined cost is one mid-sized profiler agent plus a tracing back-end — far less than two platforms bought separately. Intent 3 only matures when Intent 6's pipeline runs tail-based sampling that preserves the rare-but-interesting events; without that pairing, high-cardinality observability either bankrupts the budget or sheds the signal it was meant to keep. These are decisions about *how the existing tools talk to each other*, not about which platform to buy. The discipline is integration, not procurement.
 
-If you take one thing from this reframing: when next paged, ask "what intent is this?" before opening any tool. The first move is free; the cost of mis-routing — measured in minutes added to time-to-resolution — is the highest cost paid during the entire incident.
+If you take one thing from this reframing: when next paged, ask "what intent is this?" before opening any tool. Naming the intent is free; the cost of mis-routing — measured in minutes added to time-to-resolution — is the highest cost paid during the entire incident.
 
 ## Companion piece
 
@@ -220,7 +223,7 @@ Majors, C., Fong-Jones, L., & Miranda, G. (2022). *Observability Engineering.* O
 
 Sridharan, C. (2018). *Distributed Systems Observability.* O'Reilly. [Free online](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/). — The earlier and shorter introduction, with a clear treatment of the three pillars and their failure modes.
 
-Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (Eds.). (2016). *Site Reliability Engineering.* O'Reilly. [Free online](https://sre.google/sre-book/table-of-contents/). — The book that established RED and USE as service-level and resource-level methodologies, respectively.
+Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (Eds.). (2016). *Site Reliability Engineering.* O'Reilly. [Free online](https://sre.google/sre-book/table-of-contents/). — The book that established the Four Golden Signals as a service-health methodology; RED (Tom Wilkie) and USE (Brendan Gregg) are its service-level and resource-level counterparts.
 
 Gregg, B. *The USE Method.* [brendangregg.com/usemethod.html](https://www.brendangregg.com/usemethod.html). — The canonical exposition of the resource-analysis discipline, by its author.
 
