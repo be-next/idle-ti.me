@@ -1,7 +1,7 @@
 +++
 path = "about-new"
 title = "About me (new draft)"
-description = "Jérôme Ramette — performance engineer, generalist, and crisis-recovery practitioner. From the ZX81 to AI, a journey through 25+ years of critical information systems work — across 8 industries, 4 ministries, and four roles."
+description = "Jérôme Ramette — performance engineer, generalist, and crisis-recovery practitioner. From the ZX81 to AI, a journey through 25+ years of critical information systems work — across 8 industries and 4 ministries, from junior developer to programme director."
 
 date = 2026-05-02
 draft = true
@@ -16,7 +16,7 @@ copy_button = false
 footnote_backlinks = true
 +++
 
-Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries, four ministries, and four roles, from junior developer to programme director.
+Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries and four ministries, in roles running from junior developer to programme director.
 
 <!-- toc -->
 
@@ -77,21 +77,18 @@ Twenty-five years of moving across the full stack of an IT organisation: develop
 
 ## Sectors and craft
 
-Twelve emblematic milestones across the three movements — colour-coded by phase. The full chronology is much denser; what follows captures the turning points.
+Nine emblematic milestones across the three movements — colour-coded by phase. The full chronology is much denser; what follows captures the turning points.
 
 {% timeline() %}
 {{ timeline_item(year="1998", phase="foundations", title="First missions", desc="Cyberis · EDF · AREVA · Dassault") }}
 {{ timeline_item(year="2000", phase="foundations", title="BizzGo (CTO)", desc="Co-founded mobile-services start-up") }}
-{{ timeline_item(year="2001", phase="foundations", title="Dejima — IA / NLP", desc="French natural-language SMS interface") }}
+{{ timeline_item(year="2001", phase="foundations", title="Dejima — AI / NLP", desc="French natural-language SMS interface") }}
 {{ timeline_item(year="2003", phase="performance", title="SFR S3P", desc="Performance under telecom-scale load") }}
-{{ timeline_item(year="2008", phase="performance", title="Cité Conseil", desc="Eight years of project direction") }}
 {{ timeline_item(year="2011", phase="performance", title="MEDDE SI RH", desc="Managing 20 consultants") }}
 {{ timeline_item(year="2013", phase="performance", title="Bouygues virtual call-centre", desc="3M calls/month, 2,000 staff") }}
 {{ timeline_item(year="2016", phase="reliability", title="QOSGUARD + first crises", desc="Defense GMOA · SNCF SPOT (13K users)") }}
-{{ timeline_item(year="2018", phase="reliability", title="SNCF PulsIV / First", desc="Passenger-information overhaul") }}
-{{ timeline_item(year="2019", phase="reliability", title="SNCF Transilien", desc="Performance team lead, 500+ tests/year") }}
-{{ timeline_item(year="2022", phase="reliability", title="CY Cergy teaching", desc="AI · Blockchain · IT Governance") }}
-{{ timeline_item(year="2023", phase="reliability", title="Banking + Industry 4.0", desc="Fortuneo ITSM · SNCF Matériel Reflex") }}
+{{ timeline_item(year="2019", phase="reliability", title="SNCF Transilien", desc="Performance team lead after the PulsIV / First overhaul — 500+ tests/year") }}
+{{ timeline_item(year="2022", phase="reliability", title="Teaching & advisory", desc="CY Cergy (AI · Blockchain · Governance) · Fortuneo · SNCF Matériel") }}
 {% end %}
 
 ### Industries
@@ -113,11 +110,18 @@ Twelve emblematic milestones across the three movements — colour-coded by phas
 - **Green Belt Lean Six Sigma**, ASAPpro (2012)
 - **Management & negotiation in complex situations**, Simon Barbechat Conseil (2009)
 
-## Beyond the work
+## A few firsts
 
-Outside the work : long-distance trail running (30 to 40 km outings with around 2 000 m of cumulative elevation gain), occasional glider pilot, tenor saxophone and modular synthesis tinkerer, and a regular reader of Stephen Jay Gould and Richard Dawkins.
+Career chronologies hide the texture. A few firsts restore it:
 
-Three decades of computing have not dulled the appetite that started with the ZX81 and the *Wargames* poster on the wall.
+- **First computer** — a [Sinclair ZX81](https://en.wikipedia.org/wiki/ZX81), in the early 1980s: the Cold War on the news, [*WarGames*](https://www.youtube.com/watch?v=TQUsLAAZuhU) at the cinema, and talking to a machine as remote a fantasy as flying cars. Today I hold conversations with AI systems that would make WOPR look like a pocket calculator.
+- **First Linux** — Yggdrasil Plug-and-Play Linux, Fall 1994, one of the first distributions shipped on CD-ROM when the alternative was fifteen floppy disks. Two months of kernel compiles and hand-calculated X11 modelines to get a stable desktop — a better systems education than most courses.
+- **First Internet connection** — 1994, a US Robotics Sportster modem and a trick worth a student's pride: dial the university's [RENATER](https://en.wikipedia.org/wiki/Renater)-connected server for a single telephone unit and have it call back. Unlimited time online; what a luxury.
+- **First job, first failure** — January 1998, a start-up selling public web access by prepaid phone card, over two ISDN lines that cost an arm and a leg. We imagined everyone would surf this way; the company was bankrupt within months. The lesson about business models outlived the business.
+
+Away from keyboards: long-distance trail running (30 to 40 km outings with around 2 000 m of cumulative elevation gain), occasional glider piloting, tenor saxophone and modular-synthesis tinkering, and a steady diet of Stephen Jay Gould and Richard Dawkins.
+
+Three decades of computing have not dulled the appetite that started with the ZX81 and the *WarGames* poster on the wall.
 
 ## Get in touch
 
