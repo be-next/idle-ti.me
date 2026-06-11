@@ -63,7 +63,7 @@ Gregg, B. (2019). *BPF Performance Tools.* Addison-Wesley. — The definitive re
 
 Gunther, N. J. (2007). *Guerrilla Capacity Planning.* Springer. — Introduces the Universal Scalability Law (USL), which subsumes Amdahl's Law by adding a coherency-overhead term. The USL is the most useful single equation a performance engineer can keep in mind, and Gunther's treatment is its canonical exposition.
 
-Allspaw, J., & Kejariwal, A. (2017). *The Art of Capacity Planning* (2nd ed.). O'Reilly. — Pragmatic capacity planning grounded in operational practice at Etsy, Flickr, and others.
+Kejariwal, A., & Allspaw, J. (2017). *The Art of Capacity Planning* (2nd ed.). O'Reilly. — Pragmatic capacity planning grounded in operational practice at Etsy, Flickr, and others.
 
 {% end %}
 
@@ -230,7 +230,7 @@ Smith, C. U., & Williams, L. G. (2000). Software performance antipatterns. *Proc
 
 Jiang, Z. M., & Hassan, A. E. (2015). A survey on load testing of large-scale software systems. *IEEE Transactions on Software Engineering, 41*(11), 1091–1118. — Comprehensive survey covering load design, execution, and analysis methodology.
 
-Ingo, D., et al. (2023). Hunter: Using change point detection for performance regressions. *Proceedings of the International Conference on Performance Engineering (ICPE).* — Automated regression detection in continuous integration; representative of the recent literature on quantitative quality gates.
+Fleming, M., et al. (2023). Hunter: Using change point detection to hunt for performance regressions. *Proceedings of the International Conference on Performance Engineering (ICPE).* — Automated regression detection in continuous integration; representative of the recent literature on quantitative quality gates.
 
 {% end %}
 
