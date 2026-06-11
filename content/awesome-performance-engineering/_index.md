@@ -76,6 +76,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [TimescaleDB](https://github.com/timescale/timescaledb) - ⭐🟢🟠 PostgreSQL extension for time-series workloads with automatic partitioning, columnar compression, and continuous aggregates.
 - [QuestDB](https://github.com/questdb/questdb) - 🟢🚀 High-performance time-series database with SQL queries and InfluxDB line protocol ingestion.
 - [ClickHouse](https://github.com/ClickHouse/ClickHouse) - ⭐🟢🚀 Columnar OLAP database powering many observability backends with fast analytical queries over telemetry at scale.
+
 ### Distributed Tracing
 
 - [OpenTelemetry](https://github.com/open-telemetry) - ⭐🟢🔵 Open standard for distributed tracing, metrics, and logs with language-specific SDKs and auto-instrumentation.
@@ -96,6 +97,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Graylog](https://github.com/Graylog2/graylog2-server) - 🟢🟠 Centralized log management with built-in alerting and dashboards.
 - [rsyslog](https://github.com/rsyslog/rsyslog) - 🟢🚀 High-performance system logging daemon handling millions of messages per second.
 - [VictoriaLogs](https://github.com/VictoriaMetrics/VictoriaLogs) - 🟢🚀 Resource-efficient log database from VictoriaMetrics with full-text search and LogsQL query language.
+
 ### Observability Pipelines and Telemetry Processing
 
 - [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector) - ⭐🟢🔵 Standard telemetry processing pipeline with receivers, processors, and exporters for any signal.
@@ -122,6 +124,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Grafana Beyla](https://github.com/grafana/beyla) - 🟢🔵🚀 eBPF-based zero-code auto-instrumentation generating RED metrics and distributed traces.
 - [Perfetto](https://github.com/google/perfetto) - 🟢 System-wide tracing and profiling toolkit from Google for Android, Chrome, and general system analysis.
 - [Pixie](https://github.com/pixie-io/pixie) - 🟢🔵🚀 eBPF-based Kubernetes observability capturing requests, metrics, and traces without manual instrumentation (CNCF sandbox).
+
 ### Alerting & Incident Response
 
 - [Alertmanager](https://github.com/prometheus/alertmanager) - ⭐🟢 Prometheus-native alert handling with grouping, silencing, inhibition, and routing.
