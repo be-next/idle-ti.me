@@ -1,9 +1,10 @@
 +++
 title = "Coordinated Omission: Why Your Latency Numbers Lie"
 date = 2026-05-04
+updated = "2026-06-11"
 toc = true
 
-description = "Most HTTP benchmarking tools quietly hide tail latency when the server slows down. The phenomenon is called coordinated omission, it shows up almost exclusively in p99 and beyond, and it has caused production incidents at organisations that thought their load tests were green. This post explains the mechanism, demonstrates it empirically with a reproducible benchmark of eight tools across five server pathologies, and shows how to fix it with a constant arrival-rate workload model."
+description = "Most HTTP benchmarking tools quietly hide tail latency when the server slows down. The phenomenon is called coordinated omission, it shows up almost exclusively in p99 and beyond, and it has caused production incidents at organisations that thought their load tests were green. This post explains the mechanism, demonstrates it empirically with a reproducible benchmark of eight tools across a healthy control and four server pathologies, and shows how to fix it with a constant arrival-rate workload model."
 
 [taxonomies]
 tags = ["performance engineering", "load testing", "latency", "benchmarking", "HdrHistogram"]
@@ -16,9 +17,9 @@ footnote_backlinks = true
 
 > *The load test passed. p99 was 47 ms. In production, the same release showed p99 of 1.8 seconds — a 38× regression that the test had reported as nothing. Nothing was wrong with production. Everything was wrong with how we measured.*
 
-This article is about a single, specific failure mode in load testing — one that is well known to a small number of practitioners and almost completely invisible to everyone else. It is called **coordinated omission**, the term was coined by Gil Tene around 2013, and it explains why a benchmarking tool that works perfectly under healthy conditions can become catastrophically optimistic the moment the system under test starts to struggle.
+This article is about a single, specific failure mode in load testing — one that is well known to a small number of practitioners and almost completely invisible to everyone else. It is called **coordinated omission**, the term was coined by Gil Tene in the early 2010s, and it explains why a benchmarking tool that works perfectly under healthy conditions can become catastrophically optimistic the moment the system under test starts to struggle.
 
-If you write or interpret load tests, this is the kind of phenomenon you want to internalise once and never have to re-learn. To make the demonstration concrete rather than rhetorical, the post is backed by a [companion repository](https://github.com/be-next/Coordinated-Omission) that runs eight load tools against five reproducible server pathologies. Every plot below is generated from real measurements; the numbers are reproducible on any modern laptop in under five minutes per scenario.
+If you write or interpret load tests, this is the kind of phenomenon you want to internalise once and never have to re-learn. To make the demonstration concrete rather than rhetorical, the post is backed by a [companion repository](https://github.com/be-next/Coordinated-Omission) that runs eight load tools against four reproducible server pathologies plus a healthy control. Every plot below is generated from real measurements; the numbers are reproducible on any modern laptop in under five minutes per scenario.
 
 ## The benchmark loop
 
@@ -50,7 +51,7 @@ This is not a bug in any single tool. It is a structural consequence of the clos
 
 ## A reproducible experiment
 
-The [companion repository](https://github.com/be-next/Coordinated-Omission) ships a deliberately misbehaving Go HTTP server, eight load tool runners, and an analysis pipeline that turns raw HDR/CSV outputs into the SVG plots used here. Five scenarios isolate distinct server pathologies; the same eight tools probe each one. Every measurement in this article comes from this suite.
+The [companion repository](https://github.com/be-next/Coordinated-Omission) ships a deliberately misbehaving Go HTTP server, nine load-tool runners, and an analysis pipeline that turns raw HDR/CSV outputs into the SVG plots used here. Five scenarios isolate distinct server pathologies; the same eight tools probe each one. Every measurement in this article comes from this suite.
 
 The shared profile across all scenarios is identical:
 
@@ -82,7 +83,7 @@ Scenario 02 reproduces the textbook situation. A single 1-second pause is schedu
 The result, plotted as a percentile spectrum:
 
 ![Scenario 02 — closed-loop ab vs open-loop Vegeta. The two curves agree from p50 to p95, then diverge sharply at p99.](img/02-single-hiccup/closed-vs-open-percentiles.svg)
-*Scenario 02 — `ab` (closed loop) vs Vegeta (open loop, constant rate). The two curves agree from p50 to p95, then diverge by ~30× at p99 (~14 ms vs ~420 ms). They reconverge at p99.9 only because the 1-second stall is so long it cannot stay hidden any longer.*
+*Scenario 02 — `ab` (closed loop) vs Vegeta (open loop, constant rate). The two curves agree from p50 to p95, then diverge by ~22× at p99 (~19 ms vs ~417 ms). The gap keeps widening at p99.9 (~27 ms vs ~954 ms — the closed loop records too few stalled samples to lift even this percentile); the curves reconverge only at p99.99, where the 1-second stall can no longer stay hidden.*
 
 The same effect, viewed as a timeline of individual response latencies:
 
@@ -93,7 +94,7 @@ This is the empirical illustration of the article's central claim, in two pictur
 
 ## Why tail latency takes the biggest hit
 
-Average latency is mostly immune to coordinated omission. By definition, slow requests are rare events; the omitted ones do not move the mean meaningfully. In scenario 02, the average reported by `ab` is **11.7 ms**; the average reported by Vegeta is **18.4 ms**. The closed-loop number is barely 6 ms off — close enough to look fine on a dashboard.
+Average latency is mostly immune to coordinated omission. By definition, slow requests are rare events; the omitted ones do not move the mean meaningfully. In scenario 02, the average reported by `ab` is **12.4 ms**; the average reported by Vegeta is **18.6 ms**. The closed-loop number is barely 6 ms off — close enough to look fine on a dashboard.
 
 The trouble lives in the tail. In the same scenario:
 
@@ -101,11 +102,11 @@ The trouble lives in the tail. In the same scenario:
 |------------|-------------------|-----------------|--------|
 | p50        | ~10–12 ms         | ~10 ms          | 1× |
 | p95        | ~12–15 ms         | ~10 ms          | 1.5× |
-| **p99**    | **~12–19 ms**     | **~400–450 ms** | **~25–40×** |
-| p99.9      | ~1 000 ms         | ~950 ms         | 1× |
+| **p99**    | **~12–19 ms**     | **~410–420 ms** | **~22–36×** |
+| **p99.9**  | **~12–27 ms**     | **~950 ms**     | **~35–80×** |
 | p99.99     | ~1 000 ms         | ~1 000 ms       | 1× |
 
-The reported tail at p99 is **between one and two orders of magnitude better than reality**. And it is the *tail* that production users care about: at scale, p99 of 420 ms means that 1 % of all requests — possibly tens of thousands of users per minute — see an unusable system. p99 of 14 ms tells the dashboard nobody is suffering.
+The reported tail at p99 is **between one and two orders of magnitude better than reality — and the gap does not close at p99.9; it widens**, because the closed loop only ever records one stalled sample per virtual user, far too few to register at any percentile a dashboard watches. Reconvergence happens only at p99.99, where the handful of stalled samples finally outnumber the percentile's population. And it is the *tail* that production users care about: at scale, p99 of 420 ms means that 1 % of all requests — possibly tens of thousands of users per minute — see an unusable system. p99 of 19 ms tells the dashboard nobody is suffering.
 
 Coordinated omission systematically hides the failure modes that matter most for user experience.
 
@@ -113,7 +114,7 @@ Coordinated omission systematically hides the failure modes that matter most for
 
 The structural fix is to drive load at a **fixed arrival rate** rather than at a rate determined by the server's responsiveness. This is the **open workload model**: requests are scheduled to start at predetermined times, and they are issued at those times whether or not the previous requests have completed.
 
-When the server slows down, the requests pile up — exactly as they would in production traffic from a large user base. Each request's reported latency includes the time it spent waiting in the queue before being issued, often called the **intended-start-time correction**. This is the mathematical sleight of hand that makes the measurement honest: the tool computes latency from when the request *should* have started, not from when it *actually* started.
+When the server slows down, the requests pile up — exactly as they would in production traffic from a large user base. Tools get there by one of two distinct mechanisms. Tools like Vegeta *actually issue* every request at its scheduled time (one lightweight task per request), so the queueing happens for real on the server side and lands in the measured latency naturally. Tools like wrk2, which issue from a bounded connection pool and can fall behind schedule, apply the **intended-start-time correction** instead: latency is computed from when the request *should* have started, not from when it *actually* started. Both roads lead to the same honest number. A tool that does neither — issuing late *and* timing from the actual start — re-creates the omission.
 
 Three tools were designed from the outset around this principle:
 
@@ -171,7 +172,7 @@ export default function () {
 The two scripts produce the following side-by-side under scenario 02:
 
 ![Scenario 02 — k6 in both modes. constant-vus tracks the closed-loop curve; constant-arrival-rate tracks the open-loop curve.](img/02-single-hiccup/k6-bad-vs-good.svg)
-*Scenario 02 — k6 in both modes. `constant-vus` is the closed-loop tracking curve; `constant-arrival-rate` is the open-loop tracking curve. Same tool, same target server, same load profile. The choice of executor changes the reported p99 by a factor of ~25.*
+*Scenario 02 — k6 in both modes. `constant-vus` is the closed-loop tracking curve; `constant-arrival-rate` is the open-loop tracking curve. Same tool, same target server, same load profile. The choice of executor changes the reported p99 by a factor of ~36.*
 
 **A k6 footgun worth knowing.** The `constant-arrival-rate` executor is only honest if `preAllocatedVUs` and `maxVUs` are large enough to absorb the slow-down peak. If the pool saturates, k6 reports `dropped_iterations` and silently *omits* the queued requests — partially reintroducing coordinated omission while *advertising* an open-loop model. The configuration above pre-allocates 1 500 VUs with a ceiling of 5 000 to be safe at 1 000 rps across a 1-second stall (where the queue can reach ~1 000 simultaneously waiting requests). The companion repository's `k6-good` runner uses these exact values; reduce them at your peril.
 
@@ -188,7 +189,7 @@ The published behaviour, summarised as a reference table:
 |------|---------------|-----------|-------|
 | **ab** (Apache Bench) | Closed loop | ❌ | Fine for sanity checks, misleading for tail latency |
 | **wrk** | Closed loop | ⚠ borderline | Conventionally closed-loop, but its `--latency` HDR output reports a tail much closer to the open-loop tools (~408 ms p99 in scenario 02). The most plausible explanation is that `wrk`'s internal timestamping is closer to *intended start time* than its peers. Treat as borderline, not a clean negative example. |
-| **wrk2** | Open (constant rate) | ✅ | Gil Tene's fix; HdrHistogram-backed. Does not build on Apple Silicon out of the box (LuaJIT vendored in `giltene/wrk2` predates arm64). |
+| **wrk2** | Open (constant rate) | ✅ | Gil Tene's fix; HdrHistogram-backed. Does not build on Apple Silicon out of the box (LuaJIT vendored in `giltene/wrk2` predates arm64) — which is why it is absent from the eight-tool plots above; the companion repository ships its runner for platforms where it builds. |
 | **hey** | Closed loop | ❌ | Convenient CLI, same caveat as `ab` |
 | **Vegeta** | Open (constant rate) | ✅ | Clean Go library, good reporting |
 | **Hyperfoil** | Open by design | ✅ | Distributed, built explicitly around honest measurement |
@@ -265,7 +266,7 @@ The references below are also collected in this site's [library of foundational 
 
 Tene, G. *How NOT to Measure Latency* [Conference talk]. [YouTube](https://www.youtube.com/watch?v=lJ8ydIuPFeU). — The definitive treatment, by the originator of the term. Required viewing once in a career.
 
-Tene, G. *HdrHistogram — A High Dynamic Range Histogram*. [hdrhistogram.org](http://hdrhistogram.org/). — The data-structure work that makes honest tail-latency recording tractable at scale.
+Tene, G. *HdrHistogram — A High Dynamic Range Histogram*. [hdrhistogram.org](https://hdrhistogram.org/). — The data-structure work that makes honest tail-latency recording tractable at scale.
 
 Schroeder, B., Wierman, A., & Harchol-Balter, M. (2006). Open versus closed: A cautionary tale. *Proceedings of the 3rd USENIX Symposium on Networked Systems Design and Implementation (NSDI)*. — The reference paper on the open-versus-closed workload distinction. Pre-dates the *coordinated omission* terminology but states the underlying queueing-theoretic case clearly.
 
