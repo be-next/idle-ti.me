@@ -115,6 +115,7 @@ menu = [
     { name = "tools", url = "awesome-performance-engineering/" },
     { name = "library", url = "library/" },
     { name = "projects", url = "projects/" },
+    { name = "about", url = "about/" },
 ]
 
 
