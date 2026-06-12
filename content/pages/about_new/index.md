@@ -16,9 +16,9 @@ copy_button = false
 footnote_backlinks = true
 +++
 
-Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries and four ministries, in roles running from junior developer to programme director.
+Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries and four ministries, at every link of the IT value chain: from hearing a business need and giving it words, to steering the teams that build the answer, to instrumenting the systems that run it.
 
-An AI thread runs through the whole arc: a DEA in artificial intelligence in 1997, neural networks built and trained when the field was at its least fashionable, one of the first French natural-language interfaces shipped to production in 2001, an introductory AI course taught at university — and, today, engagements where AI components sit inside the systems whose performance and reliability I am asked to secure.
+An AI thread runs through the whole arc: a DEA in artificial intelligence in 1997, neural networks built and trained when the field was at its least fashionable, one of the first French natural-language interfaces shipped to production in 2001, an introductory AI course taught at university — and, today, engagements where AI components sit inside the systems whose performance and reliability I am asked to secure. As AI compresses the technical middle of that chain, the value concentrates at its two ends — framing the right problem, and vouching for the result. Twenty-five years of walking the whole chain is what makes both ends reachable.
 
 <!-- toc -->
 
@@ -73,7 +73,7 @@ Hands-on with k6, JMeter, Gatling, Grafana, OpenTelemetry, and the wider observa
 Diagnosing degraded systems with users in active rejection; standing up cross-functional crisis taskforces that the existing teams can own; designing remediation plans that align technical fixes with operations and change management. Public examples include SNCF Réseau's SPOT (13 000 users), the Ministry of Defense's GMOA (3 000 users / 54 sites), and the SNCF Voyageurs PulsIV / First passenger-information overhaul.
 {% end %}
 {% capability_card(title="Cross-functional IT leadership") %}
-Twenty-five years of moving across the full stack of an IT organisation: development, database administration, architecture, urbanisation, MOE, MOA, AMOA, change management, programme governance, vendor management, and strategic IT planning. Comfortable on both sides of the table — the CIO's, and the team's. Equally comfortable in French and in English (seven engagements conducted entirely in English).
+Twenty-five years of moving across the full stack of an IT organisation: development, database administration, architecture, urbanisation, MOE, MOA, AMOA, change management, programme governance, vendor management, and strategic IT planning. Comfortable on both sides of the table — the CIO's, and the team's. Equally comfortable in French and in English (seven engagements conducted entirely in English). The constant across those roles: listening to a client, turning what they mean into what a team can build, and staying accountable for what ships. That is the skill an AI-dense DSI cannot automate.
 {% end %}
 {% capability_card(title="AI — from the winter to the boom") %}
 A DEA in artificial intelligence (Université Paris VIII, 1997, top of class), neural networks designed and trained during the second AI winter, and one of the first French natural-language interfaces shipped to production (Dejima, 2001 — in service at France Telecom for several years). More recently: an introductory AI course taught at bachelor level (CY Cergy Paris Université), and engagements where AI components sit inside the system under test. Performance engineering and AI now meet in the same place — making model-embedding systems observable, testable, and reliable.
