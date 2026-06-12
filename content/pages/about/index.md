@@ -1,10 +1,9 @@
 +++
-path = "about-new"
-title = "About me (new draft)"
+path = "about"
+title = "About me"
 description = "Jérôme Ramette — performance engineer, generalist, and crisis-recovery practitioner. From the ZX81 to AI, a journey through 25+ years of critical information systems work — across 8 industries and 4 ministries, from junior developer to programme director."
 
-date = 2026-05-02
-draft = true
+date = 2026-06-12
 
 template = "info-page.html"
 insert_anchor_links = "left"
