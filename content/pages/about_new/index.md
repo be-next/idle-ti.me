@@ -18,6 +18,8 @@ footnote_backlinks = true
 
 Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries and four ministries, in roles running from junior developer to programme director.
 
+An AI thread runs through the whole arc: a DEA in artificial intelligence in 1997, neural networks built and trained when the field was at its least fashionable, one of the first French natural-language interfaces shipped to production in 2001, an introductory AI course taught at university — and, today, engagements where AI components sit inside the systems whose performance and reliability I am asked to secure.
+
 <!-- toc -->
 
 ## Numbers that frame the work
@@ -41,7 +43,7 @@ A few figures help calibrate what follows. They are not the work itself — they
 
 The story begins in early 1998 with two short engagements that already announce the breadth: a chip-card secured-access interface in Visual C++ at **Cyberis**, and the requirements specification for the start-up control software of the Le Havre thermal power plant's first unit at **EDF**. By June 1998, two longer commitments open in parallel: at **AREVA / COGEMA**, designing and tuning the Oracle 7 information system that supports a nuclear-fuel reprocessing facility (project SYDDEX); and at **Dassault Aviation**, taking over the maintenance of CECILIA — a safety-of-function workshop developed in LeLisp, then ported to Java 1.2.
 
-The dot-com era follows. In June 2000, I co-build **BizzGo** — joining the founding team as CTO to design and ship a mobile-services integration platform, recruiting and managing a small team of engineers, and deploying for the Manx Telecom 3G pilot and a Jersey Telecom service offer. In parallel, from late 2001, leading the project at **Dejima** that builds one of the first French natural-language SMS interfaces — querying CityVox, PagesJaunes and Orange's geolocation platform with sentences like *"find me a good Italian nearby"*. The second AI winter is at its quietest point; today's LLM landscape would have looked like science fiction.
+The dot-com era follows. In June 2000, I co-build **BizzGo** — joining the founding team as CTO to design and ship a mobile-services integration platform, recruiting and managing a small team of engineers, and deploying for the Manx Telecom 3G pilot and a Jersey Telecom service offer. In parallel, from late 2001, leading the project at **Dejima** that builds one of the first French natural-language SMS interfaces — querying CityVox, PagesJaunes and Orange's geolocation platform with sentences like *"find me a good Italian nearby"*. Behind that project sits the academic grounding: a **DEA in artificial intelligence** (Université Paris VIII, 1997, top of class), neural networks designed and trained by hand, and a publication at the Cellular Automata Workshop '97 in Gargnano. The second AI winter is at its quietest point; today's LLM landscape would have looked like science fiction.
 
 This early period teaches two things that have stayed. First: the layers of the stack are not separable. A latency anomaly in 2024 has the same anatomy as an Oracle 7 join in 1999; the tools change, the physics does not. Second: building a system end-to-end — from chip driver to user interface, from database tuning to product positioning — leaves you with a default reflex of looking *across* boundaries rather than within them. Every later role has been a variation on that reflex.
 
@@ -59,7 +61,7 @@ In 2016, I join **QOSGUARD** as a *Directeur de mission*. The work converges on 
 
 From 2017 onward, three streams continue in parallel. *Trajectory securing* for large public-sector transformations — the **Cyclades** exam-management programme at the **Ministry of Education**, the FD@Ligne to CHORUS DT migration at the **Armed Forces (SMODI)**. *Performance and resilience advisory* at the **SNCF group** — the *Plan Marshall de la performance* at SNCF Réseau, then the **PulsIV / First** passenger-information overhaul at SNCF Voyageurs (April 2017 – June 2019), then since June 2019 leading the performance-testing team for the **Transilien Information Voyageur** system: 50 applications, ~80 application versions per year, **500+ load-test campaigns annually**. Third stream: standalone advisory engagements that recur — **Sodexo Prestige Venues & Events** (IT rationalisation), **Fortuneo** (ITSM maturity for the Director of Processes and Costs), **SNCF Direction du Matériel** (Industry-4.0 troubleshooting on the Reflex logistics platform from Hardis).
 
-The work I publish on idle-ti.me — the [tools list](/awesome-performance-engineering/) and the [library](/library/) — is the public form of this practice. From 2022 to 2024, I also taught AI, blockchain, and IT governance at **CY Cergy Paris Université**. The word *craft* in "reliability as a craft" is deliberate: at this stage of a career, technical depth is necessary but not sufficient — the difference is increasingly in the judgment.
+The work I publish on idle-ti.me — the [tools list](/awesome-performance-engineering/) and the [library](/library/) — is the public form of this practice. From 2022 to 2024, I also taught at **CY Cergy Paris Université** — an introduction to artificial intelligence at bachelor level, plus blockchain and IT governance. The word *craft* in "reliability as a craft" is deliberate: at this stage of a career, technical depth is necessary but not sufficient — the difference is increasingly in the judgment.
 
 ## What I bring to the table
 
@@ -72,6 +74,9 @@ Diagnosing degraded systems with users in active rejection; standing up cross-fu
 {% end %}
 {% capability_card(title="Cross-functional IT leadership") %}
 Twenty-five years of moving across the full stack of an IT organisation: development, database administration, architecture, urbanisation, MOE, MOA, AMOA, change management, programme governance, vendor management, and strategic IT planning. Comfortable on both sides of the table — the CIO's, and the team's. Equally comfortable in French and in English (seven engagements conducted entirely in English).
+{% end %}
+{% capability_card(title="AI — from the winter to the boom") %}
+A DEA in artificial intelligence (Université Paris VIII, 1997, top of class), neural networks designed and trained during the second AI winter, and one of the first French natural-language interfaces shipped to production (Dejima, 2001 — in service at France Telecom for several years). More recently: an introductory AI course taught at bachelor level (CY Cergy Paris Université), and engagements where AI components sit inside the system under test. Performance engineering and AI now meet in the same place — making model-embedding systems observable, testable, and reliable.
 {% end %}
 {% end %}
 
