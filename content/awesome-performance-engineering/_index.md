@@ -129,6 +129,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [py-spy](https://github.com/benfred/py-spy) - 🟢🚀 Sampling profiler for Python that attaches to running processes without code changes or restarts.
 - [pprof](https://github.com/google/pprof) - 🟢 Profile visualization and analysis tool for the profile.proto format, standard across the Go ecosystem.
 - [JDK Mission Control](https://github.com/openjdk/jmc) - 🟢 Production-time JVM profiling and diagnostics suite for visualizing JDK Flight Recorder data.
+- [Odigos](https://github.com/odigos-io/odigos) - 🟢🔵 Zero-code OpenTelemetry auto-instrumentation for Kubernetes generating distributed traces across Java, Python, .NET, Node.js, and Go.
 
 ### Alerting & Incident Response
 
@@ -136,6 +137,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Alerta](https://github.com/alerta/alerta) - 🟢 Unified alert correlation and management across multiple monitoring systems.
 - [PagerDuty](https://www.pagerduty.com/) - 🟠 Industry-standard incident response and on-call management platform.
 - [Rootly](https://rootly.com/) - 🟠 AI-assisted incident management with automated timelines and postmortem generation.
+- [incident.io](https://incident.io/) - 🟠 Incident management platform with on-call scheduling, Slack/Teams-native response workflows, and status pages.
 
 ### Observability Platforms (Integrated)
 
@@ -152,6 +154,8 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Lightstep / ServiceNow Cloud Observability](https://www.servicenow.com/products/observability.html) - 🟠 OpenTelemetry-native observability platform, now part of ServiceNow.
 - [Sematext](https://sematext.com/) - 🟢🟠 SaaS observability platform with OpenTelemetry-native support and topology discovery.
 - [OpenObserve](https://github.com/openobserve/openobserve) - 🟢🔵🚀 Rust-based all-in-one observability platform for logs, metrics, and traces with object-storage-first design.
+- [HyperDX](https://github.com/hyperdxio/hyperdx) - 🟢🔵 Open-source observability platform unifying logs, metrics, traces, and session replay on ClickHouse, developed as part of ClickStack.
+- [Axiom](https://axiom.co/) - 🟠 Telemetry data platform for logs and events with OpenTelemetry-native ingestion and usage-based pricing.
 
 ### Monitoring Suites (Operations-Oriented)
 
@@ -173,6 +177,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [pg_stat_monitor](https://github.com/percona/pg_stat_monitor) - 🟢 PostgreSQL extension for enhanced query performance monitoring.
 - [VividCortex / SolarWinds DPM](https://www.solarwinds.com/solarwinds-observability/use-cases/system-performance) - 🟠 SaaS query-level database performance monitoring.
 - [pgBadger](https://github.com/darold/pgbadger) - 🟢 Fast PostgreSQL log analyzer producing detailed performance reports on queries, locks, and vacuum activity.
+- [pganalyze](https://pganalyze.com/) - 🟠 PostgreSQL performance monitoring with query analysis, EXPLAIN visualization, and automated index recommendations.
 
 ### Real User Monitoring (RUM) & Frontend Observability
 
@@ -185,6 +190,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 
 - [Coroot](https://github.com/coroot/coroot) - 🟢🔵 Open-source eBPF-powered observability with automated service map discovery.
 - [K8sGPT](https://github.com/k8sgpt-ai/k8sgpt) - 🟢🔵 CNCF sandbox tool scanning Kubernetes clusters and explaining detected issues in plain language through LLM backends.
+- [HolmesGPT](https://github.com/robusta-dev/holmesgpt) - 🟢🔵 CNCF sandbox AI agent investigating alerts and performing root-cause analysis from observability data.
 
 ### SLO Management
 
@@ -221,6 +227,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [LoadRunner / OpenText](https://www.opentext.com/products/professional-performance-engineering) - 🟠 Enterprise performance testing platform with broad protocol support.
 - [Fortio](https://github.com/fortio/fortio) - 🟢🚀 HTTP and gRPC load testing tool from the Istio ecosystem running at fixed query rates with latency histograms.
 - [k6 Studio](https://github.com/grafana/k6-studio) - 🟢 Desktop application recording browser traffic and generating k6 test scripts.
+- [Goose](https://github.com/tag1consulting/goose) - 🟢🚀 Rust load testing framework inspired by Locust, defining user behavior in code with high per-core throughput.
 
 ### HTTP Benchmarking & Micro-Benchmarking
 
@@ -233,6 +240,8 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [hyperfoil](https://github.com/Hyperfoil/Hyperfoil) - 🟢🔵🚀 Distributed benchmarking framework designed to avoid coordinated omission.
 - [JMH (Java Microbenchmark Harness)](https://github.com/openjdk/jmh) - ⭐🟢 Reference microbenchmark harness for the JVM handling warmup, dead-code elimination, and statistical analysis.
 - [hyperfine](https://github.com/sharkdp/hyperfine) - ⭐🟢 Command-line benchmarking tool with statistical analysis, warmup runs, and outlier detection.
+- [autocannon](https://github.com/mcollina/autocannon) - 🟢 HTTP benchmarking tool written in Node.js with support for pipelining and detailed latency percentiles.
+- [Criterion.rs](https://github.com/criterion-rs/criterion.rs) - 🟢 Statistics-driven micro-benchmarking library for Rust with regression detection and detailed reports.
 
 ### API Testing & Contract Testing
 
@@ -262,6 +271,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Sitespeed.io](https://github.com/sitespeedio/sitespeed.io) - 🟢 Open-source web performance monitoring integrating Lighthouse, WebPageTest, and Grafana dashboards.
 - [Puppeteer](https://github.com/puppeteer/puppeteer) - 🟢 Chrome DevTools Protocol API enabling programmatic access to performance traces and network interception.- [SpeedCurve](https://www.speedcurve.com/) - 🟠 Continuous frontend performance monitoring with Core Web Vitals tracking and competitive benchmarking.
 - [Unlighthouse](https://github.com/harlan-zw/unlighthouse) - 🟢 Site-wide Lighthouse scanning that crawls and audits every page of a site with a unified UI.
+- [DebugBear](https://www.debugbear.com/) - 🟠 Web performance monitoring with scheduled Lighthouse tests, Core Web Vitals tracking, and regression alerts.
 
 ### Service Virtualization and Mocking
 
@@ -286,6 +296,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [YCSB (Yahoo! Cloud Serving Benchmark)](https://github.com/brianfrankcooper/YCSB) - ⭐🟢 Framework for benchmarking NoSQL and NewSQL databases with standard workloads.
 - [benchbase (formerly OLTPBench)](https://github.com/cmu-db/benchbase) - 🟢 Multi-DBMS benchmarking framework supporting TPC-C, TPC-H, and YCSB workloads.
 - [mysqlslap](https://dev.mysql.com/doc/refman/en/mysqlslap.html) - MySQL built-in load emulation client for quick benchmarks.
+- [NoSQLBench](https://github.com/nosqlbench/nosqlbench) - 🟢 Extensible benchmarking suite for NoSQL databases with workload modeling for Cassandra, DynamoDB, and more.
 
 ### System & Infrastructure Benchmarking
 
@@ -303,6 +314,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Pumba](https://github.com/alexei-led/pumba) - 🟢🔵 Chaos testing for Docker containers with network delay and packet loss injection.
 - [Steadybit](https://steadybit.com/) - 🟠🔵 Enterprise reliability platform combining chaos engineering with resilience validation.
 - [AWS Fault Injection Service](https://aws.amazon.com/fis/) - 🟠🔵 Managed fault injection for AWS resources with native service integration.
+- [Azure Chaos Studio](https://azure.microsoft.com/en-us/products/chaos-studio/) - 🟠🔵 Managed fault injection for Azure resources with experiment orchestration and safety guardrails.
 
 ### Network Simulation & Traffic Shaping
 
@@ -317,6 +329,7 @@ Indicators: ⭐ Widely adopted · 🟢 Active · 🔵 Cloud-native · 🟠 Comme
 - [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) - 🟢 Run Lighthouse in CI with performance budgets, baseline comparison, and trend tracking.
 - [Taurus](https://github.com/Blazemeter/taurus) - 🟢 YAML-based automation wrapper for JMeter, Gatling, Locust with unified reporting.
 - [Bencher](https://github.com/bencherdev/bencher) - 🟢 Continuous benchmarking suite tracking results over time and catching performance regressions in CI.
+- [CodSpeed](https://codspeed.io/) - 🟠 Continuous benchmarking service for CI with low-variance instrumented measurements and flame graphs on pull requests.
 
 ### Results Analysis & Reporting
 
