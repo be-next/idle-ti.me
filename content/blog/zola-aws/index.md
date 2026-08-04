@@ -13,7 +13,6 @@ tags = ["Zola", "AWS", "S3 bucket", "CloudFront", "static website"]
 [extra]
 giscus = true
 copy_button = true
-footnote_backlinks = true
 pinned = true
 +++
 
