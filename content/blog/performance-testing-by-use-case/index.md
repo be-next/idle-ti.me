@@ -1,9 +1,10 @@
 +++
 title = "Reading Performance Testing by Use Case"
 date = 2026-06-11
+updated = "2026-08-04"
 toc = true
 
-description = "Most performance-testing programmes have a load generator. Few have a representative dataset. Almost none can inject failures while measuring user-perceived latency. The reasons are multi-causal — a culture that treats performance as a release-time formality, plans that under-budget the supporting work, applications whose testability was never designed in, and a tool catalogue organised by category rather than by intent. This article reframes performance testing around seven use cases — API load testing in CI/CD, full-stack validation, microservice resilience, database benchmarking, frontend optimisation, capacity planning, and pre-production data realism — and uses them as the spine of a practical campaign-setup guide: what each test is trying to prove, what testability hooks it requires, what it realistically costs, what cultural pre-requisites it has, and which combination of tools assembles it."
+description = "Most performance-testing programmes have a load generator. Few have a representative dataset. Almost none can inject failures while measuring user-perceived latency. The reasons are multi-causal — a culture that treats performance as a release-time formality, plans that under-budget the supporting work, applications whose testability was never designed in, and a tool catalogue organised by category rather than by intent. This article reframes performance testing around eight use cases — API load testing in CI/CD, full-stack validation, microservice resilience, database benchmarking, frontend optimisation, capacity planning, endurance and resource-leak detection, and pre-production data realism — and uses them as the spine of a practical campaign-setup guide: what each test is trying to prove, what testability hooks it requires, what it realistically costs, what cultural pre-requisites it has, and which combination of tools assembles it."
 
 [taxonomies]
 tags = ["performance engineering", "performance testing", "load testing", "chaos engineering", "k6"]
@@ -11,12 +12,13 @@ tags = ["performance engineering", "performance testing", "load testing", "chaos
 [extra]
 giscus = true
 copy_button = true
-footnote_backlinks = true
 +++
 
-> *Most performance-testing programmes have a load generator. Most do not have a representative dataset. Most do not have a way to inject failures while measuring user-perceived latency. The asymmetry is consistent across organisations and consistent across years — and the reasons are consistent too: a culture in which performance is treated as a release-time formality, plans that under-budget the supporting work, applications whose testability was never designed in, and a tool catalogue organised by category rather than by intent. A green pre-release benchmark followed by a 14:30 production page-out is the routine cost of all four together.*
+> *The benchmark was green on Thursday. On Tuesday at 14:30 the checkout service pages out under a load the report had described as comfortable. Nobody lied and nothing was misconfigured — the load generator did precisely what it was asked. It was asked the wrong question: against a dataset a thousand times smaller than production, with no dependency ever allowed to slow down, and with the answer compared to a threshold nobody had revisited in a year.*
 
-Of those four causes, the fourth — *framing* — is upstream of the other three. A team that cannot articulate what its test is trying to prove cannot budget for it, cannot ask for the testability hooks it needs, and cannot grow a culture around it. This article focuses on framing first: seven use cases that name what performance tests actually try to prove, each accompanied by the testability hooks the test requires, the realistic costs and timelines, the cultural pre-requisites, and the tool combinations that assemble it.
+That outcome is not a tooling accident. It is the routine product of four causes that compound: a culture in which performance is treated as a release-time formality, plans that under-budget the supporting work, applications whose testability was never designed in, and a tool catalogue organised by category rather than by intent. The resulting asymmetry is consistent across organisations and consistent across years — most programmes have a load generator, few have a representative dataset, and almost none can inject failures while measuring user-perceived latency.
+
+Of those four causes, the fourth — *framing* — is upstream of the other three. A team that cannot articulate what its test is trying to prove cannot budget for it, cannot ask for the testability hooks it needs, and cannot grow a culture around it. This article focuses on framing first: eight use cases that name what performance tests actually try to prove, each accompanied by the testability hooks the test requires, the realistic costs and timelines, the cultural pre-requisites, and the tool combinations that assemble it.
 
 ## Why the tool question comes last
 
@@ -33,23 +35,24 @@ A team that opens its annual planning conversation with *"what perf-testing tool
 3. **What does the campaign realistically cost — set up, run, analyse?** (calibrage)
 4. **What does the team need to accept for the result to drive a decision?** (culture)
 
-(The French *calibrage* is kept untranslated throughout: it covers in one word the sizing of setup effort, run cost, and analysis time against the decision the test serves — "costing" captures only part of it.)
+The eight use cases below are the entry point. Each one names a hypothesis, then walks through what that hypothesis requires of the application, of the project plan, of the team, and finally of the tool combination. The order matters — the tool is the last decision, not the first.
 
-The seven use cases below are the entry point. Each one names a hypothesis, then walks through what that hypothesis requires of the application, of the project plan, of the team, and finally of the tool combination. The order matters — the tool is the last decision, not the first.
+## Eight use cases that cover most testing work
 
-## Seven use cases that cover most testing work
+The table below is deliberately not a tool map. It is indexed by the question you arrived with, because that is the only index that helps before a decision has been made.
 
-| Use case | Tool categories involved | Representative tools |
-|----------|--------------------------|----------------------|
-| **1. API load testing in CI/CD** | Load testing, CI/CD integration, regression detection | k6, Gatling, Artillery |
-| **2. Full-stack performance validation** | Load testing, browser perf, observability correlation | k6, Lighthouse, Grafana, OpenTelemetry |
-| **3. Microservice resilience testing** | Chaos engineering, service virtualisation, latency measurement | Litmus, Chaos Mesh, Gremlin, WireMock |
-| **4. Database performance benchmarking** | Benchmarking, data generation, replay | HammerDB, sysbench, pgbench, Faker |
-| **5. Frontend experience optimisation** | Browser performance, RUM, synthetic monitoring | Lighthouse, WebPageTest, Playwright, web-vitals |
-| **6. Capacity planning & saturation testing** | Load testing (open-loop), HTTP benchmarking | Gatling open injection, wrk2, Vegeta, Hyperfoil |
-| **7. Pre-production data realism** | Data generation, service virtualisation, anonymisation | Faker, DataFaker, WireMock, Mockaroo |
+| Use case | What it proves | Where it usually breaks |
+|----------|----------------|-------------------------|
+| **1. API load testing in CI/CD** | this change did not regress the API under a known profile | noisy shared runners defeat fixed thresholds |
+| **2. Full-stack performance validation** | the release moved user-perceived latency in the intended direction | layers measured separately, then added together |
+| **3. Microservice resilience testing** | the user journey degrades gracefully when a dependency misbehaves | the run observes the platform recovering, not the user suffering |
+| **4. Database performance benchmarking** | this engine and schema sustain the workload we are about to send | the dataset fits in the buffer pool, so the cache answers |
+| **5. Frontend experience optimisation** | the browser time went somewhere identifiable, and a change moved it | one lab run on one page, generalised to the whole site |
+| **6. Capacity planning & saturation testing** | the maximum sustainable rate, and the shape of the wall | a closed-loop tool slows down with the system and hides it |
+| **7. Endurance & resource-leak detection** | the system still behaves after days at nominal load | the run is too short for the leak to become visible |
+| **8. Pre-production data realism** | the other seven answers describe production rather than a fixture | synthetic data is uniform where production is heavy-tailed |
 
-The seven use cases do not partition the space — most non-trivial testing programmes touch several of them simultaneously. The point of the table is not exhaustiveness but *entry*: what use case maps to the question you are actually trying to answer.
+The eight use cases do not partition the space — most non-trivial testing programmes touch several of them simultaneously, and use case 8 is a pre-requisite for several of the others rather than a peer. The point of the table is *entry*, not exhaustiveness: find the row whose middle column states what you are actually trying to prove, and read that section. The tool combinations come at the end of each one, which is where they belong.
 
 ## Use case 1 — API load testing in CI/CD
 
@@ -61,7 +64,7 @@ The seven use cases do not partition the space — most non-trivial testing prog
 - *Calibrage*: the test must be light enough to run on every change — typically under 10 minutes including warmup. A 60-minute test will not survive the first month. Cloud-load costs scale with frequency × duration; budget for it before agreeing the cadence.
 - *Culture*: the team must accept that performance is a *merge gate*, not a release-time check. Without that contract, the gate gets disabled on the first false positive that delays an unrelated feature.
 
-**The right tool combination** is a load generator with a CLI and a machine-readable result format (k6, Gatling, Artillery), a pipeline integration that runs it against the representative target, and a regression detector that compares the result to a historical baseline. The detector is the under-loved piece. Shared CI runners are noisy neighbours — percentiles drift run-to-run for reasons unrelated to the code — and that noise is what kills fixed-threshold gates: they either fire constantly or never. Change-point detection on percentile time series (the *Hunter* paper from DataStax is a useful reference) is the honest alternative; a dedicated, consistent runner for the performance job is its complementary testability requirement.
+**The right tool combination** is a load generator with a CLI and a machine-readable result format (k6, Gatling, Artillery), a pipeline integration that runs it against the representative target, and a regression detector that compares the result to a historical baseline. The detector is the under-loved piece. Shared CI runners are noisy neighbours — percentiles drift run-to-run for reasons unrelated to the code — and that noise is what kills fixed-threshold gates: they either fire constantly or never. Change-point detection on percentile time series (the *Hunter* paper from DataStax is a useful reference) is the honest alternative; a dedicated, consistent runner for the performance job is its complementary testability requirement. A gate that learns its own baseline is also the first rung on which this discipline hands judgement to a machine — a move worth understanding before making it, which is the subject of [*The Autonomy Ladder*](/blog/autonomy-ladder/).
 
 **Workflow at maturity**: PR opens → pipeline runs the load test against the candidate → result is compared to the rolling baseline of the main branch → a statistically significant regression fails the merge → the developer either explains the regression or fixes it.
 
@@ -95,11 +98,11 @@ The seven use cases do not partition the space — most non-trivial testing prog
 
 - *Testability*: the fault injector needs a hook into the right layer (Kubernetes for pod-level, a service mesh for HTTP-level, network for latency injection). Systems without those layers exposed for testing make resilience testing effectively impossible without re-architecting first. This is the use case most often blocked by upstream testability decisions.
 - *Calibrage*: chaos experiments take hours to set up (hypothesis, injection, measurement, rollback) and minutes to run. They cannot be parallelised easily — each experiment needs the system in a known state. Plan one experiment per week per service, not per day.
-- *Culture*: the highest cultural barrier of the seven use cases. The team must accept that *inducing failure* in non-prod is normal engineering work, not a stunt. Without that acceptance, chaos experiments degrade to quarterly game days, then to annual ones, then to absence — and the discipline dies quietly.
+- *Culture*: the highest cultural barrier of the eight use cases. The team must accept that *inducing failure* in non-prod is normal engineering work, not a stunt. Without that acceptance, chaos experiments degrade to quarterly game days, then to annual ones, then to absence — and the discipline dies quietly.
 
 **The right tool combination** is a chaos-engineering platform that can inject controlled failures at the right layer (Litmus or Chaos Mesh in Kubernetes; Gremlin as a managed service; toxiproxy at the network edge for finer control), a service-virtualisation tool for upstream dependency misbehaviour (WireMock is the workhorse), and — critically — a measurement layer that captures *user-observable* metrics during the chaos run. Observation is what makes resilience testing different from breaking-things-for-fun.
 
-**Workflow**: steady-state hypothesis → fault injection → measurement → comparison. The hypothesis is *"if dependency X returns 500 ms latency for 30 seconds, the user-facing p99 should stay below 1 s."* The injection runs the fault for the agreed duration. The measurement layer records the actual user-facing p99. Hypothesis violated → system more fragile than the team thought; validated → next dependency.
+**Workflow at maturity**: steady-state hypothesis → fault injection → measurement → comparison. The hypothesis is *"if dependency X returns 500 ms latency for 30 seconds, the user-facing p99 should stay below 1 s."* The injection runs the fault for the agreed duration. The measurement layer records the actual user-facing p99. Hypothesis violated → system more fragile than the team thought; validated → next dependency.
 
 **Anti-pattern to avoid**: *resilience testing that does not measure user-observable latency*. Killing a pod and watching the pod re-spawn is not a resilience test; it is a reconciliation test. The question is not "does Kubernetes do its job?" — the question is "does the user notice?". Without an observation layer wired to the chaos run, the test produces no evidence of either side.
 
@@ -157,13 +160,31 @@ Both are necessary. Synthetic measurement gives signal-to-noise that real-user c
 
 **The crucial constraint** is the workload model. A closed-loop tool (default `wrk`, `ab`, `hey`, k6 in `constant-vus` mode) cannot honestly answer this question — when the system slows down, the tool slows with it, and the saturation behaviour is hidden by *coordinated omission*. Capacity planning *requires* an open-loop tool. Without it, the capacity number you produce is fiction.
 
-**Workflow**: ramp the target rate through the suspected wall → capture latency and throughput at each rate → identify the inflection point at which latency starts to grow super-linearly with rate → compare against the engineering target.
+**Workflow at maturity**: ramp the target rate through the suspected wall → capture latency and throughput at each rate → identify the inflection point at which latency starts to grow super-linearly with rate → compare against the engineering target.
 
 **Anti-pattern to avoid**: *measuring throughput without measuring tail latency*. A system that sustains 10 000 rps with p99 of 50 ms is in a different operating regime from a system that sustains 10 000 rps with p99 of 8 s. Both report the same throughput. The second one will fail in production at any rate above the latency contract.
 
 **A second anti-pattern**: averaging across the ramp. A latency distribution aggregated over the whole climb mixes the healthy regime with the saturated one and reports a number that describes neither. Hold each rate as a steady-state plateau, report per-plateau distributions, and let the inflection point show itself.
 
-## Use case 7 — Pre-production data realism
+## Use case 7 — Endurance & resource-leak detection
+
+**The use case** — *the system passes every short test. Does it still behave after three days at nominal load, or does something accumulate?*
+
+**Points of attention**
+
+- *Testability*: the run is worthless without internal counters sampled *over time* — heap occupancy measured after each full collection (raw heap sawtooths and hides the trend), connection-pool checkouts against returns, open file descriptors, thread count, unbounded cache entries, disk consumed by logs and temporary files. The observability path must itself survive the duration: a metrics agent that leaks over 72 hours masks the very thing the run exists to find.
+- *Calibrage*: the worst ratio of wall-clock to engineer-time of the eight — days of runtime, hours of analysis, and an environment monopolised throughout. The duration cannot be bought back by raising the load (see the second anti-pattern). Budget one run per release train rather than per sprint, and expect the first attempts to fail for reasons unrelated to the system under test: a nightly environment reboot, an expiring certificate, a full disk on the test rig itself.
+- *Culture*: the verdict arrives days after the code was written — the hardest shape of feedback for a team to act on. The organisation must accept holding an environment for 72 hours and accept a result that lands after the sprint it belongs to has closed. This is the use case most often skipped for scheduling reasons rather than technical ones.
+
+**The right tool combination** is any load generator able to hold a *constant, unremarkable* rate for days — the open-loop tools of use case 6, configured to be boring rather than aggressive — plus a time-series backend whose retention actually covers the run at useful resolution, plus runtime introspection for the attribution work: JFR or async-profiler on the JVM, heap profiles and `pprof` for Go, `pmap` and `smaps` at process level. Here the load generation is the trivial half; the measurement is the engineering.
+
+**Workflow at maturity**: establish the nominal rate → hold it rigorously constant for the agreed duration → plot each resource series against *time* rather than against load → fit a slope to each and flag any significantly non-zero → attribute the slope with a runtime profiler before calling it a leak.
+
+**Anti-pattern to avoid**: *reading the endurance run as a latency test*. Latency stays flat for most of the run, right up until it does not. The signal lives in the resource series, and it is a **slope**, not a level: a heap climbing 2 % per hour under a p99 that has not moved is a scheduled incident, and the p99 will report nothing about it until the final hour.
+
+**A second anti-pattern**: shortening the run by raising the load. Accumulations come in two kinds — per operation and per unit of time. Running 10× the rate for a tenth of the duration reproduces the first and eliminates the second, so everything clock-driven (session tables, log rotation, token and certificate caches, jobs that only fire nightly) never gets the chance to appear at all.
+
+## Use case 8 — Pre-production data realism
 
 **The use case** — *the test environment has 1 000 records. Production has 200 million. Every test result is a fiction until the cardinality matches.*
 
@@ -179,27 +200,30 @@ Both are necessary. Synthetic measurement gives signal-to-noise that real-user c
 
 **Anti-pattern to avoid**: *uniform-distribution synthetic data*. Real production data is rarely uniformly distributed. A user table with `Faker.name()` produces uniform-cardinality names; a real user table has heavy-tailed distributions (the 100 most common names cover 30 % of users; the long tail covers the rest). Index selectivity, cache hit rates, and query plans all depend on this shape — uniform synthetic data systematically under-represents the worst case.
 
+**A second anti-pattern**: *anonymisation that flattens the distribution*. Deterministic hashing is the usual answer to "we have production data but cannot use it": it preserves referential integrity and guarantees uniqueness, which is exactly the problem. A heavy-tailed column comes out uniform — the previous anti-pattern, reintroduced by the remedy for a different one, and now wearing the credibility of real production data. Anonymisation has to preserve *cardinality and frequency*, not merely unlink identities.
+
 ## Where unified testing platforms fit — and what they leave untouched
 
-Unified testing platforms — **BlazeMeter** (Perforce), **Tricentis NeoLoad**, **Grafana k6 Cloud**, **LoadRunner Enterprise** (OpenText), **Octoperf**, and others — are one of the most consequential adoption decisions a perf-testing programme will make. They consolidate what is well-defined and well-marketed: load generation, test scripting, distributed execution, cloud-based VU injection, results storage, comparison views, CI/CD hooks. The packaging is good, the engineering is real, the operational value at low maturity is genuine.
+Unified testing platforms — **BlazeMeter** (Perforce), **Tricentis NeoLoad**, **Grafana Cloud k6**, **LoadRunner Enterprise** (OpenText), **Octoperf**, and others — are one of the most consequential adoption decisions a perf-testing programme will make. They consolidate what is well-defined and well-marketed: load generation, test scripting, distributed execution, cloud-based VU injection, results storage, comparison views, CI/CD hooks. The packaging is good, the engineering is real, the operational value at low maturity is genuine.
 
 The question this article frames is: *for which use cases does the platform fit, and for which does it constrain?*
 
 ### Coverage
 
-The same seven use cases, scored against what a unified platform actually delivers:
+The same eight use cases, scored against what a unified platform actually delivers:
 
 | Use case | What the platforms cover | What they leave open |
 |----------|--------------------------|----------------------|
 | 1. API load testing in CI/CD | ✅ Home territory. Scripting, distribution, CI hooks, baseline comparison — all integrated. | Regression detection is usually fixed-threshold, not change-point. |
-| 2. Full-stack validation | 🟡 Some platforms (k6 Cloud) ship browser modules. Most do not. | The wire to a backend-observability layer (OTel traces, Grafana) stays a manual integration. |
+| 2. Full-stack validation | 🟡 Some platforms (Grafana Cloud k6) ship browser modules. Most do not. | The wire to a backend-observability layer (OTel traces, Grafana) stays a manual integration. |
 | 3. Microservice resilience | ❌ Chaos engineering is not a platform feature. | Litmus, Chaos Mesh, Gremlin remain separate. The integration between chaos injection and user-observable latency stays custom. |
 | 4. Database benchmarking | ❌ Outside scope: the platforms target application traffic, not database-internal benchmarks. | HammerDB / sysbench / pgbench remain separate tools with separate teams. |
 | 5. Frontend optimisation | ❌ Lighthouse / WebPageTest / RUM are different products with different audiences. | The entire frontend stack remains untouched. |
 | 6. Capacity planning | 🟡 Open-loop generation is supported (constant-arrival-rate or equivalent). | Per-VU pricing turns sustained ramps into budget conversations (the year-2 vignette below). |
-| 7. Data realism | ❌ Generators are bundled at best, anonymisation pipelines never. | Characterising production shape and refreshing on schema migrations stays manual in every shop. |
+| 7. Endurance | 🟡 Long runs are technically supported. | Metered VU-hours make multi-day runs the single most expensive thing a team can ask a platform to do — and the resource-series analysis that gives the run its value is outside the product entirely. |
+| 8. Data realism | ❌ Generators are bundled at best, anonymisation pipelines never. | Characterising production shape and refreshing on schema migrations stays manual in every shop. |
 
-The platforms solve use case 1 cleanly, partially solve 2 and 6, and leave 3, 4, 5, 7 untouched. A platform is therefore a real accelerator on a narrow front, and a no-op on a wide one.
+The platforms solve use case 1 cleanly, partially solve 2, 6 and 7, and leave 3, 4, 5, 8 untouched. A platform is therefore a real accelerator on a narrow front, and a no-op on a wide one.
 
 ### The recognisable trajectory
 
@@ -207,15 +231,15 @@ A composite — no single team said exactly this — but the pattern in the fiel
 
 > **Year 1** — *"We adopted BlazeMeter for the load tests. The team can author scenarios in a day, the CI hooks work out of the box, reporting is clean. The previous home-grown k6-on-EC2 rig is decommissioned. This is transformative."*
 >
-> **Year 2** — *"The capacity test against the e-commerce backend costs $4 200 in cloud VU-hours per run. The performance lead has to file a budget exception for each one. The cadence drops from weekly to quarterly."*
+> **Year 2** — *"The capacity test against the e-commerce backend runs 2 000 VUs for three hours; at the going rate for metered cloud VU-hours that lands in the low four figures per run. The performance lead files a budget exception for each one. The cadence drops from weekly to quarterly."*
 >
 > **Year 3** — *"We re-introduce k6-on-EKS for the high-frequency tests and keep BlazeMeter for executive demos. The data-realism pipeline still does not exist. Resilience testing is done by hand twice a year during the dependency upgrade window. The team feels behind."*
 
-What this trajectory illustrates is not a flaw in the platforms — they do exactly what they are sold to do. It illustrates the *limit of what a tool decision can solve*. The platform answers parts of *calibrage* and *combination* — fine for use case 1, partial for 2 and 6. It answers neither *testability* nor *culture*, and it does not address the use cases (3, 4, 5, 7) where those two dimensions dominate. A team that adopts a platform and skips the four-question setup will, predictably, be in the year-3 situation within 18–24 months — not because the platform failed, but because the work the platform does not do was never started in parallel.
+What this trajectory illustrates is not a flaw in the platforms — they do exactly what they are sold to do. It illustrates the *limit of what a tool decision can solve*. The platform answers parts of *calibrage* and *combination* — fine for use case 1, partial for 2, 6 and 7. It answers neither *testability* nor *culture*, and it does not address the use cases (3, 4, 5, 8) where those two dimensions dominate. A team that adopts a platform and skips the four-question setup will, predictably, be in the year-3 situation within 18–24 months — not because the platform failed, but because the work the platform does not do was never started in parallel.
 
 ### What this means for the platform decision
 
-A unified platform is the right adoption for use case 1 (CI/CD load) and a defensible accelerator for use cases 2 and 6 — *provided the platform's pricing model is compatible with the test cadence the team actually needs*.
+A unified platform is the right adoption for use case 1 (CI/CD load) and a defensible accelerator for use cases 2, 6 and 7 — *provided the platform's pricing model is compatible with the test cadence the team actually needs*. That proviso binds hardest on the two use cases that hold load the longest.
 
 The platform is not a substitute for the work each use case requires on testability, calibrage, and culture. Buying the platform without the surrounding work produces the year-3 trajectory; buying it *after* the surrounding work is in motion turns it into a force multiplier. The order matters more than the choice.
 
@@ -230,8 +254,9 @@ Where a testing programme actually sits along these use cases is usually a more 
 | 3. Resilience | Manual chaos game days | Automated chaos in non-prod | Continuous chaos in prod, with automatic rollback on observed user-impact |
 | 4. Database | Synthetic primitives (sysbench defaults) | Representative workload mix | Production workload replay |
 | 5. Frontend | Lighthouse on the home page | Synthetic + RUM on key journeys | RUM SLO on Core Web Vitals, regression-gated by synthetic |
-| 6. Capacity | Closed-loop tool against staging | Open-loop tool, methodical ramp | Open-loop tool, queueing-theory-grounded interpretation, USL fit |
-| 7. Data realism | Faker defaults | Production-shape synthetic | Anonymised replay with cardinality preserved |
+| 6. Capacity | Closed-loop tool against staging | Open-loop tool, methodical ramp | Open-loop tool, queueing-theory-grounded interpretation, Universal Scalability Law fit |
+| 7. Endurance | Nobody has ever run one | One long run before a major release | Scheduled multi-day run per release train, resource slopes tracked release over release |
+| 8. Data realism | Faker defaults | Production-shape synthetic | Anonymised replay with cardinality *and frequency* preserved |
 
 The pattern across rungs is consistent: each step trades convenience for honesty. *Getting started* is what is cheap to set up; *mature* is what is correct on average; *world-class* is what survives an honest interrogation of how production actually behaves. The blocker to move from one rung to the next is almost never the choice of tool — it is testability, calibrage, or culture for the use case in question.
 
@@ -239,7 +264,7 @@ The pattern across rungs is consistent: each step trades convenience for honesty
 
 A working performance-testing campaign comes from answering four questions, in this order:
 
-1. **What is the test trying to prove?** Pick the use case from the seven above. State the hypothesis as a sentence — *"if the checkout API is called at 1 000 rps with a 70/30 read/write mix against a 200M-record dataset, p99 latency stays below 80 ms."* If the hypothesis cannot be stated in a sentence, the campaign is not ready; iterate on the hypothesis before going further.
+1. **What is the test trying to prove?** Pick the use case from the eight above. State the hypothesis as a sentence — *"if the checkout API is called at 1 000 rps with a 70/30 read/write mix against a 200M-record dataset, p99 latency stays below 80 ms."* If the hypothesis cannot be stated in a sentence, the campaign is not ready; iterate on the hypothesis before going further.
 
 2. **What does the application need to expose for this test to be possible?** Run the testability checklist for the chosen use case (the *Points of attention* above). If the hooks do not exist — no measurement points, no realistic dataset, no dependency-isolation mechanism — the first deliverable of the campaign is the engineering work to add them, not a load test. Most under-prepared programmes skip this step and produce numbers that mean nothing.
 
@@ -251,18 +276,19 @@ The tool decision — *which load generator, which chaos platform, which databas
 
 ## What to take away
 
-If the seven use cases compress into a handful of sentences, they are these:
+If the eight use cases compress into a handful of sentences, they are these:
 
 - **The tool decision comes last.** Hypothesis, testability, *calibrage*, culture — in that order. A team that opens with the tool question has framed itself out of the questions that determine whether the result will mean anything.
 - **A campaign is ready when its hypothesis fits in one sentence.** *"At 1 000 rps with a 70/30 read/write mix against a 200M-record dataset, p99 stays below 80 ms."* No sentence, no campaign.
 - **The first deliverable is often engineering, not a test.** Missing trace propagation, missing representative dataset, missing injection point — building the hooks is the campaign's first sprint, not a delay to it.
 - **Every test is an asset or a souvenir.** The regression check that runs on every merge compounds; the six-week stress-test setup that ran once decays. The existing test portfolio can be audited with that single criterion.
-- **There are three reliable ways to produce a green and false result**: gating on the mean (blind to tail regressions), capacity-testing with a closed-loop tool (coordinated omission hides the saturation), and benchmarking a dataset that fits in the buffer pool (the cache answers, not the database).
+- **There are four reliable ways to produce a green and false result**: gating on the mean (blind to tail regressions), capacity-testing with a closed-loop tool (coordinated omission hides the saturation), benchmarking a dataset that fits in the buffer pool (the cache answers, not the database), and stopping the run before anything has had time to accumulate (nothing leaks in ten minutes).
 - **Test slowness, not just failure.** Most production incidents are dependencies getting slow, not dying — and a chaos run that does not measure user-observable latency proves nothing either way.
-- **Unified platforms solve use case 1, partially solve 2 and 6, and leave the rest untouched.** Bought after the surrounding work is in motion, a platform is a force multiplier; bought instead of it, it is the year-3 trajectory on a schedule.
+- **Watch slopes, not just levels.** Endurance is the use case skipped for scheduling reasons rather than technical ones, and the only one that catches what a flat p99 conceals: a resource climbing a couple of percent an hour, reporting nothing until the last hour before it matters.
+- **Unified platforms solve use case 1, partially solve 2, 6 and 7, and leave the rest untouched.** Bought after the surrounding work is in motion, a platform is a force multiplier; bought instead of it, it is the year-3 trajectory on a schedule.
 - **A test without a decider produces a report, not a decision.** The person who will say *"we ship"* or *"we don't ship"* on the strength of the result must exist — and their absence is detectable, and fixable, before the test runs.
 
-The seven use cases and the tools cited above are catalogued in the [Awesome Performance Engineering](/awesome-performance-engineering/) list maintained alongside this blog. For the production-observation side of the same problem — *understanding how a system behaves* — see the companion piece [*Reading Observability by Intent*](/blog/observability-by-intent/).
+The eight use cases and the tools cited above are catalogued in the [Awesome Performance Engineering](/awesome-performance-engineering/) list maintained alongside this blog. For the production-observation side of the same problem — *understanding how a system behaves* — see the companion piece [*Reading Observability by Intent*](/blog/observability-by-intent/).
 
 ## Further reading
 
@@ -279,6 +305,8 @@ Jiang, Z. M., & Hassan, A. E. (2015). A survey on load testing of large-scale so
 Fleming, M., et al. (2023). Hunter: Using change point detection to hunt for performance regressions. *Proceedings of the International Conference on Performance Engineering (ICPE).* — Automated regression detection in continuous integration, from DataStax; the reference for use case 1's mature rung.
 
 Kejariwal, A., & Allspaw, J. (2017). *The Art of Capacity Planning* (2nd ed.). O'Reilly. — Pragmatic capacity planning grounded in operational practice. The reference for use case 6.
+
+Gunther, N. J. (2007). *Guerrilla Capacity Planning: A Tactical Approach to Planning for Highly Scalable Applications and Services.* Springer. — The full treatment of the Universal Scalability Law: why throughput first flattens (contention) and then declines (coherency) as concurrency grows. The model behind use case 6's world-class rung, and the reason a saturation curve can be interpreted rather than merely plotted.
 
 Tene, G. *How NOT to Measure Latency* [Conference talk]. [YouTube](https://www.youtube.com/watch?v=lJ8ydIuPFeU). — The definitive talk on coordinated omission and tail latency, foundational to use case 6.
 
