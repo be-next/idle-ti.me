@@ -17,13 +17,14 @@ max_projects = 3
 
 Performance engineer and observability practitioner. I curate, build, and write about the tools and ideas that make systems faster and more reliable.
 
-Two permanent references anchor this site: a [catalogue of tools](/awesome-performance-engineering/) for performance engineering, and a [library of foundational works](/library/) — books, talks, and papers worth coming back to. The [blog](/blog/) adds case studies and field notes.
+Two permanent references anchor this site: a [catalogue of tools](/awesome-performance-engineering/) for performance engineering, and a [library of foundational works](/library/) — books, talks, and papers worth coming back to. The [blog](/blog/) adds case studies, field notes, and essays on where the discipline is heading.
 
 Good places to start:
 
 - [*Reading Observability by Intent*](/blog/observability-by-intent/) and [*Reading Performance Testing by Use Case*](/blog/performance-testing-by-use-case/) — a diptych on choosing tools by what you are trying to prove, not by category.
 - [*Coordinated Omission: Why Your Latency Numbers Lie*](/blog/coordinated-omission/) — how most load tools hide tail latency, demonstrated with a reproducible eight-tool benchmark.
+- [*The Autonomy Ladder: AI, Performance Engineering, and the Place of the Human*](/blog/autonomy-ladder/) — a durable grid for placing any AI tool on the automation scale, and what the discipline must stay able to do as the machine climbs.
 
-Beyond the technical core, the site occasionally reflects what else inspires me — but mostly it's about idle cycles and the active minds that follow them.
+Beyond the technical core, the site occasionally reflects what else inspires me.
 
 I also consult independently on performance engineering, observability platforms, and the assurance of large IT transformations — [more about me](/about).

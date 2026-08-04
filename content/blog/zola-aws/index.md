@@ -13,7 +13,6 @@ tags = ["Zola", "AWS", "S3 bucket", "CloudFront", "static website"]
 [extra]
 giscus = true
 copy_button = true
-pinned = true
 +++
 
 ## When RTFM isn't Enough 😉
