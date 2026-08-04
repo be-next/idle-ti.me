@@ -62,8 +62,9 @@ In the next post, we will try to develop these notions, looking in more detail a
 [![Google Gemini](/blog/waze-syndrome/img/german_soldiers.avif)](/blog/waze-syndrome/img/german_soldiers.avif)
 
 [^3]: And once again this is an opportunity to broaden the question of the trust we place in this type of company: here the error is gross, certainly due to the fact that the AI algorithms, ethical behaviour filters and default prompts are new and not properly mastered. But what about in areas that are better mastered, where we have let our guard down:
-  - filtering and ordering search results
-  - managing and classifying our e-mails
-  - personalized advertising and content recommendations
-  - content moderation and the detection of harmful online behavior
-  - etc.
+
+    - filtering and ordering search results
+    - managing and classifying our e-mails
+    - personalized advertising and content recommendations
+    - content moderation and the detection of harmful online behavior
+    - etc.
