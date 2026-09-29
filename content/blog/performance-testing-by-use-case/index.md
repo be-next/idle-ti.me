@@ -294,7 +294,7 @@ The eight use cases and the tools cited above are catalogued in the [Awesome Per
 
 The references below are also collected in this site's [library of foundational works](/library/).
 
-{% references() %}
+{% <references> %}
 
 Molyneaux, I. (2014). *The Art of Application Performance Testing* (2nd ed.). O'Reilly. — The most complete treatment of the performance-testing lifecycle, from strategy through execution to post-mortem analysis.
 
@@ -312,4 +312,4 @@ Tene, G. *How NOT to Measure Latency* [Conference talk]. [YouTube](https://www.y
 
 Grafana k6 Documentation. *Open and closed models.* [grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/](https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/). — Practical reference for choosing an executor that matches the use case.
 
-{% end %}
+{% </references> %}

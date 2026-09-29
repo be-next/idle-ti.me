@@ -12,7 +12,6 @@ toc = true
 [extra]
 show_reading_time = true
 copy_button = false
-footnote_backlinks = true
 +++
 
 Performance engineer, generalist, and crisis-recovery practitioner. For more than 25 years I have helped organisations rebuild trust in critical information systems — across eight industries and four ministries, at every link of the IT value chain: from hearing a business need and giving it words, to steering the teams that build the answer, to instrumenting the systems that run it.
@@ -25,16 +24,16 @@ An AI thread runs through the whole arc: a DEA in artificial intelligence in 199
 
 A few figures help calibrate what follows. They are not the work itself — they only sketch its surface area.
 
-{% number_grid() %}
-{{ number_card(value="25+", label="years in IT", context="first commercial assignment in January 1998") }}
-{{ number_card(value="50+", label="engagements", context="across both private and public sectors") }}
-{{ number_card(value="8", label="industries", context="rail, defense, telecom, banking, assistance, energy, public sector, hospitality") }}
-{{ number_card(value="4", label="French ministries", context="Defense, Education, Treasury / DGME, Ecology — plus DGI and HAS") }}
-{{ number_card(value="3,000–13,000", label="users impacted", context="single-engagement scope on the larger crisis missions") }}
-{{ number_card(value="7", label="missions in English", context="international teams across France, Italy, Russia, USA") }}
-{{ number_card(value="500+", label="load-test campaigns / year", context="current scope at SNCF Voyageurs Transilien Information Voyageur") }}
-{{ number_card(value="1997", label="DEA in AI · top of class", context="Université Paris VIII — published at Cellular Automata Workshop '97, Gargnano, Italy") }}
-{% end %}
+{% <number_grid> %}
+{{< number_card value="25+" label="years in IT" context="first commercial assignment in January 1998" />}}
+{{< number_card value="50+" label="engagements" context="across both private and public sectors" />}}
+{{< number_card value="8" label="industries" context="rail, defense, telecom, banking, assistance, energy, public sector, hospitality" />}}
+{{< number_card value="4" label="French ministries" context="Defense, Education, Treasury / DGME, Ecology — plus DGI and HAS" />}}
+{{< number_card value="3,000–13,000" label="users impacted" context="single-engagement scope on the larger crisis missions" />}}
+{{< number_card value="7" label="missions in English" context="international teams across France, Italy, Russia, USA" />}}
+{{< number_card value="500+" label="load-test campaigns / year" context="current scope at SNCF Voyageurs Transilien Information Voyageur" />}}
+{{< number_card value="1997" label="DEA in AI · top of class" context="Université Paris VIII — published at Cellular Automata Workshop '97, Gargnano, Italy" />}}
+{% </number_grid> %}
 
 ## A career in three movements
 
@@ -64,36 +63,36 @@ The work I publish on idle-ti.me — the [tools list](/awesome-performance-engin
 
 ## What I bring to the table
 
-{% capability_grid() %}
-{% capability_card(title="Performance & observability practice") %}
+{% <capability_grid> %}
+{% <capability_card title="Performance & observability practice"> %}
 Hands-on with k6, JMeter, Gatling, Grafana, OpenTelemetry, and the wider observability stack. Load-test design grounded in production traffic patterns; workload modelling that survives contact with reality; continuous regression detection embedded in CI/CD pipelines rather than left as a release-time gate. The [tools list](/awesome-performance-engineering/) and [library](/library/) on this site are the public form of that practice.
-{% end %}
-{% capability_card(title="Crisis recovery on critical systems") %}
+{% </capability_card> %}
+{% <capability_card title="Crisis recovery on critical systems"> %}
 Diagnosing degraded systems with users in active rejection; standing up cross-functional crisis taskforces that the existing teams can own; designing remediation plans that align technical fixes with operations and change management. Public examples include SNCF Réseau's SPOT (13 000 users), the Ministry of Defense's GMOA (3 000 users / 54 sites), and the SNCF Voyageurs PulsIV / First passenger-information overhaul.
-{% end %}
-{% capability_card(title="Cross-functional IT leadership") %}
+{% </capability_card> %}
+{% <capability_card title="Cross-functional IT leadership"> %}
 Twenty-five years of moving across the full stack of an IT organisation: development, database administration, architecture, urbanisation, MOE, MOA, AMOA, change management, programme governance, vendor management, and strategic IT planning. Comfortable on both sides of the table — the CIO's, and the team's. Equally comfortable in French and in English (seven engagements conducted entirely in English). The constant across those roles: listening to a client, turning what they mean into what a team can build, and staying accountable for what ships. That is the skill an AI-dense DSI cannot automate.
-{% end %}
-{% capability_card(title="AI — from the winter to the boom") %}
+{% </capability_card> %}
+{% <capability_card title="AI — from the winter to the boom"> %}
 A DEA in artificial intelligence (Université Paris VIII, 1997, top of class), neural networks designed and trained during the second AI winter, and one of the first French natural-language interfaces shipped to production (Dejima, 2001 — in service at France Telecom for several years). More recently: an introductory AI course taught at bachelor level (CY Cergy Paris Université), and engagements where AI components sit inside the system under test. Performance engineering and AI now meet in the same place — making model-embedding systems observable, testable, and reliable.
-{% end %}
-{% end %}
+{% </capability_card> %}
+{% </capability_grid> %}
 
 ## Sectors and craft
 
 Nine emblematic milestones across the three movements — colour-coded by phase. The full chronology is much denser; what follows captures the turning points.
 
-{% timeline() %}
-{{ timeline_item(year="1998", phase="foundations", title="First missions", desc="Cyberis · EDF · AREVA · Dassault") }}
-{{ timeline_item(year="2000", phase="foundations", title="BizzGo (CTO)", desc="Co-founded mobile-services start-up") }}
-{{ timeline_item(year="2001", phase="foundations", title="Dejima — AI / NLP", desc="French natural-language SMS interface") }}
-{{ timeline_item(year="2003", phase="performance", title="SFR S3P", desc="Performance under telecom-scale load") }}
-{{ timeline_item(year="2011", phase="performance", title="MEDDE SI RH", desc="Managing 20 consultants") }}
-{{ timeline_item(year="2013", phase="performance", title="Bouygues virtual call-centre", desc="3M calls/month, 2,000 staff") }}
-{{ timeline_item(year="2016", phase="reliability", title="QOSGUARD + first crises", desc="Defense GMOA · SNCF SPOT (13K users)") }}
-{{ timeline_item(year="2019", phase="reliability", title="SNCF Transilien", desc="Performance team lead after the PulsIV / First overhaul — 500+ tests/year") }}
-{{ timeline_item(year="2022", phase="reliability", title="Teaching & advisory", desc="CY Cergy (AI · Blockchain · Governance) · Fortuneo · SNCF Matériel") }}
-{% end %}
+{% <timeline> %}
+{{< timeline_item year="1998" phase="foundations" title="First missions" desc="Cyberis · EDF · AREVA · Dassault" />}}
+{{< timeline_item year="2000" phase="foundations" title="BizzGo (CTO)" desc="Co-founded mobile-services start-up" />}}
+{{< timeline_item year="2001" phase="foundations" title="Dejima — AI / NLP" desc="French natural-language SMS interface" />}}
+{{< timeline_item year="2003" phase="performance" title="SFR S3P" desc="Performance under telecom-scale load" />}}
+{{< timeline_item year="2011" phase="performance" title="MEDDE SI RH" desc="Managing 20 consultants" />}}
+{{< timeline_item year="2013" phase="performance" title="Bouygues virtual call-centre" desc="3M calls/month, 2,000 staff" />}}
+{{< timeline_item year="2016" phase="reliability" title="QOSGUARD + first crises" desc="Defense GMOA · SNCF SPOT (13K users)" />}}
+{{< timeline_item year="2019" phase="reliability" title="SNCF Transilien" desc="Performance team lead after the PulsIV / First overhaul — 500+ tests/year" />}}
+{{< timeline_item year="2022" phase="reliability" title="Teaching & advisory" desc="CY Cergy (AI · Blockchain · Governance) · Fortuneo · SNCF Matériel" />}}
+{% </timeline> %}
 
 ### Industries
 

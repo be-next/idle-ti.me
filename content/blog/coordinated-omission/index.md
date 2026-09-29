@@ -12,7 +12,6 @@ tags = ["performance engineering", "load testing", "latency", "benchmarking", "H
 [extra]
 giscus = true
 copy_button = true
-footnote_backlinks = true
 +++
 
 > *The load test passed. p99 was 47 ms. In production, the same release showed p99 of 1.8 seconds — a 38× regression that the test had reported as nothing. Nothing was wrong with production. Everything was wrong with how we measured.*
@@ -262,7 +261,7 @@ The reproducible suite that backs this article is on [github.com/be-next/Coordin
 
 The references below are also collected in this site's [library of foundational works](/library/), under *Landmark talks*.
 
-{% references() %}
+{% <references> %}
 
 Tene, G. *How NOT to Measure Latency* [Conference talk]. [YouTube](https://www.youtube.com/watch?v=lJ8ydIuPFeU). — The definitive treatment, by the originator of the term. Required viewing once in a career.
 
@@ -274,4 +273,4 @@ Grafana k6 Documentation. *Open and closed models*. [grafana.com/docs/k6/latest/
 
 Ramette, J. *Coordinated-Omission — companion repository* [Code & data]. [github.com/be-next/Coordinated-Omission](https://github.com/be-next/Coordinated-Omission). — Reproducible material for this article: a deliberately misbehaving Go HTTP server, eight load-tool runners, five scenarios, and the analysis pipeline that generates every plot above.
 
-{% end %}
+{% </references> %}

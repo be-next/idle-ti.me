@@ -1,1 +1,3 @@
+{%- component capability_card(title: string) -%}
 <div class="capability-card"><h3 class="capability-title">{{ title }}</h3><div class="capability-body">{{ body | markdown | safe }}</div></div>
+{%- endcomponent capability_card -%}

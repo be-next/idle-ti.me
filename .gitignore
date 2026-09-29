@@ -2,5 +2,6 @@ public
 
 .DS_Store
 
-# Zola auto-generates these on build (style = "class"); we use syntax-dual.css instead
+# Zola <=0.22 wrote these into static/ on build; 0.23 writes them to the output dir.
+# Kept as a guard: a leftover copy here shadows the generated one and breaks highlighting.
 static/giallo-*.css

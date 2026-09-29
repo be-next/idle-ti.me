@@ -6,7 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `idle-ti.me` is a static site built with [Zola](https://www.getzola.org) (Rust SSG) using the [tabi](https://welpo.github.io/tabi) theme. There is no JavaScript framework, no Node toolchain, no package.json — everything is Markdown, TOML config, SCSS/CSS, and a few shell scripts. The site is deployed to AWS (S3 + CloudFront) via GitHub Actions on every push to `main`.
 
-The pinned Zola version is **0.22.1** (set in `.github/workflows/publish.yml` and `validate.yml`). Match this locally to avoid build divergence.
+The pinned Zola version is **0.23.6** (set in `.github/workflows/publish.yml` and `validate.yml`). Match this locally to avoid build divergence. Zola 0.23 replaced the template engine (Tera 2); tabi ≥ v5.0.0 is required, and tabi ≤ v4.2.0 no longer builds.
+
+Two consequences of Tera 2 that bite when editing content:
+
+- **Shortcodes are components.** They live in `templates/components/` (not `templates/shortcodes/`), declare typed parameters, and close by name: `{% component foo(bar: string) %} … {% endcomponent foo %}`. Call them as `{% <foo bar="x"> %} … {% </foo> %}` for block form, `{{< foo bar="x" />}}` for inline form. Note that arguments are space-separated, with no commas.
+- **`{{ … }}` and `{% … %}` are now parsed inside fenced code blocks.** Any code sample containing template-like syntax (GitHub Actions `${{ secrets.X }}`, Jinja, Vue, JSX) must be wrapped in `{% raw %}` / `{% endraw %}` around the fence, or the build fails with `Variable … is not defined`. This is deliberate upstream — see [zola#3263](https://github.com/getzola/zola/issues/3263). `content/blog/zola-aws/index.md` is the current example.
 
 ## Common commands
 
@@ -41,16 +46,22 @@ Zola's content tree directly maps to URLs:
 - `content/archive/_index.md` — uses `archive.html` template for the full post list.
 - `content/_index.md` — landing page (uses `section_path = "blog/_index.md"` to surface latest posts).
 
-Front matter is TOML between `+++` fences. Posts conventionally include `[taxonomies]` (with `tags`) and `[extra]` (per-page tabi flags like `giscus`, `copy_button`, `footnote_backlinks`).
+Front matter is TOML between `+++` fences. Posts conventionally include `[taxonomies]` (with `tags`) and `[extra]` (per-page tabi flags like `giscus` and `copy_button`). Footnote backlinks are native — `[markdown] bottom_footnotes = true` in `config.toml`; tabi's old `footnote_backlinks` flag no longer exists.
 
 Drafts are kept inline (e.g. `content/blog/draft-02/`) with `draft = true` in front matter; they only appear under `zola serve --drafts`.
 
-### Syntax highlighting (do not delete `giallo-*.css` from `.gitignore`)
-`config.toml` sets `[markdown.highlighting] style = "class"`, which makes Zola emit class-based highlight markup and auto-generate `static/giallo-light.css` and `static/giallo-dark.css` on each build. **Those files are gitignored** because the actual stylesheet served is the hand-tuned `static/syntax-dual.css`, loaded via `extra.stylesheets` in `config.toml`. If you see `giallo-*.css` show up in `git status`, leave them alone — they're build artifacts.
+### Syntax highlighting (`syntax-dual.css` is load-bearing — do not drop it)
+`config.toml` sets `[markdown.highlighting]` with `light_theme = "github-light"`, `dark_theme = "catppuccin-frappe"` and `style = "class"`. Zola generates two stylesheets **into the build output** (`public/giallo-light.css`, `public/giallo-dark.css`), with disjoint class prefixes: `.z-l-*` for light, `.z-d-*` for dark. Every token span carries classes from *both* palettes.
+
+tabi v5 injects both files with **no `media` attribute** (`themes/tabi/templates/partials/header.html`), so the dark sheet — loaded second — wins everywhere, and neither sheet knows about tabi's `data-theme` switcher. Left alone, code blocks render dark on a light page, with the wrong colours.
+
+`static/syntax-dual.css` fixes this. Loaded last via `extra.stylesheets`, it re-declares each palette scoped to its own theme at specificity (0,2,0) — `:root:not([data-theme='dark'])`, `[data-theme='dark']`, and a `prefers-color-scheme` block for readers who never toggled — and neutralises the opposite palette, which the raw sheets (0,1,0) cannot override. **Regenerate it from `giallo-{light,dark}.css` after changing either theme**; its own header comment carries the procedure.
+
+Zola ≤ 0.22 wrote the giallo files into `static/` instead. The `static/giallo-*.css` line in `.gitignore` is kept as a guard: a leftover copy there shadows the generated one and silently breaks every code block.
 
 ### Custom styles
 - `sass/custom.scss` → compiled by Zola to `custom.css` (site-specific overrides on top of tabi).
-- `static/syntax-dual.css` → hand-maintained dual-theme code highlighting.
+- `static/syntax-dual.css` → dual-theme code highlighting; generated from the giallo sheets, see above.
 - `static/custom_subset.css` → font subset (referenced by `custom_subset = true` in config) to avoid Firefox FOUT.
 
 ### Tabi-specific config knobs (in `config.toml`)

@@ -14,7 +14,6 @@ tags = ["performance engineering", "observability", "performance testing", "bibl
 [extra]
 show_reading_time = false
 copy_button = true
-footnote_backlinks = true
 +++
 
 Performance engineering draws from several intellectual traditions that have, until recently, evolved largely in parallel: queueing theory and operations research; systems-level performance analysis rooted in operating-systems internals; site reliability engineering from the post-Borg era; and the observability literature that emerged with cloud-native architectures. The corpus is therefore both broader and more fragmented than newcomers typically expect.
@@ -37,7 +36,7 @@ Bibliographic entries follow APA-style conventions and are rendered with hanging
 
 ### Measurement, methodology, and statistical reasoning
 
-{% references() %}
+{% <references> %}
 
 Jain, R. (1991). *The Art of Computer Systems Performance Analysis.* Wiley. — The foundational textbook on measurement, experimental design, simulation, and queueing models. Predates most of the modern toolchain, but its treatment of confidence intervals, factorial experimental design, and workload characterisation remains directly applicable.
 
@@ -45,41 +44,41 @@ Sites, R. L. (2021). *Understanding Software Dynamics.* Addison-Wesley. — A mo
 
 Wescott, B. *Every Computer Performance Book.* — Practical, vendor-neutral methodology with a bias toward simple models and parsimonious measurement.
 
-{% end %}
+{% </references> %}
 
 ### Systems performance
 
-{% references() %}
+{% <references> %}
 
 Gregg, B. (2020). *Systems Performance* (2nd ed.). Addison-Wesley. — The single most comprehensive reference on Linux performance methodology. Establishes the USE method (utilisation, saturation, errors) as a discipline for resource analysis.
 
 Gregg, B. (2019). *BPF Performance Tools.* Addison-Wesley. — The definitive reference on eBPF-based observability and dynamic tracing for production systems.
 
-{% end %}
+{% </references> %}
 
 ### Capacity planning and scalability theory
 
-{% references() %}
+{% <references> %}
 
 Gunther, N. J. (2007). *Guerrilla Capacity Planning.* Springer. — Introduces the Universal Scalability Law (USL), which subsumes Amdahl's Law by adding a coherency-overhead term. The USL is the most useful single equation a performance engineer can keep in mind, and Gunther's treatment is its canonical exposition.
 
 Kejariwal, A., & Allspaw, J. (2017). *The Art of Capacity Planning* (2nd ed.). O'Reilly. — Pragmatic capacity planning grounded in operational practice at Etsy, Flickr, and others.
 
-{% end %}
+{% </references> %}
 
 ### Software performance engineering
 
-{% references() %}
+{% <references> %}
 
 Smith, C. U., & Williams, L. G. (2001). *Performance Solutions.* Addison-Wesley. — The methodological foundation of Software Performance Engineering (SPE): model performance characteristics before building, validate against measurements after building.
 
 Molyneaux, I. (2014). *The Art of Application Performance Testing* (2nd ed.). O'Reilly. — The most complete treatment of the performance-testing lifecycle, from strategy through execution to post-mortem analysis.
 
-{% end %}
+{% </references> %}
 
 ### Distributed systems and architecture
 
-{% references() %}
+{% <references> %}
 
 Kleppmann, M. (2017). *Designing Data-Intensive Applications.* O'Reilly. — The standard architectural reference for distributed systems and data pipelines. Indispensable for reasoning about latency, consistency, and throughput trade-offs in modern stacks.
 
@@ -87,11 +86,11 @@ Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (Eds.). (2016). *Site Reliabil
 
 Campbell, L., & Majors, C. (2017). *Database Reliability Engineering.* O'Reilly. — SRE principles applied to database operations and performance.
 
-{% end %}
+{% </references> %}
 
 ### Observability
 
-{% references() %}
+{% <references> %}
 
 Majors, C., Fong-Jones, L., & Miranda, G. (2022). *Observability Engineering.* O'Reilly. — The contemporary canonical text on observability as a *property of systems* rather than a category of tools. Argues for high-cardinality, high-dimensionality event data over aggregated metrics.
 
@@ -101,13 +100,13 @@ Boten, A. (2022). *Cloud Native Observability with OpenTelemetry.* Packt. — Th
 
 Julian, M. (2017). *Practical Monitoring.* O'Reilly. — Vendor-neutral monitoring principles, anti-patterns, and on-call design.
 
-{% end %}
+{% </references> %}
 
 ### Domain-specific performance
 
 #### JVM and Java
 
-{% references() %}
+{% <references> %}
 
 Oaks, S. (2020). *Java Performance* (2nd ed.). O'Reilly. — Comprehensive JVM tuning reference.
 
@@ -115,11 +114,11 @@ Evans, B. J., Gough, J., & Newland, C. (2018). *Optimizing Java.* O'Reilly. — 
 
 Beckwith, M. (2024). *JVM Performance Engineering.* Addison-Wesley. — HotSpot internals, GraalVM, ahead-of-time compilation.
 
-{% end %}
+{% </references> %}
 
 #### Web and frontend
 
-{% references() %}
+{% <references> %}
 
 Grigorik, I. *High Performance Browser Networking.* O'Reilly. [Free online](https://hpbn.co/). — Essential for the network and protocol layer.
 
@@ -127,33 +126,33 @@ Souders, S. (2007). *High Performance Web Sites.* O'Reilly. — Historically imp
 
 Wagner, J. L. (2017). *Web Performance in Action.* Manning. — HTTP/2, rendering optimisation, and modern build pipelines.
 
-{% end %}
+{% </references> %}
 
 #### Database performance
 
-{% references() %}
+{% <references> %}
 
 Winand, M. *SQL Performance Explained.* [Free online](https://use-the-index-luke.com/). — Vendor-agnostic indexing fundamentals (Oracle, MySQL, PostgreSQL, SQL Server).
 
 Botros, S., & Tinley, J. (2021). *High Performance MySQL* (4th ed.). O'Reilly. — MySQL optimisation at scale.
 
-{% end %}
+{% </references> %}
 
 ### Systems thinking
 
-{% references() %}
+{% <references> %}
 
 Meadows, D. H. (2008). *Thinking in Systems: A Primer.* Chelsea Green. — Stocks, flows, feedback loops, and leverage points — the conceptual scaffolding for capacity reasoning at any scale.
 
 Serazzi, G. (2023). *Performance Engineering.* Springer. [Open Access](https://link.springer.com/book/10.1007/978-3-031-36763-2). — Performance evaluation through case studies using Java Modelling Tools (JMT).
 
-{% end %}
+{% </references> %}
 
 ## Landmark talks
 
 Conference presentations frequently introduce concepts well before they reach books. The following are referenced repeatedly across the field.
 
-{% references() %}
+{% <references> %}
 
 Tene, G. *How NOT to Measure Latency* [Conference talk]. [YouTube](https://www.youtube.com/watch?v=lJ8ydIuPFeU). — The definitive treatment of coordinated omission and tail-latency measurement. Required viewing for anyone writing or interpreting load tests.
 
@@ -167,7 +166,7 @@ Berger, E. (2019). *Performance Matters* [Conference talk]. Strange Loop. [YouTu
 
 Thompson, M. *Mechanical Sympathy* [Conference talk]. [InfoQ](https://www.infoq.com/presentations/mechanical-sympathy/). — The case for understanding hardware in order to write effective high-performance software.
 
-{% end %}
+{% </references> %}
 
 ## Standards and methodologies
 
@@ -224,7 +223,7 @@ The academic performance-engineering literature is concentrated in two communiti
 
 A small selection of papers that practitioners frequently cite:
 
-{% references() %}
+{% <references> %}
 
 Smith, C. U., & Williams, L. G. (2000). Software performance antipatterns. *Proceedings of the 2nd International Workshop on Software and Performance (WOSP).* — The foundational catalogue of recurring performance problems and their remedies.
 
@@ -232,7 +231,7 @@ Jiang, Z. M., & Hassan, A. E. (2015). A survey on load testing of large-scale so
 
 Fleming, M., et al. (2023). Hunter: Using change point detection to hunt for performance regressions. *Proceedings of the International Conference on Performance Engineering (ICPE).* — Automated regression detection in continuous integration; representative of the recent literature on quantitative quality gates.
 
-{% end %}
+{% </references> %}
 
 ## Companion: tools
 

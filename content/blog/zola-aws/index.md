@@ -147,6 +147,7 @@ By default, CloudFront caches the resources it serves for 24 hours[^1]. This mea
 
 If you use GitHub Action to deploy your website, the Zola documentation provides a way to invalidate the CloudFront cache when the website is updated. Here the deployment GitHub Action I use to deploy my website to S3 and invalidate the CloudFront cache:
 
+{% raw %}
 ```yaml, linenos
 name: Build and Publish to AWS
 on:
@@ -179,6 +180,7 @@ jobs:
           dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           invalidation: /*
 ```
+{% endraw %}
 
 #### Command line
 

@@ -1,1 +1,3 @@
+{%- component timeline_item(year: string, phase: string, title: string, desc: string) -%}
 <li class="timeline-item phase-{{ phase }}"><div class="timeline-year">{{ year }}</div><div class="timeline-content"><div class="timeline-title">{{ title }}</div><div class="timeline-desc">{{ desc }}</div></div></li>
+{%- endcomponent timeline_item -%}

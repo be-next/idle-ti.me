@@ -12,7 +12,6 @@ tags = ["observability", "performance engineering", "OpenTelemetry", "APM", "dis
 [extra]
 giscus = true
 copy_button = true
-footnote_backlinks = true
 +++
 
 > *Checkout p99 doubled at 12:14. The metrics dashboard says so. The trace explorer can show you any single request, but the slow ones are interleaved with the fast across thirty services. The log search returns a million lines. Forty minutes in, the on-call team — whether three engineers across three tools or one engineer across the six widgets of a unified platform — still cannot say what changed. The instrumentation works correctly. The way it was reached for does not.*
@@ -217,7 +216,7 @@ The full curated catalogue of the tools cited above is on the [Awesome Performan
 
 The references below are also collected in this site's [library of foundational works](/library/), under *Observability*.
 
-{% references() %}
+{% <references> %}
 
 Majors, C., Fong-Jones, L., & Miranda, G. (2022). *Observability Engineering.* O'Reilly. — The contemporary canonical text on observability as a property of systems. The argument for high-cardinality, high-dimensionality data is its central thread.
 
@@ -231,4 +230,4 @@ OpenTelemetry. *OpenTelemetry Documentation.* [opentelemetry.io/docs/](https://o
 
 CNCF Observability Technical Advisory Group. *TAG-Observability community resources.* [github.com/cncf/tag-observability](https://github.com/cncf/tag-observability). — Vendor-neutral community standards and whitepapers.
 
-{% end %}
+{% </references> %}

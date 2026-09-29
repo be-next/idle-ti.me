@@ -13,7 +13,6 @@ tags = ["Apple", "Steve Jobs", "Macintosh", "Newton", "Computer History"]
 [extra]
 giscus = true
 copy_button = true
-footnote_backlinks = true
 +++
 
 ## Introduction: Seeds of a Digital Journey
