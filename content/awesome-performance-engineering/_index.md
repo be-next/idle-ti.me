@@ -157,6 +157,7 @@ Indicators: ⭐ Category reference · 🟢 Active · 🔵 Cloud-native · 🟠 C
 - [OpenObserve](https://github.com/openobserve/openobserve) - 🟢🔵🚀 Rust-based all-in-one observability platform for logs, metrics, and traces with object-storage-first design.
 - [HyperDX](https://github.com/hyperdxio/hyperdx) - 🟢🔵 Open-source observability platform unifying logs, metrics, traces, and session replay on ClickHouse, developed as part of ClickStack.
 - [Axiom](https://axiom.co/) - 🟠 Telemetry data platform for logs and events with OpenTelemetry-native ingestion and usage-based pricing.
+- [Gigapipe](https://github.com/metrico/gigapipe) - 🟢🔵🟠 ClickHouse-backed observability warehouse for logs, metrics, traces, and profiles, serving the same stored data over LogQL, PromQL, TraceQL, and FlameQL so existing Grafana dashboards work unmodified.
 
 ### Monitoring Suites (Operations-Oriented)
 
