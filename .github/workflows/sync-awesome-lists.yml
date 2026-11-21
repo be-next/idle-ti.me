@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout idle-ti.me
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
           token: ${{ secrets.PUSH_TOKEN }}
