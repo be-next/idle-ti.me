@@ -21,10 +21,12 @@ jobs:
       - name: Build
         run: zola build
 
-      # Static assets: long cache (1 year) — CSS, JS, fonts, images
+      # Static assets: long cache (1 year) — CSS, JS, fonts, images.
+      # --delete removes assets that left the build; filters scope it to this
+      # pass's extensions, so the content pass below is untouched.
       - name: Deploy static assets
         run: |
-          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ \
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ --delete \
             --exclude "*" \
             --include "*.css" --include "*.js" \
             --include "*.woff" --include "*.woff2" --include "*.ttf" --include "*.eot" \
@@ -33,16 +35,20 @@ jobs:
             --include "*.gif" --include "*.ico" \
             --cache-control "public, max-age=31536000"
 
-      # Content pages: no cache — HTML, XML, JSON, TXT
+      # Content pages — HTML, XML, JSON, TXT. Browsers always revalidate
+      # (max-age=0); CloudFront keeps them at the edge (s-maxage=1y) until the
+      # invalidation below purges them. Without s-maxage every HTML request went
+      # back to the us-east-1 origin: ~300 ms TTFB from Europe instead of ~50 ms.
       - name: Deploy content
         run: |
-          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ \
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET }}/ --delete \
             --exclude "*" \
             --include "*.html" --include "*.xml" --include "*.xsl" \
             --include "*.json" --include "*.txt" \
-            --cache-control "public, max-age=0, must-revalidate"
+            --cache-control "public, max-age=0, s-maxage=31536000, must-revalidate"
 
       # Invalidate all CloudFront edges so new content + headers take effect.
+      # This is also what purges the edge-cached HTML: never deploy without it.
       # "/*" counts as a single invalidation path for billing (first 1000/month free).
       - name: Invalidate CloudFront cache
         run: |

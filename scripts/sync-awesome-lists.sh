@@ -75,6 +75,8 @@ sort_by = "weight"
 template = "section.html"
 insert_anchor_links = "left"
 description = "The discipline that ensures systems deliver fast, reliable, and cost-efficient experiences at any scale, combining observability and performance testing."
+# Until 2026-04 each list had its own page; keep those URLs alive as redirects.
+aliases = ["/awesome-performance-engineering/observability-tools/", "/awesome-performance-engineering/performance-testing-tools/"]
 
 [extra]
 show_reading_time = false
