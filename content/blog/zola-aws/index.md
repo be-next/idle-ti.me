@@ -16,7 +16,7 @@ copy_button = true
 +++
 
 {% <admonition type="info" title="Revised in November 2026"> %}
-Two years after the first version, I audited this setup and found that it worked — just not as well as I thought. HTML was never cached at the edge, CloudFront ignored Zola's cache-busting hash, and the distribution served neither Brotli, nor HTTP/3, nor a single security header. Section 3 is rewritten, and corrects advice the 2024 version got wrong. Section 4 is new.
+Two years after the first version, I audited this setup and found that it worked — just not as well as I thought. HTML was never cached at the edge, CloudFront ignored Zola's cache-busting hash, the distribution served neither Brotli, nor HTTP/3, nor a single security header, and the deploy relied on an access key created in 2024. Sections 2 and 3 are rewritten — section 3 also corrects advice the 2024 version got wrong — and section 4 is new.
 {% </admonition> %}
 
 ## When RTFM isn't Enough 😉
@@ -76,31 +76,33 @@ The 403 comes from S3 itself. When a client asks for a key that doesn't exist, S
 
 ### Solution: Configuring CloudFront and S3 for Correct Error Handling
 
-#### Check the origin access to the S3 bucket
+#### Restrict the bucket to CloudFront
 
-Following the AWS guide [Use an Amazon CloudFront distribution to serve a static website](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started-cloudfront-overview.html), we created an OAI (Origin Access Identity) so that CloudFront is the only client allowed to read the bucket. The bucket policy grants read access to that identity:
+The bucket blocks all public access: only CloudFront may read it. When I first set this up, following the AWS guide [Use an Amazon CloudFront distribution to serve a static website](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started-cloudfront-overview.html), I used an OAI (Origin Access Identity). AWS now labels OAI as legacy and recommends Origin Access Control (OAC)[^3], which I've switched to. With OAC, CloudFront signs its requests to S3, and the bucket policy grants read access to the CloudFront service — for your distribution only:
 
 ```json, linenos
 {
     "Version": "2012-10-17",
-    "Id": "PolicyForCloudFrontPrivateContent",
     "Statement": [
         {
-            "Sid": "1",
+            "Sid": "AllowCloudFrontOAC",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity YOUR_OAI_ID"
-            },
+            "Principal": { "Service": "cloudfront.amazonaws.com" },
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::yourbucketname/*"
+            "Resource": "arn:aws:s3:::yourbucketname/*",
+            "Condition": {
+                "StringEquals": {
+                    "AWS:SourceArn": "arn:aws:cloudfront::YOUR_ACCOUNT_ID:distribution/YOUR_DISTRIBUTION_ID"
+                }
+            }
         }
     ]
 }
 ```
 
-Replace `YOUR_OAI_ID` with the ID of your OAI and `yourbucketname` with the name of your bucket.
+Replace `yourbucketname`, `YOUR_ACCOUNT_ID` and `YOUR_DISTRIBUTION_ID` with your own values, and select the OAC on the distribution's S3 origin.
 
-AWS now labels OAI as legacy and recommends Origin Access Control (OAC) instead[^3]. The principle doesn't change — only CloudFront may read the bucket — but the bucket policy names the CloudFront service and your distribution rather than an identity. If you're starting from scratch, choose OAC.
+To migrate an existing distribution without downtime, let the bucket policy allow both the OAI and the OAC, switch the origin to the OAC, check that objects not yet in the cache still load, then remove the OAI statement and delete the OAI.
 
 #### Configure a custom error response in CloudFront
 
@@ -167,7 +169,7 @@ Create it with `aws cloudfront create-cache-policy --cache-policy-config file://
 
 ### The deployment workflow
 
-Here is the GitHub Action I use today. Compared with the one suggested in the Zola documentation, it uploads in two passes to set the two `Cache-Control` headers above, and it adds `--delete`:
+Here is the GitHub Action I use today. Compared with the one suggested in the Zola documentation, it uploads in two passes to set the two `Cache-Control` headers above, it adds `--delete`, and it holds no AWS key:
 
 {% raw %}
 ```yaml, linenos
@@ -176,14 +178,18 @@ on:
   push:
     branches:
       - main
+
+# No long-lived AWS keys: the job requests a short-lived OIDC token from GitHub
+# and exchanges it for credentials of an IAM role that only this repository's
+# main branch can assume (trust policy on the `sub` claim).
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
         with:
@@ -193,6 +199,14 @@ jobs:
           tool: zola@0.23.6
       - name: Build
         run: zola build
+
+      # Pinned by commit SHA: this action handles the AWS credentials.
+      # Dependabot (github-actions ecosystem) keeps the pin up to date.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
 
       # Static assets: long cache (1 year) — CSS, JS, fonts, images.
       # --delete removes assets that left the build; filters scope it to this
@@ -231,7 +245,9 @@ jobs:
 ```
 {% endraw %}
 
-Without `--delete`, `aws s3 sync` never removes anything: files that leave the build stay online forever. I found eleven of them, including two pages retired seven months earlier and still answering 200. With `--delete`, files in the bucket that are no longer in the build are removed — and since files excluded by the filters are excluded from deletion too[^8], each pass only cleans up its own file types. If a retired URL deserves to survive, Zola's `aliases` front-matter field generates a redirect page in its place.
+There are no AWS credentials in the repository. GitHub issues the job a short-lived OIDC token (`permissions: id-token: write`), and `aws-actions/configure-aws-credentials` exchanges it for temporary credentials of an IAM role[^8]. The role's trust policy only accepts this repository's `main` branch — `repo:be-next/idle-ti.me:ref:refs/heads/main` — so a pull request or another branch cannot deploy, and its permissions cover the site's bucket and invalidations on its distribution, nothing more. The access key that sat in the repository secrets since 2024 is gone. Since this action handles the credentials, it is pinned by commit SHA rather than by tag.
+
+Without `--delete`, `aws s3 sync` never removes anything: files that leave the build stay online forever. I found eleven of them, including two pages retired seven months earlier and still answering 200. With `--delete`, files in the bucket that are no longer in the build are removed — and since files excluded by the filters are excluded from deletion too[^9], each pass only cleans up its own file types. If a retired URL deserves to survive, Zola's `aliases` front-matter field generates a redirect page in its place.
 
 To invalidate by hand, run `aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"`. The `/*` wildcard counts as a single path for billing.
 
@@ -247,11 +263,11 @@ These settings were off, or incomplete, on my 2024 distribution:
 
 - **HTTP/3**: in the distribution settings, add HTTP/3 to the supported HTTP versions. Browsers discover it through the `alt-svc` response header and switch to it on the following requests.
 - **Brotli**: comes with the cache policy above.
-- **Security headers**: a *response headers policy* adds them to every response[^9]. Mine sets HSTS for one year — without `includeSubDomains` or `preload`, which are harder to take back — plus `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, a `Referrer-Policy` and a `Permissions-Policy`. It also removes the `Server: AmazonS3` header sent by the origin.
+- **Security headers**: a *response headers policy* adds them to every response[^10]. Mine sets HSTS for one year — without `includeSubDomains` or `preload`, which are harder to take back — plus `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, a `Referrer-Policy` and a `Permissions-Policy`. It also removes the `Server: AmazonS3` header sent by the origin.
 - **IPv6**: my distribution had IPv6 enabled, but nothing pointed to it — the domain had an `A` alias record and no `AAAA`. Create both.
-- **CAA**: a DNS record listing the certificate authorities allowed to issue certificates for your domain. With ACM, `0 issue "amazon.com"` is enough[^10]. Keep an Amazon value in it, or ACM can no longer renew your certificate.
+- **CAA**: a DNS record listing the certificate authorities allowed to issue certificates for your domain. With ACM, `0 issue "amazon.com"` is enough[^11]. Keep an Amazon value in it, or ACM can no longer renew your certificate.
 
-Measured from Paris, before and after the changes in sections 3 and 4:
+Before and after this revision, measured from Paris:
 
 | | Before | After |
 |---|---|---|
@@ -260,6 +276,8 @@ Measured from Paris, before and after the changes in sections 3 and 4:
 | Protocol | HTTP/2 | HTTP/3 |
 | Security headers | none | 5, and no `Server: AmazonS3` |
 | Cache-busting hash | ignored | part of the cache key |
+| Deploy credentials | access key from 2024 | short-lived, through OIDC |
+| Bucket access | OAI (legacy) | OAC |
 
 ## Overkill? Certainly, but worth the journey
 
@@ -276,7 +294,7 @@ If you've found yourself on a similar over-engineered adventure, or if you have 
 
 [^2]: Amazon S3 API Reference, [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html): "If you have the `s3:ListBucket` permission on the bucket, Amazon S3 returns an HTTP status code `404 Not Found` error. If you don't have the `s3:ListBucket` permission, Amazon S3 returns an HTTP status code `403 Access Denied` error."
 
-[^3]: Amazon CloudFront Developer Guide, [restricting access to an Amazon S3 origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html): "We recommend that you use OAC instead."
+[^3]: Amazon CloudFront Developer Guide, [Restrict access to an Amazon S3 origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html): "We recommend that you use OAC instead."
 
 [^4]: AWS re:Post, [Push updated Amazon S3 content from CloudFront](https://repost.aws/knowledge-center/cloudfront-serving-outdated-content-s3): "By default, CloudFront caches a response from Amazon S3 for 24 hours (Default TTL of 86,400 seconds)."
 
@@ -286,8 +304,10 @@ If you've found yourself on a similar over-engineered adventure, or if you have 
 
 [^7]: Amazon CloudFront Developer Guide, [Serve compressed files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html): "You must use cache policies to use Brotli compression. Brotli doesn't support legacy cache settings."
 
-[^8]: AWS CLI Command Reference, [`s3 sync`](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html): "Files that exist in the destination but not in the source are deleted during sync. Note that files excluded by filters are excluded from deletion."
+[^8]: GitHub Docs, [Configuring OpenID Connect in Amazon Web Services](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services): OIDC lets workflows access AWS "without needing to store the AWS credentials as long-lived GitHub secrets".
 
-[^9]: Amazon CloudFront Developer Guide, [adding HTTP headers to CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html).
+[^9]: AWS CLI Command Reference, [`s3 sync`](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html): "Files that exist in the destination but not in the source are deleted during sync. Note that files excluded by filters are excluded from deletion."
 
-[^10]: AWS Certificate Manager User Guide, [CAA records](https://docs.aws.amazon.com/acm/latest/userguide/setup-caa.html): any one of `amazon.com`, `amazontrust.com`, `awstrust.com` or `amazonaws.com`.
+[^10]: Amazon CloudFront Developer Guide, [adding HTTP headers to CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html).
+
+[^11]: AWS Certificate Manager User Guide, [CAA records](https://docs.aws.amazon.com/acm/latest/userguide/setup-caa.html): any one of `amazon.com`, `amazontrust.com`, `awstrust.com` or `amazonaws.com`.
