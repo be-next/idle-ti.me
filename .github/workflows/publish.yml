@@ -3,14 +3,18 @@ on:
   push:
     branches:
       - main
+
+# No long-lived AWS keys: the job requests a short-lived OIDC token from GitHub
+# and exchanges it for credentials of an IAM role that only this repository's
+# main branch can assume (trust policy on the `sub` claim).
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,6 +24,14 @@ jobs:
           tool: zola@0.23.6
       - name: Build
         run: zola build
+
+      # Pinned by commit SHA: this action handles the AWS credentials.
+      # Dependabot (github-actions ecosystem) keeps the pin up to date.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
 
       # Static assets: long cache (1 year) — CSS, JS, fonts, images.
       # --delete removes assets that left the build; filters scope it to this

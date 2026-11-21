@@ -1,16 +1,27 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
+# Checked once a week: the tabi submodule, and the actions used by the workflows.
 version: 2
 updates:
-  - package-ecosystem: "gitsubmodule" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
       time: "16:45"
       timezone: "Europe/Paris"
     commit-message:
       prefix: "⬆️ deps:"
     open-pull-requests-limit: 10
+
+  # Also keeps SHA-pinned actions current, such as aws-actions/configure-aws-credentials.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "16:45"
+      timezone: "Europe/Paris"
+    commit-message:
+      prefix: "⬆️ deps:"
+    groups:
+      github-actions:
+        patterns: ["*"]

@@ -51,14 +51,16 @@ The tools page, `content/awesome-performance-engineering/_index.md`, is generate
 On every push to `main`, `publish.yml`:
 
 1. builds the site with `zola build`;
-2. syncs the static assets to S3 with `Cache-Control: public, max-age=31536000`;
-3. syncs the content (HTML, XML, JSON, TXT) with `Cache-Control: public, max-age=0, s-maxage=31536000, must-revalidate`: browsers revalidate on every visit, while CloudFront keeps the pages at the edge;
-4. invalidates `/*` on CloudFront, which is what purges that edge-cached content.
+2. authenticates to AWS through GitHub OIDC: no long-lived access key, just short-lived credentials for an IAM role that only this repository's `main` branch can assume;
+3. syncs the static assets to S3 with `Cache-Control: public, max-age=31536000`;
+4. syncs the content (HTML, XML, JSON, TXT) with `Cache-Control: public, max-age=0, s-maxage=31536000, must-revalidate`: browsers revalidate on every visit, while CloudFront keeps the pages at the edge;
+5. invalidates `/*` on CloudFront, which is what purges that edge-cached content.
 
 Both syncs use `--delete`, so a file that leaves the build leaves the bucket too. S3 versioning keeps every overwritten or deleted object for 5 days.
 
 The CloudFront side is configured in AWS, not in this repository:
 
+- CloudFront reads the private bucket through an Origin Access Control;
 - a CloudFront Function on viewer requests appends `index.html` to directory URLs;
 - a custom error response turns the 403 that S3 returns for a missing key into `/404.html` with a 404 status;
 - a cache policy honours the origin `Cache-Control`, keys on Zola's `?h=` cache-busting hash, and serves Brotli;
@@ -67,7 +69,7 @@ The CloudFront side is configured in AWS, not in this repository:
 
 The article [Zola: How to deploy a website using S3 Bucket and CloudFront](https://idle-ti.me/blog/zola-aws/) explains each of these choices and gives the configurations to reproduce them.
 
-Repository secrets used by the workflows: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`, and `PUSH_TOKEN` for the tools-page sync.
+Repository secrets used by the workflows: `AWS_ROLE_ARN` (the deploy role), `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`, and `PUSH_TOKEN` for the tools-page sync.
 
 ### Code highlighting
 

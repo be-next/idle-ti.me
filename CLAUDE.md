@@ -34,7 +34,7 @@ There are no tests, linters, or formatters configured in this repo. CI just runs
 ## Architecture
 
 ### Theme as submodule
-`themes/tabi` is a **git submodule** pointing at `welpo/tabi`. CI checks out with `submodules: recursive`. Dependabot opens daily PRs to bump the submodule SHA. Don't edit files under `themes/tabi/` — they're upstream. Site-level overrides go in `templates/`, `sass/custom.scss`, or `static/`.
+`themes/tabi` is a **git submodule** pointing at `welpo/tabi`. CI checks out with `submodules: recursive`. Dependabot opens weekly PRs (Mondays) to bump the submodule SHA, and groups the GitHub Actions updates in a second weekly PR. Don't edit files under `themes/tabi/` — they're upstream. Site-level overrides go in `templates/`, `sass/custom.scss`, or `static/`.
 
 ### Content layout
 Zola's content tree directly maps to URLs:
@@ -87,14 +87,15 @@ The sync also `rm -rf`s legacy `observability-tools/` and `performance-testing-t
 
 On push to `main`:
 1. `zola build` (with submodules).
-2. `aws s3 sync --delete` static assets (CSS/JS/fonts/images) with `Cache-Control: public, max-age=31536000`.
-3. `aws s3 sync --delete` content (HTML/XML/JSON/TXT) with `Cache-Control: public, max-age=0, s-maxage=31536000, must-revalidate`.
-4. `aws cloudfront create-invalidation --paths "/*"` — counts as one path for billing.
+2. `aws-actions/configure-aws-credentials` (pinned by SHA) exchanges a GitHub OIDC token for short-lived credentials of the IAM role `github-actions-idle-ti-me-deploy`. There are **no long-lived AWS keys** anywhere: the role's trust policy only accepts `repo:be-next/idle-ti.me:ref:refs/heads/main`, so pull requests and other branches can't deploy. Its inline policy `deploy-idle-ti-me` allows `ListBucket` on the bucket, `Get/Put/DeleteObject` on its objects and invalidations on this distribution only. The workflow needs `permissions: id-token: write`. If the repository ever opts into GitHub's immutable OIDC subjects (`repo:owner@id/repo@id:…`), deploys will fail with `Not authorized to perform sts:AssumeRoleWithWebIdentity` until the trust policy's `sub` condition is updated to the new format.
+3. `aws s3 sync --delete` static assets (CSS/JS/fonts/images) with `Cache-Control: public, max-age=31536000`.
+4. `aws s3 sync --delete` content (HTML/XML/JSON/TXT) with `Cache-Control: public, max-age=0, s-maxage=31536000, must-revalidate`.
+5. `aws cloudfront create-invalidation --paths "/*"` — counts as one path for billing.
 
-The two-pass `s3 sync` is intentional. Assets get a long browser cache. Content is never cached by browsers (`max-age=0`) but is cached at the edge for a year (`s-maxage`), so HTML is served from the nearest PoP instead of the us-east-1 origin. **The invalidation in step 4 is what purges that edge-cached HTML** — don't collapse the steps, and never ship content without it. `--delete` is scoped by each pass's filters, so neither pass deletes the other's files; S3 versioning keeps deleted or overwritten objects for 5 days.
+The two-pass `s3 sync` is intentional. Assets get a long browser cache. Content is never cached by browsers (`max-age=0`) but is cached at the edge for a year (`s-maxage`), so HTML is served from the nearest PoP instead of the us-east-1 origin. **The invalidation in step 5 is what purges that edge-cached HTML** — don't collapse the steps, and never ship content without it. `--delete` is scoped by each pass's filters, so neither pass deletes the other's files; S3 versioning keeps deleted or overwritten objects for 5 days.
 
 ### CloudFront and DNS configuration (lives in AWS, not in this repo)
-Distribution `E2N14H6KQ7G4WH`: origin is the S3 bucket `idle-ti.me` through an OAI, HTTP/2 and HTTP/3, and a viewer-request CloudFront Function `Rewrite_URL` that appends `index.html` to directory URLs. The default behaviour uses:
+Distribution `E2N14H6KQ7G4WH`: origin is the S3 bucket `idle-ti.me` through the Origin Access Control `idle-ti-me-s3` (the bucket policy grants `s3:GetObject` to `cloudfront.amazonaws.com`, conditioned on this distribution's ARN), HTTP/2 and HTTP/3, and a viewer-request CloudFront Function `Rewrite_URL` that appends `index.html` to directory URLs. The default behaviour uses:
 
 - **Cache policy `idle-ti-me-static-site`** — honours the origin `Cache-Control` (min TTL 0, max 1 year). The cache key is the path plus the `h` query string only: that is Zola's cache-busting hash (`main.css?h=…`). Before this policy CloudFront ignored the hash and could hand stale CSS to a fresh URL, which browsers then kept for a year. Gzip and Brotli are enabled here — legacy cache settings only ever served gzip.
 - **Response headers policy `idle-ti-me-security-headers`** — HSTS (1 year, no subdomains, no preload), `nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy`, `Permissions-Policy`; strips the S3 `Server` header.
@@ -102,7 +103,7 @@ Distribution `E2N14H6KQ7G4WH`: origin is the S3 bucket `idle-ti.me` through an O
 
 Route 53 has A and AAAA aliases to the distribution, and a CAA record (`0 issue "amazon.com"`). Any CAA change must keep an Amazon value, or ACM certificate renewal fails.
 
-Region is `us-east-1`. Required GitHub secrets: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`, `PUSH_TOKEN` (used by the awesome-list sync workflow to push back).
+Region is `us-east-1`. Required GitHub secrets: `AWS_ROLE_ARN` (the deploy role, kept as a secret so the AWS account ID stays out of this public repo), `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`, `PUSH_TOKEN` (used by the awesome-list sync workflow to push back).
 
 ## Conventions worth knowing
 
