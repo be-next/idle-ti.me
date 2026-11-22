@@ -1,0 +1,39 @@
+// tabi's `lowcontrast_orange`, with a light-theme orange that meets WCAG AA.
+//
+// The upstream light value, #f56a00, gives 3.02:1 on white: below the 4.5:1
+// that body-size text needs, and it fails Lighthouse on every link, tag and
+// table header (those headers put white text on the orange). #c25400 is the
+// same hue, darker: 4.6:1 on white, in both directions.
+// The dark-theme value is unchanged: #ec984f gives 7.19:1 on #1f1f1f.
+//
+// `--link-on-grey-color` is the orange for links that sit on one of tabi's
+// greys, where #c25400 falls below 4.5:1: inline code inside a link (#e7e7e7,
+// 3.72:1) and links on the striped rows of tables (#f0f0f0, 4.03:1). Used in
+// custom.scss.
+//
+// Selected by `skin = "accessible_orange"` in config.toml. Zola compiles this
+// file to skins/accessible_orange.css, which tabi loads after main.css.
+@mixin theme-variables($theme) {
+    @if $theme =='light' {
+        --primary-color: #c25400; // Contrast ratio: 4.6:1.
+        --link-on-grey-color: #a84900; // 4.69:1 on #e7e7e7, 5.09:1 on #f0f0f0.
+    }
+    @else if $theme == 'dark' {
+        --primary-color: #ec984f; // Contrast ratio: 7.19:1.
+        --link-on-grey-color: var(--primary-color);
+    }
+}
+
+:root {
+    @include theme-variables('light');
+}
+
+[data-theme='dark'] {
+    @include theme-variables('dark');
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        @include theme-variables('dark');
+    }
+}

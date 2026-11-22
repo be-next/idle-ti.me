@@ -1,0 +1,88 @@
+{#- Figures of the /performance/ page, from content/pages/performance/data.json
+    (written on deploy by scripts/performance_data.py). One part per call, so
+    the page's Markdown keeps its own headings and prose around the figures:
+    summary | context | scores | vitals | weight.
+    Without the data file (local builds, failed measurement), `summary` says so
+    and the other parts render nothing. -#}
+{%- component performance_report(part: string) -%}
+{%- set data = load_data(path="content/pages/performance/data.json", required=false) -%}
+{%- if not data -%}
+{%- if part == "summary" -%}
+<p class="perf-missing">No measurement in this build of the site. The figures below are produced on each deploy, on the build being deployed.</p>
+{%- endif -%}
+{%- else -%}
+{%- set b = data.budget -%}
+{%- set w = data.worst -%}
+{%- set n = data.pages | length -%}
+
+{%- if part == "summary" -%}
+<div class="number-grid">
+<div class="number-card"><div class="number-value">{{ w.performance }}</div><div class="number-label">Lighthouse performance</div><div class="number-context">lowest of {{ n }} pages · budget ≥ {{ b.scores.performance }}</div></div>
+<div class="number-card"><div class="number-value">{{ (w.lcp_ms / 1000) | round(precision=1) }} s</div><div class="number-label">Largest Contentful Paint</div><div class="number-context">slowest page, simulated mobile · budget ≤ {{ b.lcp_ms / 1000 }} s</div></div>
+<div class="number-card"><div class="number-value">{{ w.cls }}</div><div class="number-label">Cumulative Layout Shift</div><div class="number-context">worst page · budget ≤ {{ b.cls }}</div></div>
+<div class="number-card"><div class="number-value">{{ (w.total_bytes / 1000) | round | int }} kB</div><div class="number-label">Heaviest page</div><div class="number-context">transferred, everything included</div></div>
+</div>
+
+{%- elif part == "context" -%}
+<p class="perf-context">Measured on {{ data.measured_on | date(format="%-d %B %Y") }}
+{%- if data.commit_url %} by GitHub Actions, on commit <a href="{{ data.commit_url }}"><code>{{ data.commit }}</code></a>
+{%- else %} on a local build{% endif %}.
+Lighthouse {{ data.lighthouse_version }}, median of {{ data.runs_per_page }} runs per page, {{ data.conditions.form_factor }} profile: {{ data.conditions.viewport }} viewport, network simulated at {{ data.conditions.rtt_ms }} ms round trip and {{ data.conditions.throughput_mbps }} Mbit/s, CPU slowed down {{ data.conditions.cpu_slowdown }}×.
+{%- if data.excluded %} Blocked during the runs: {{ data.excluded | join(sep=", ") }}.{% endif %}
+Raw figures: <a href="{{ get_url(path='/performance/data.json') }}">data.json</a>.</p>
+{%- if data.over_budget %}
+<p class="perf-context">Figures in bold are over budget.</p>
+{%- endif -%}
+
+{%- elif part == "scores" -%}
+<div class="perf-table" role="region" aria-label="Lighthouse scores per page" tabindex="0"><table>
+<thead><tr><th scope="col">Page</th><th scope="col">Performance</th><th scope="col">Accessibility</th><th scope="col">Best practices</th><th scope="col">SEO</th></tr></thead>
+<tbody>
+{%- for p in data.pages %}
+<tr><th scope="row"><a href="{{ get_url(path=p.path, trailing_slash=true) }}">{{ p.title }}</a></th>
+{%- for key in ["performance", "accessibility", "best_practices", "seo"] -%}
+<td>{% if key in p.over_budget %}<strong class="over-budget">{{ p.scores[key] }}</strong>{% else %}{{ p.scores[key] }}{% endif %}</td>
+{%- endfor -%}
+</tr>
+{%- endfor %}
+</tbody>
+<tfoot><tr><th scope="row">Budget</th><td>≥ {{ b.scores.performance }}</td><td>{{ b.scores.accessibility }}</td><td>{{ b.scores.best_practices }}</td><td>{{ b.scores.seo }}</td></tr></tfoot>
+</table></div>
+
+{%- elif part == "vitals" -%}
+<div class="perf-table" role="region" aria-label="Lab Core Web Vitals per page" tabindex="0"><table>
+<thead><tr><th scope="col">Page</th><th scope="col"><abbr title="First Contentful Paint">FCP</abbr></th><th scope="col"><abbr title="Largest Contentful Paint">LCP</abbr></th><th scope="col"><abbr title="Total Blocking Time">TBT</abbr></th><th scope="col"><abbr title="Cumulative Layout Shift">CLS</abbr></th><th scope="col"><abbr title="Speed Index">SI</abbr></th></tr></thead>
+<tbody>
+{%- for p in data.pages %}
+<tr><th scope="row"><a href="{{ get_url(path=p.path, trailing_slash=true) }}">{{ p.title }}</a></th>
+<td>{{ (p.fcp_ms / 1000) | round(precision=1) }} s</td>
+<td>{% if "lcp_ms" in p.over_budget %}<strong class="over-budget">{{ (p.lcp_ms / 1000) | round(precision=1) }} s</strong>{% else %}{{ (p.lcp_ms / 1000) | round(precision=1) }} s{% endif %}</td>
+<td>{% if "tbt_ms" in p.over_budget %}<strong class="over-budget">{{ p.tbt_ms }} ms</strong>{% else %}{{ p.tbt_ms }} ms{% endif %}</td>
+<td>{% if "cls" in p.over_budget %}<strong class="over-budget">{{ p.cls }}</strong>{% else %}{{ p.cls }}{% endif %}</td>
+<td>{{ (p.si_ms / 1000) | round(precision=1) }} s</td></tr>
+{%- endfor %}
+</tbody>
+<tfoot><tr><th scope="row">Budget</th><td></td><td>≤ {{ b.lcp_ms / 1000 }} s</td><td>≤ {{ b.tbt_ms }} ms</td><td>≤ {{ b.cls }}</td><td></td></tr></tfoot>
+</table></div>
+
+{%- elif part == "weight" -%}
+<div class="perf-table" role="region" aria-label="Transferred bytes per page" tabindex="0"><table>
+<thead><tr><th scope="col">Page</th><th scope="col">HTML</th><th scope="col">CSS</th><th scope="col">JS</th><th scope="col">Fonts</th><th scope="col">Images</th><th scope="col">Total</th><th scope="col">Requests</th></tr></thead>
+<tbody>
+{%- for p in data.pages %}
+<tr><th scope="row"><a href="{{ get_url(path=p.path, trailing_slash=true) }}">{{ p.title }}</a></th>
+{%- for kind in ["document", "stylesheet", "script"] -%}
+<td>{{ (p.bytes[kind] / 1000) | round | int }}</td>
+{%- endfor -%}
+<td>{% if "font_bytes" in p.over_budget %}<strong class="over-budget">{{ (p.bytes.font / 1000) | round | int }}</strong>{% else %}{{ (p.bytes.font / 1000) | round | int }}{% endif %}</td>
+<td>{{ (p.bytes.image / 1000) | round | int }}</td>
+<td>{{ (p.bytes.total / 1000) | round | int }}</td>
+<td>{{ p.requests }}</td></tr>
+{%- endfor %}
+</tbody>
+<tfoot><tr><th scope="row">Budget</th><td></td><td></td><td></td><td>≤ {{ (b.font_bytes / 1000) | round | int }}</td><td></td><td></td><td></td></tr></tfoot>
+</table></div>
+<p class="perf-context">In kB as transferred (compressed). The total also counts icons and the web manifest.</p>
+{%- endif -%}
+{%- endif -%}
+{%- endcomponent performance_report -%}

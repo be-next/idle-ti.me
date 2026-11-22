@@ -1,5 +1,7 @@
 name: Validate Build
 
+# Pull requests only: pushes to main are measured by publish.yml, on the build
+# it deploys.
 on:
   pull_request:
     branches:
@@ -8,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
         with:
@@ -18,3 +20,18 @@ jobs:
           tool: zola@0.23.6
       - name: Build
         run: zola build
+
+      # Performance and accessibility budget, enforced by Lighthouse CI on five
+      # representative pages (lighthouserc.json): Lighthouse scores, Core Web
+      # Vitals (lab) and font weight.
+      - name: Measure with Lighthouse
+        run: bash scripts/measure.sh
+      - name: Lighthouse budget
+        run: npx --yes @lhci/cli@0.16.0 assert
+      - name: Keep the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 14

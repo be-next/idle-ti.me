@@ -14,7 +14,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
         with:
@@ -22,8 +22,25 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: zola@0.23.6
+
+      # Measure the site about to be deployed (Lighthouse CI, lighthouserc.json)
+      # and turn the results into the figures of the /performance/ page
+      # (content/pages/performance/data.json, not committed). A measurement that
+      # breaks must not hold back the deploy: the page then shows no figures,
+      # and the step after the deploy flags the run.
+      - name: Measure with Lighthouse
+        id: lighthouse
+        continue-on-error: true
+        run: |
+          bash scripts/measure.sh
+          python3 scripts/performance_data.py
+
+      # From scratch: public/ still holds the measurement build (local URLs,
+      # .gz copies), which must not be deployed.
       - name: Build
-        run: zola build
+        run: |
+          rm -rf public
+          zola build
 
       # Pinned by commit SHA: this action handles the AWS credentials.
       # Dependabot (github-actions ecosystem) keeps the pin up to date.
@@ -67,3 +84,21 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
+
+      # After the deploy: a page over budget flags the commit (red run) without
+      # holding back the publication.
+      - name: Lighthouse budget
+        if: steps.lighthouse.outcome == 'success'
+        run: npx --yes @lhci/cli@0.16.0 assert
+      - name: Report a failed measurement
+        if: steps.lighthouse.outcome == 'failure'
+        run: |
+          echo "::error::Lighthouse measurement failed: /performance/ was deployed without figures."
+          exit 1
+      - name: Keep the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 14

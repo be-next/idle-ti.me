@@ -1,0 +1,36 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npx --yes http-server@14.1.1 public -p 8080 -a 127.0.0.1 --gzip",
+      "startServerReadyPattern": "Available on",
+      "url": [
+        "http://127.0.0.1:8080/",
+        "http://127.0.0.1:8080/blog/coordinated-omission/",
+        "http://127.0.0.1:8080/blog/zola-aws/",
+        "http://127.0.0.1:8080/about/",
+        "http://127.0.0.1:8080/awesome-performance-engineering/"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": "--no-sandbox",
+        "blockedUrlPatterns": ["*cloud.umami.is*", "*giscus.app*"]
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "categories:accessibility": ["error", { "minScore": 1 }],
+        "categories:best-practices": ["error", { "minScore": 1 }],
+        "categories:seo": ["error", { "minScore": 1 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.05 }],
+        "total-blocking-time": ["error", { "maxNumericValue": 100 }],
+        "resource-summary:font:size": ["error", { "maxNumericValue": 225000 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}

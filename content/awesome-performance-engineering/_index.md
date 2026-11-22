@@ -14,7 +14,7 @@ copy_button = true
 
 <p align="center">
   <a href="https://github.com/be-next/awesome-performance-engineering">
-    <img src="https://raw.githubusercontent.com/be-next/awesome-performance-engineering/main/media/logo.svg" alt="Awesome Performance Engineering" width="400">
+    <img src="/awesome-performance-engineering/logo.svg" alt="Awesome Performance Engineering" width="400" height="400">
   </a>
 </p>
 

@@ -18,7 +18,7 @@ copy_button = true
 ## Introduction: Seeds of a Digital Journey
 
 <div style="overflow: auto;">
-    <img src="/blog/pieces-of-apple-history/img/nostalgic_photo.webp" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
+    <img src="/blog/pieces-of-apple-history/img/nostalgic_photo.webp" alt="A child reading a computer magazine at a desk, next to an early Apple computer, in the evening light" style="float: left; margin-top: 20px; margin-right: 20px; width: 30%; vertical-align: top;">
     <div style="display: block;">
         <p>
 In the early 1970s, personal computers were still a distant curiosity, glimpsed through rare computer magazines or seen briefly in specialized shops. For many enthusiasts growing up during that pivotal era, these machines represented an entirely new world—an intriguing promise of possibilities waiting to be explored.

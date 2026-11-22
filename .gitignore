@@ -5,3 +5,10 @@ public
 # Zola <=0.22 wrote these into static/ on build; 0.23 writes them to the output dir.
 # Kept as a guard: a leftover copy here shadows the generated one and breaks highlighting.
 static/giallo-*.css
+
+# Lighthouse CI reports (validate.yml, or `npx @lhci/cli autorun` locally).
+.lighthouseci/
+
+# Figures of the /performance/ page: written on each deploy by
+# scripts/performance_data.py from that deploy's Lighthouse run.
+content/pages/performance/data.json

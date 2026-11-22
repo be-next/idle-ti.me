@@ -10,7 +10,7 @@ local_image = "projects/bloom-perf/img/bloom-perf-photo.webp"
 The Bloom Perf Project is an innovative and effective approaches in conducting performance tests on complex and distributed systems.
 
 ![Bloom Perf Project logo](img/bloom-perf-logo.png)
-##### [GitHub](https://github.com/bloom-perf) • [Website](https://www.bloom-perf.org/) • [Mail](mailto:contact@bloom-perf.org) {.centered-text}
+<p class="centered-text"><a href="https://github.com/bloom-perf" rel="external">GitHub</a> • <a href="https://www.bloom-perf.org/" rel="external">Website</a> • <a href="mailto:contact@bloom-perf.org">Mail</a></p>
 
 ## Presentation
 The creation of the [**Bloom Perf Project**][bloom-perf] stems from the collective experience of its founders in managing complex IT projects, implementing information system architectures, and software development. Faced with specific challenges in

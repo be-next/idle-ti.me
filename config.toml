@@ -74,14 +74,18 @@ default_theme = ""
 # Choose the colourscheme (skin) for the theme. Default is "teal".
 # Skin available: blue, lavender, mint, red, sakura, teal, monochrome, lowcontrast_orange, lowcontrast_peach, lowcontrast_pink, indigo_ingot, evangelion
 # See them live and learn how to create your own: https://welpo.github.io/tabi/blog/customise-tabi/#skins
-# WARNING! "lowcontrast" skins, while aesthetically pleasing, may not provide optimal
-# contrast (in light theme) for readability and might not be suitable for all users.
-# Furthermore, low contrasting elements will affect your Google Lighthouse rating.
-# All other skins have optimal contrast.
-skin = "lowcontrast_orange"
+# "accessible_orange" is site-local (sass/skins/accessible_orange.scss): tabi's
+# lowcontrast_orange with a darker light-theme orange that meets WCAG AA (4.6:1).
+skin = "accessible_orange"
 
 # Full path after the base URL required. So if you were to place it in "static" it would be "/favicon.png"
 favicon = "favicon/hourglass-empty.png"
+
+# Social media card (og:image, the preview shown when a link is shared on
+# LinkedIn, Mastodon…). tabi looks for this file next to the page first, then in
+# the parent folder, then in static/. scripts/social_cards.py draws one per page
+# bundle (content/**/social_card.png) and the site-wide fallback in static/.
+social_media_card = "social_card.png"
 
 quick_navigation_buttons = true
 show_previous_next_article_links = true
@@ -131,6 +135,7 @@ copyright = "© $CURRENT_YEAR $TITLE"
 footer_menu = [
     { url = "archive", name = "archive", trailing_slash = true },
     { url = "tags", name = "tags", trailing_slash = true },
+    { url = "performance", name = "performance", trailing_slash = true },
     { url = "copyright", name = "license", trailing_slash = true },
     { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
     { url = "about", name = "about me", trailing_slash = true },
@@ -173,6 +178,9 @@ allowed_domains = [
     ] },
     { directive = "script-src", domains = [
         "'self'",
+        # The inline <script type="speculationrules"> in templates/tabi/extend_head.html.
+        # Only that script type: other inline scripts stay blocked.
+        "'inline-speculation-rules'",
     ] },
     { directive = "style-src", domains = [
         "'self'",
@@ -187,7 +195,9 @@ allowed_domains = [
 
 # Enable the CSP directives configured (or default).
 # Can be set at page or section levels, following the hierarchy: page > section > config. See: https://welpo.github.io/tabi/blog/mastering-tabi-settings/#settings-hierarchy
-enable_csp = false
+# tabi adds the Umami and giscus domains itself. The policy ships as a <meta>
+# tag, which can't carry frame-ancestors: CloudFront sends X-Frame-Options instead.
+enable_csp = true
 
 # Custom subset of characters for the header.
 # If set to true, the `static/custom_subset.css` file will be loaded first.

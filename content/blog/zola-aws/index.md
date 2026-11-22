@@ -269,7 +269,7 @@ These settings were off, or incomplete, on my 2024 distribution:
 
 Before and after this revision, measured from Paris:
 
-| | Before | After |
+| Aspect | Before | After |
 |---|---|---|
 | HTML time to first byte | 311–360 ms (`RefreshHit`) | 32–54 ms (`Hit`) |
 | Compression | gzip | Brotli |

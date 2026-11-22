@@ -38,8 +38,30 @@ content=$(echo "$content" | sed '/./,$!d')
 content=$(echo "$content" | sed "s|(CONTRIBUTING\.md)|(${GITHUB_REPO_URL}/blob/main/CONTRIBUTING.md)|g")
 content=$(echo "$content" | sed "s|(code-of-conduct\.md)|(${GITHUB_REPO_URL}/blob/main/code-of-conduct.md)|g")
 
-# Transform relative image paths to absolute GitHub raw URLs
-content=$(echo "$content" | sed "s|src=\"media/|src=\"${BASE_URL}/media/|g")
+# Self-host the images the README references under media/ (the logo). From
+# raw.githubusercontent.com the logo cost an extra connection, had a 5-minute
+# cache, and was the page's largest contentful paint; here it is served by the
+# site's CDN like any other asset. An SVG also gets a `height` computed from its
+# viewBox when the README only gives a width, so the browser reserves its box
+# before it loads instead of shifting the page (CLS).
+# Files sit flat next to _index.md: Zola publishes a section's own files, not
+# its subfolders. The folder holds nothing else, so stale ones are cleared first.
+find "${CONTENT_DIR}" -maxdepth 1 -type f ! -name '_index.md' -delete
+for path in $(echo "$content" | grep -o 'src="media/[^"]*"' | sed 's/^src="//; s/"$//' | sort -u); do
+  file=$(basename "$path")
+  download "$path" > "${CONTENT_DIR}/${file}"
+  case "$file" in
+    *.svg)
+      read -r vw vh < <(sed -n 's/.*viewBox="[^ ]* [^ ]* \([0-9.]*\) \([0-9.]*\)".*/\1 \2/p' "${CONTENT_DIR}/${file}" | head -1) || true
+      if [ -n "${vw:-}" ]; then
+        content=$(echo "$content" | NAME="$path" VW="$vw" VH="$vh" perl -pe \
+          's{(<img\b(?=[^>]*src="\Q$ENV{NAME}\E")(?![^>]*\bheight=)[^>]*?\bwidth="(\d+)")}{$1 . sprintf(q{ height="%d"}, $2 * $ENV{VH} / $ENV{VW} + 0.5)}ge')
+      fi
+      unset vw vh
+      ;;
+  esac
+  content=$(echo "$content" | sed "s|src=\"${path}\"|src=\"/${CONTENT_DIR#content/}/${file}\"|g")
+done
 
 # Fix GitHub-style anchors to match Zola slugification
 # & in headings: GitHub uses --, Zola collapses to single -

@@ -226,3 +226,127 @@ $phase-reliability: hsl(345, 50%, 50%);
         margin-bottom: 0.2rem;
     }
 }
+
+// Links inside running text are underlined, not only coloured. In the dark
+// theme the link orange (#ec984f) sits at 1.54:1 against the body text, so
+// colour alone can't tell a link apart (WCAG 1.4.1). The underline is thin
+// and half-transparent to stay quiet; tabi's hover highlight is unchanged.
+// The tag cloud sits outside <main> (tabi's tags page has none): listed apart.
+// Headings, post titles in lists and tag pills are not running text: untouched.
+main :is(p, li, td, dd, blockquote, figcaption) a:not(.tag),
+#tag-cloud .tags-item > a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+}
+
+// Header icons: 24×24 px touch targets (WCAG 2.2, target size), with the icons
+// drawn at their original size and centred where they were.
+#search-button {
+    box-sizing: border-box;
+    padding: 0.1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-inline-start: 0.9rem;
+    margin-inline-end: 0.4rem;
+}
+
+.theme-switcher {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-inline-start: 0.25rem;
+    -webkit-mask-size: 1rem;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+}
+
+// Inline code inside a link: see `--link-on-grey-color` in the skin. On hover,
+// tabi turns the link white on orange; the code follows.
+a code {
+    color: var(--link-on-grey-color, inherit);
+}
+
+// Links on the striped rows of tables (#f0f0f0 in the light theme): same
+// darker orange. Hover keeps tabi's white on orange.
+tbody tr:nth-child(even) a:not(:hover) {
+    color: var(--link-on-grey-color, inherit);
+}
+
+a:hover code {
+    color: inherit;
+}
+
+// tabi's h-entry carries an empty `<a class="u-url u-uid">` for microformats
+// parsers. Empty, it is still a tab stop with no accessible name (Lighthouse
+// `link-name`). Parsers read the HTML, not the CSS, so hiding it costs them nothing.
+.h-entry > a.u-url:empty {
+    display: none;
+}
+
+// Cross-document view transitions: a short cross-fade from one page to the
+// next instead of a blank flash (Chromium, Safari 18.2+; other browsers
+// navigate as before). Off for readers who ask for reduced motion.
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+}
+
+// Performance page (content/pages/performance, figures from the
+// performance_report component). Tables scroll inside their own box on narrow
+// screens rather than widening the page; the box is focusable so keyboard users
+// can scroll it too.
+.perf-table {
+    overflow-x: auto;
+    margin-block: 1rem;
+
+    table {
+        margin: 0;
+        width: 100%;
+        // tabi's `overflow: hidden` (for the rounded corners) would make the
+        // table its own scroll container and stop the sticky column below;
+        // `clip` rounds the corners all the same without that side effect.
+        overflow: clip;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+    th,
+    td {
+        font-size: 0.95rem;
+    }
+    // The page column stays in view while the figures scroll sideways.
+    tbody th,
+    tfoot th {
+        position: sticky;
+        inset-inline-start: 0;
+        background-color: var(--background-color);
+        // With collapsed borders the sticky cell loses its edge; redraw it.
+        box-shadow: inset -1px 0 var(--bg-1);
+        text-align: start;
+        font-weight: normal;
+        white-space: normal;
+        min-width: 8rem;
+    }
+    thead th:first-child {
+        position: sticky;
+        inset-inline-start: 0;
+        background-color: var(--primary-color);
+    }
+    tbody tr:nth-child(even) th {
+        background-color: var(--bg-0);
+    }
+    tfoot {
+        color: var(--meta-color);
+    }
+}
+
+.perf-context,
+.perf-missing {
+    color: var(--meta-color);
+    font-size: 0.9rem;
+}

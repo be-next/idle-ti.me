@@ -1,0 +1,25 @@
+{#- Site override of tabi's head extension point (themes/tabi/templates/tabi/extend_head.html). -#}
+
+{#- Speculation Rules: when a reader hovers a link to another page of the site
+    (about 200 ms) or starts pressing it, the browser fetches that page ahead,
+    so the click opens a page already in memory. `prefetch` only downloads the
+    HTML; `prerender` would also run the page's scripts, and Umami would count
+    page views nobody made. Feeds and the sitemap are left out. Browsers without
+    the API (Firefox, Safari) ignore the block. The CSP allows it through
+    'inline-speculation-rules' in config.toml. -#}
+<script type="speculationrules">
+{
+  "prefetch": [
+    {
+      "where": {
+        "and": [
+          { "href_matches": "/*" },
+          { "not": { "href_matches": "/*.xml" } },
+          { "not": { "selector_matches": "[rel~=nofollow], [download]" } }
+        ]
+      },
+      "eagerness": "moderate"
+    }
+  ]
+}
+</script>
