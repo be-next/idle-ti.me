@@ -131,7 +131,6 @@ Indicators: ⭐ Category reference · 🟢 Active · 🔵 Cloud-native · 🟠 C
 - [py-spy](https://github.com/benfred/py-spy) - ⭐🟢🚀 Sampling profiler for Python that attaches to running processes without code changes or restarts.
 - [pprof](https://github.com/google/pprof) - ⭐🟢 Profile visualization and analysis tool for the profile.proto format, standard across the Go ecosystem.
 - [JDK Mission Control](https://github.com/openjdk/jmc) - 🟢 Production-time JVM profiling and diagnostics suite for visualizing JDK Flight Recorder data.
-- [Odigos](https://github.com/odigos-io/odigos) - 🟢🔵 Zero-code OpenTelemetry auto-instrumentation for Kubernetes generating distributed traces across Java, Python, .NET, Node.js, and Go.
 
 ### Alerting & Incident Response
 
@@ -157,7 +156,7 @@ Indicators: ⭐ Category reference · 🟢 Active · 🔵 Cloud-native · 🟠 C
 - [Lightstep / ServiceNow Cloud Observability](https://www.servicenow.com/products/observability.html) - 🟠 OpenTelemetry-native observability platform, now part of ServiceNow.
 - [Sematext](https://sematext.com/) - 🟢🟠 SaaS observability platform with OpenTelemetry-native support and topology discovery.
 - [OpenObserve](https://github.com/openobserve/openobserve) - 🟢🔵🚀 Rust-based all-in-one observability platform for logs, metrics, and traces with object-storage-first design.
-- [HyperDX](https://github.com/hyperdxio/hyperdx) - 🟢🔵 Open-source observability platform unifying logs, metrics, traces, and session replay on ClickHouse, developed as part of ClickStack.
+- [ClickStack](https://github.com/ClickHouse/ClickStack) - 🟢🔵 Open-source observability platform unifying logs, metrics, traces, and session replay on ClickHouse, formerly released as HyperDX.
 - [Axiom](https://axiom.co/) - 🟠 Telemetry data platform for logs and events with OpenTelemetry-native ingestion and usage-based pricing.
 - [Gigapipe](https://github.com/metrico/gigapipe) - 🟢🔵🟠 ClickHouse-backed observability warehouse for logs, metrics, traces, and profiles, serving the same stored data over LogQL, PromQL, TraceQL, and FlameQL so existing Grafana dashboards work unmodified.
 
@@ -194,19 +193,19 @@ Indicators: ⭐ Category reference · 🟢 Active · 🔵 Cloud-native · 🟠 C
 
 - [Coroot](https://github.com/coroot/coroot) - 🟢🔵 Open-source eBPF-powered observability with automated service map discovery.
 - [K8sGPT](https://github.com/k8sgpt-ai/k8sgpt) - 🟢🔵 CNCF sandbox tool scanning Kubernetes clusters and explaining detected issues in plain language through LLM backends.
-- [HolmesGPT](https://github.com/robusta-dev/holmesgpt) - 🟢🔵 CNCF sandbox AI agent investigating alerts and performing root-cause analysis from observability data.
+- [HolmesGPT](https://github.com/HolmesGPT/holmesgpt) - 🟢🔵 CNCF sandbox AI agent investigating alerts and performing root-cause analysis from observability data.
 
 ### SLO Management
 
 - [Sloth](https://github.com/slok/sloth) - 🟢🔵 SLO generation for Prometheus with YAML definitions and multi-window multi-burn-rate alerts.
-- [Pyrra](https://github.com/pyrra-dev/pyrra) - 🟢🔵 Kubernetes-native SLO management generating Prometheus recording rules and alerts.
+- [Pyrra](https://github.com/prometheus-community/pyrra) - 🟢🔵 Kubernetes-native SLO management generating Prometheus recording rules and alerts, maintained under the Prometheus community organization.
 - [OpenSLO](https://github.com/OpenSLO/OpenSLO) - 🟢 Open, vendor-neutral specification for defining SLOs as code.
 - [Nobl9](https://www.nobl9.com/) - 🟠 Enterprise SLO platform with unified tracking and error budget management.
 
 ### Synthetic Monitoring
 
 - [Checkly](https://github.com/checkly/checkly-cli) - 🟢🔵 Monitoring as code for APIs and browsers with Playwright-based synthetic checks.
-- [Grafana Synthetic Monitoring](https://grafana.com/docs/grafana-cloud/testing/synthetic-monitoring/) - 🟢🔵 Probe-based multi-location synthetic monitoring integrated into Grafana Cloud.
+- [Grafana Synthetic Monitoring](https://grafana.com/docs/grafana-cloud/observe-and-act/testing/synthetic-monitoring/) - 🟢🔵 Probe-based multi-location synthetic monitoring integrated into Grafana Cloud.
 - [Uptime Kuma](https://github.com/louislam/uptime-kuma) - ⭐🟢 Self-hosted monitoring tool with HTTP, TCP, DNS, and keyword checks.
 - [Gatus](https://github.com/TwiN/gatus) - 🟢 Self-hosted health dashboard with HTTP, TCP, ICMP, and DNS checks defined as code and multi-channel alerting.
 
@@ -284,7 +283,7 @@ Indicators: ⭐ Category reference · 🟢 Active · 🔵 Cloud-native · 🟠 C
 - [WireMock](https://github.com/wiremock/wiremock) - ⭐🟢🔵 HTTP mock server with request matching, stateful behavior, response templating, and fault injection.
 - [Mountebank](https://github.com/mountebank-testing/mountebank) - 🟢 Multi-protocol service virtualization supporting HTTP, HTTPS, TCP, and SMTP.
 - [Hoverfly](https://github.com/SpectoLabs/hoverfly) - 🟢🔵 Lightweight service virtualization with capture-and-replay mode for API simulation.
-- [MockServer](https://github.com/mock-server/mockserver) - 🟢 HTTP/HTTPS mock server with expectation-based matching and callback actions.
+- [MockServer](https://github.com/mock-server/mockserver-monorepo) - 🟢 HTTP/HTTPS mock server with expectation-based matching and callback actions.
 - [Microcks](https://github.com/microcks/microcks) - 🟢🔵 Kubernetes-native API mocking and testing importing OpenAPI, AsyncAPI, gRPC, and GraphQL contracts.
 
 ### Synthetic Data Generation
