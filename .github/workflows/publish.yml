@@ -3,6 +3,17 @@ on:
   push:
     branches:
       - main
+  # Daily refresh of the /performance/ page: a new Lighthouse run and the last
+  # 28 days of CloudFront logs, on the code already deployed. GitHub pauses
+  # scheduled workflows after 60 days without activity in the repository.
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+# One deploy at a time: a push landing during the daily refresh waits for it.
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 # No long-lived AWS keys: the job requests a short-lived OIDC token from GitHub
 # and exchanges it for credentials of an IAM role that only this repository's
@@ -23,6 +34,14 @@ jobs:
         with:
           tool: zola@0.23.6
 
+      # Pinned by commit SHA: this action handles the AWS credentials.
+      # Dependabot (github-actions ecosystem) keeps the pin up to date.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
       # Measure the site about to be deployed (Lighthouse CI, lighthouserc.json)
       # and turn the results into the figures of the /performance/ page
       # (content/pages/performance/data.json, not committed). A measurement that
@@ -35,20 +54,25 @@ jobs:
           bash scripts/measure.sh
           python3 scripts/performance_data.py
 
+      # Field data of the /performance/ page (content/pages/performance/
+      # field.json, not committed): CloudFront's access logs, delivered to the
+      # idle-ti-me-logs bucket without IP addresses or user agents and kept 35
+      # days, give the time to first byte per point of presence and the readers'
+      # Web Vitals (the /rum/ beacons of static/js/rum.js). Quiet on purpose:
+      # workflow logs are public and the log keys carry the AWS account ID.
+      - name: Read the CloudFront logs
+        id: field
+        continue-on-error: true
+        run: |
+          aws s3 sync s3://idle-ti-me-logs/ logs/ --only-show-errors
+          python3 scripts/field_data.py logs/
+
       # From scratch: public/ still holds the measurement build (local URLs,
       # .gz copies), which must not be deployed.
       - name: Build
         run: |
           rm -rf public
           zola build
-
-      # Pinned by commit SHA: this action handles the AWS credentials.
-      # Dependabot (github-actions ecosystem) keeps the pin up to date.
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
 
       # Static assets: long cache (1 year) — CSS, JS, fonts, images.
       # --delete removes assets that left the build; filters scope it to this
@@ -79,11 +103,16 @@ jobs:
       # Invalidate all CloudFront edges so new content + headers take effect.
       # This is also what purges the edge-cached HTML: never deploy without it.
       # "/*" counts as a single invalidation path for billing (first 1000/month free).
+      # The daily refresh only changes /performance/: the rest of the build is
+      # byte-identical to what the edges hold, so they keep their cache (a full
+      # purge every day would turn every reader's first page into a cache miss).
       - name: Invalidate CloudFront cache
+        env:
+          PATHS: ${{ github.event_name == 'schedule' && '/performance/*' || '/*' }}
         run: |
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+            --paths "$PATHS"
 
       # After the deploy: a page over budget flags the commit (red run) without
       # holding back the publication.
@@ -94,6 +123,11 @@ jobs:
         if: steps.lighthouse.outcome == 'failure'
         run: |
           echo "::error::Lighthouse measurement failed: /performance/ was deployed without figures."
+          exit 1
+      - name: Report unreadable CloudFront logs
+        if: steps.field.outcome == 'failure'
+        run: |
+          echo "::error::Reading the CloudFront logs failed: /performance/ was deployed without field data."
           exit 1
       - name: Keep the Lighthouse reports
         if: always()

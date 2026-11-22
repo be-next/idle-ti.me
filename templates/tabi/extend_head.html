@@ -14,6 +14,12 @@
 <link rel="preload" href="{{ get_url(path='fonts/SourceSerif4Variable-Roman.ttf.woff2') }}" as="font" type="font/woff2" crossorigin>
 {%- endif %}
 
+{#- Real-user metrics (Core Web Vitals) for the /performance/ page: see
+    static/js/rum.js. A module script runs once the page is parsed, never
+    blocking it. The ?h= hash is the cache key for rum.js; web-vitals carries
+    its version in its file name. -#}
+<script type="module" src="{{ get_url(path='js/rum.js', cachebust=true) }}"></script>
+
 {#- Speculation Rules: when a reader hovers a link to another page of the site
     (about 200 ms) or starts pressing it, the browser fetches that page ahead,
     so the click opens a page already in memory. `prefetch` only downloads the

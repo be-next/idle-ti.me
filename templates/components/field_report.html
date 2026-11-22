@@ -1,0 +1,56 @@
+{#- Field data of the /performance/ page, from content/pages/performance/field.json
+    (written on deploy by scripts/field_data.py from CloudFront's access logs).
+    part = "edge": CloudFront per point of presence; part = "field": readers'
+    Web Vitals. Each part says so when the file is missing or the samples are
+    too few to mean anything. -#}
+{%- component field_report(part: string) -%}
+{%- set f = load_data(path="content/pages/performance/field.json", required=false) -%}
+{%- if not f -%}
+<p class="perf-missing">No field data in this build of the site: it is read from CloudFront's logs on each deploy.</p>
+{%- elif part == "edge" -%}
+{%- set e = f.edge -%}
+{%- if e.page_requests < f.min_samples -%}
+<p class="perf-missing">Not enough traffic yet: {{ e.page_requests }} page requests since {{ f.from | date(format="%-d %B %Y") }}. Figures appear from {{ f.min_samples }}.</p>
+{%- else -%}
+<div class="perf-table" role="region" aria-label="CloudFront time to first byte per point of presence" tabindex="0"><table>
+<thead><tr><th scope="col">Point of presence</th><th scope="col">Pages served</th><th scope="col">From cache</th><th scope="col"><abbr title="Time to first byte, 50th percentile">TTFB p50</abbr></th><th scope="col"><abbr title="Time to first byte, 95th percentile">TTFB p95</abbr></th></tr></thead>
+<tbody>
+{%- for pop in e.pops %}
+<tr><th scope="row">{{ pop.city }} <span class="perf-code">{{ pop.code }}</span></th><td>{{ pop.requests }}</td><td>{{ (pop.hit_ratio * 100) | round | int }} %</td><td>{{ pop.ttfb_p50_ms | round | int }} ms</td><td>{{ pop.ttfb_p95_ms | round | int }} ms</td></tr>
+{%- endfor %}
+{%- if e.other_pops.requests > 0 %}
+<tr><th scope="row">{{ e.other_pops.count }} other{% if e.other_pops.count > 1 %}s{% endif %}, under {{ f.min_samples }} pages each</th><td>{{ e.other_pops.requests }}</td><td></td><td></td><td></td></tr>
+{%- endif %}
+</tbody>
+<tfoot><tr><th scope="row">All</th><td>{{ e.page_requests }}</td><td>{{ (e.hit_ratio * 100) | round | int }} %</td><td>{{ e.ttfb_p50_ms | round | int }} ms</td><td>{{ e.ttfb_p95_ms | round | int }} ms</td></tr></tfoot>
+</table></div>
+<p class="perf-context">HTML pages only, {{ f.from | date(format="%-d %B") }} to {{ f.to | date(format="%-d %B %Y") }}. Time to first byte as CloudFront measures it, from the request's arrival at the edge to the first byte sent back: the reader's own network is not in it.
+{%- if e.origin_p50_ms %} A page missing from the edge cache is fetched from the origin in Virginia, which adds {{ e.origin_p50_ms | round | int }} ms (median).{% endif %}
+{%- if e.http3_share %} {{ (e.http3_share * 100) | round | int }} % of all requests use HTTP/3.{% endif %}</p>
+{%- endif -%}
+{%- elif part == "field" -%}
+{%- set v = f.field -%}
+{%- if v.page_views < f.min_samples -%}
+<p class="perf-missing">Not enough measurements yet: {{ v.page_views }} page views reported since {{ f.from | date(format="%-d %B %Y") }}. Figures appear from {{ f.min_samples }} per metric.</p>
+{%- else -%}
+{%- set labels = {"lcp": "Largest Contentful Paint", "inp": "Interaction to Next Paint", "cls": "Cumulative Layout Shift", "fcp": "First Contentful Paint", "ttfb": "Time to First Byte"} -%}
+<div class="perf-table" role="region" aria-label="Real-user Web Vitals" tabindex="0"><table>
+<thead><tr><th scope="col">Metric</th><th scope="col">p75</th><th scope="col">Good</th><th scope="col">Needs improvement</th><th scope="col">Poor</th><th scope="col">Samples</th></tr></thead>
+<tbody>
+{%- for key in ["lcp", "inp", "cls", "fcp", "ttfb"] %}
+{%- set m = v.metrics[key] %}
+<tr><th scope="row">{{ labels[key] }}</th>
+{%- if m.p75 is defined -%}
+<td>{% if key == "cls" %}{{ m.p75 }}{% elif key in ["lcp", "fcp"] %}{{ (m.p75 / 1000) | round(precision=1) }} s{% else %}{{ m.p75 | int }} ms{% endif %}</td>
+<td>{{ (m.good * 100) | round | int }} %</td><td>{{ (m.needs_improvement * 100) | round | int }} %</td><td>{{ (m.poor * 100) | round | int }} %</td>
+{%- else -%}
+<td colspan="4">not enough samples</td>
+{%- endif -%}
+<td>{{ m.n }}</td></tr>
+{%- endfor %}
+</tbody>
+</table></div>
+<p class="perf-context">{{ v.page_views }} page views, {{ f.from | date(format="%-d %B") }} to {{ f.to | date(format="%-d %B %Y") }}{% if v.mobile_share is number %}, {{ (v.mobile_share * 100) | round | int }} % of them on narrow screens{% endif %}. Good, needs improvement and poor use Google's thresholds; the 75th percentile is the value Google's own field data (CrUX) reports. Interaction to Next Paint only exists for page views with an interaction, and Safari and Firefox report fewer metrics than Chromium.</p>
+{%- endif -%}
+{%- endif -%}
+{%- endcomponent field_report -%}

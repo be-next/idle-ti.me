@@ -12,3 +12,6 @@ static/giallo-*.css
 # Figures of the /performance/ page: written on each deploy by
 # scripts/performance_data.py from that deploy's Lighthouse run.
 content/pages/performance/data.json
+content/pages/performance/field.json
+# CloudFront access logs synced by publish.yml for scripts/field_data.py.
+logs/
