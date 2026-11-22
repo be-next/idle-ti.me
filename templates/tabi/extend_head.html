@@ -1,5 +1,19 @@
 {#- Site override of tabi's head extension point (themes/tabi/templates/tabi/extend_head.html). -#}
 
+{#- Font preloads. tabi's @font-face rules (font-display: swap) live in
+    main.css, so without these the browser only discovers the fonts once the
+    stylesheet is parsed, may paint the text in a fallback font first, then
+    re-lays it out when the font arrives: a layout shift, large where the
+    fallback's metrics differ from the font's (a serif-heavy article measured
+    0.15 CLS on GitHub's Ubuntu runners, 0.003 on a Mac). Inter is used on
+    every page; Source Serif only by
+    the text of <article>, i.e. posts and projects. The URLs must match the
+    ones main.css resolves, or the font is downloaded twice. -#}
+<link rel="preload" href="{{ get_url(path='fonts/Inter4.woff2') }}" as="font" type="font/woff2" crossorigin>
+{%- if page and page.components | first in ["blog", "projects"] %}
+<link rel="preload" href="{{ get_url(path='fonts/SourceSerif4Variable-Roman.ttf.woff2') }}" as="font" type="font/woff2" crossorigin>
+{%- endif %}
+
 {#- Speculation Rules: when a reader hovers a link to another page of the site
     (about 200 ms) or starts pressing it, the browser fetches that page ahead,
     so the click opens a page already in memory. `prefetch` only downloads the
